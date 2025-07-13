@@ -1,0 +1,38 @@
+gcc ./main.c \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -o mymain
+
+
+
+
+gcc ./main.c \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -fdump-rtl-expand
+
+
+ gcc ./src/preprocess.cpp \
+-I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -o mycpp
+
+
+ gcc ./src/preprocess.cpp \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -fdump-rtl-expand
+
+  gcc -fdump-rtl-expand ./src/preprocess.cpp
+
+gcc -fdump-rtl-all -o output.o -c ./management.cpp
+
+gcc -fdump-rtl-expand -o output.expand -c ./management.cpp  -I /usr/local/lib
+
+c++filt < management.cpp.233r.expand > filt.expand
+management.cpp.233r.expand  > c++filt >filt.expand
+
+ -I /usr/local/lib
+
+ gcc -fdump-rtl-expand -o json.expand -c ./judgeSystem/json.cpp  -I /usr/local/lib -I /usr/local/include -I /usr/include
+ c++filt < management.cpp.233r.expand | sed -e 's/.*[&]\s*//' -e 's/<.*>//' > simplified_expand.txt

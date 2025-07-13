@@ -1,0 +1,96 @@
+strict digraph callgraph {
+"main" -> "__main";
+"__main" [style=dashed]
+"__main" -> "malloc";
+"malloc" [style=dashed]
+"malloc" -> "fprintf";
+"fprintf" [style=dashed]
+"fprintf" -> "threadtask1";
+"threadtask1" -> "fprintf";
+"fprintf" [style=dashed]
+"fprintf" -> "free";
+"free" [style=dashed]
+"free" -> "pthread_join";
+"pthread_join" [style=dashed]
+"pthread_join" -> "fprintf";
+"fprintf" [style=dashed]
+"fprintf" -> "free";
+"free" [style=dashed]
+"free" -> "free";
+"free" [style=dashed]
+"free" -> "printf";
+"printf" [style=dashed]
+"task" -> "printf";
+"printf" [style=dashed]
+"threadtask1" -> "malloc";
+"malloc" [style=dashed]
+"malloc" -> "fprintf";
+"fprintf" [style=dashed]
+"fprintf" -> "Deg2rad";
+"Deg2rad" [style=dashed]
+"Deg2rad" -> "printf";
+"printf" [style=dashed]
+"printf" -> "threadtask2";
+"threadtask2" -> "fprintf";
+"fprintf" [style=dashed]
+"fprintf" -> "free";
+"free" [style=dashed]
+"free" -> "cover";
+"cover" [style=dashed]
+"cover" -> "printf";
+"printf" [style=dashed]
+"printf" -> "duff";
+"duff" [style=dashed]
+"duff" -> "printf";
+"printf" [style=dashed]
+"printf" -> "pthread_join";
+"pthread_join" [style=dashed]
+"pthread_join" -> "free";
+"free" [style=dashed]
+"free" -> "insertsort";
+"insertsort" [style=dashed]
+"insertsort" -> "printf";
+"printf" [style=dashed]
+"threadtask2" -> "malloc";
+"malloc" [style=dashed]
+"malloc" -> "malloc";
+"malloc" [style=dashed]
+"malloc" -> "minver";
+"minver" [style=dashed]
+"minver" -> "printf";
+"printf" [style=dashed]
+"printf" -> "threadtask3";
+"threadtask3" -> "fprintf";
+"fprintf" [style=dashed]
+"fprintf" -> "free";
+"free" [style=dashed]
+"free" -> "threadtask4";
+"threadtask4" -> "fprintf";
+"fprintf" [style=dashed]
+"fprintf" -> "free";
+"free" [style=dashed]
+"free" -> "ndes";
+"ndes" [style=dashed]
+"ndes" -> "printf";
+"printf" [style=dashed]
+"printf" -> "pthread_join";
+"pthread_join" [style=dashed]
+"pthread_join" -> "pthread_join";
+"pthread_join" [style=dashed]
+"pthread_join" -> "free";
+"free" [style=dashed]
+"free" -> "free";
+"free" [style=dashed]
+"free" -> "ludcmp";
+"ludcmp" [style=dashed]
+"ludcmp" -> "printf";
+"printf" [style=dashed]
+"threadtask3" -> "rad2deg";
+"rad2deg" [style=dashed]
+"rad2deg" -> "printf";
+"printf" [style=dashed]
+"threadtask4" -> "prime";
+"prime" [style=dashed]
+"prime" -> "printf";
+"printf" [style=dashed]
+}

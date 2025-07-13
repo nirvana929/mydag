@@ -1,0 +1,1038 @@
+
+;; Function B1::B1 (B1::B1(int), funcdef_no=1524, decl_uid=40476, cgraph_uid=438, symbol_order=440)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [6 this+0 S8 A64])
+        (reg:DI 5 di [ this ])) "./management.cpp":11:5 -1
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])
+        (reg:SI 4 si [ i ])) "./management.cpp":11:5 -1
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg/f:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [6 this+0 S8 A64])) "./management.cpp":15:12 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:SI 86)
+        (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])) "./management.cpp":15:12 -1
+     (nil))
+(insn 9 8 10 2 (set (mem:SI (reg/f:DI 85) [7 this_5(D)->b1+0 S4 A32])
+        (reg:SI 86)) "./management.cpp":15:12 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f2a29c37750 *.LC0>)) "./management.cpp":17:15 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::cout") [flags 0x40]  <var_decl 0x7f2a29fe4240 cout>)) "./management.cpp":17:15 -1
+     (nil))
+(call_insn 12 11 13 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)") [flags 0x41]  <function_decl 0x7f2a2a284d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":17:15 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 13 12 14 2 (set (reg/f:DI 82 [ _1 ])
+        (reg:DI 0 ax)) "./management.cpp":17:15 -1
+     (nil))
+(insn 14 13 15 2 (set (reg/f:DI 87)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [6 this+0 S8 A64])) "./management.cpp":17:35 -1
+     (nil))
+(insn 15 14 16 2 (set (reg:SI 83 [ _2 ])
+        (mem:SI (reg/f:DI 87) [7 this_5(D)->b1+0 S4 A32])) "./management.cpp":17:35 -1
+     (nil))
+(insn 16 15 17 2 (set (reg:SI 4 si)
+        (reg:SI 83 [ _2 ])) "./management.cpp":17:35 -1
+     (nil))
+(insn 17 16 18 2 (set (reg:DI 5 di)
+        (reg/f:DI 82 [ _1 ])) "./management.cpp":17:35 -1
+     (nil))
+(call_insn 18 17 19 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(int)") [flags 0x41]  <function_decl 0x7f2a2a269d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":17:35 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 19 18 20 2 (set (reg/f:DI 84 [ _3 ])
+        (reg:DI 0 ax)) "./management.cpp":17:35 -1
+     (nil))
+(insn 20 19 21 2 (set (reg:DI 88)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "./management.cpp":17:39 -1
+     (nil))
+(insn 21 20 22 2 (set (reg:DI 4 si)
+        (reg:DI 88)) "./management.cpp":17:39 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+        (nil)))
+(insn 22 21 23 2 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ _3 ])) "./management.cpp":17:39 -1
+     (nil))
+(call_insn 23 22 0 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))") [flags 0x41]  <function_decl 0x7f2a2a269500 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":17:39 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Function B1::print (B1::print(), funcdef_no=1526, decl_uid=40470, cgraph_uid=440, symbol_order=442)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [6 this+0 S8 A64])
+        (reg:DI 5 di [ this ])) "./management.cpp":19:10 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg/f:DI 84)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [6 this+0 S8 A64])) "./management.cpp":19:26 -1
+     (nil))
+(insn 7 6 8 2 (set (reg:SI 82 [ _1 ])
+        (mem:SI (reg/f:DI 84) [7 this_4(D)->b1+0 S4 A32])) "./management.cpp":19:26 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:SI 4 si)
+        (reg:SI 82 [ _1 ])) "./management.cpp":19:26 -1
+     (nil))
+(insn 9 8 10 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::cout") [flags 0x40]  <var_decl 0x7f2a29fe4240 cout>)) "./management.cpp":19:26 -1
+     (nil))
+(call_insn 10 9 11 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(int)") [flags 0x41]  <function_decl 0x7f2a2a269d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":19:26 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 11 10 12 2 (set (reg/f:DI 83 [ _2 ])
+        (reg:DI 0 ax)) "./management.cpp":19:26 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:DI 85)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "./management.cpp":19:30 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:DI 4 si)
+        (reg:DI 85)) "./management.cpp":19:30 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+        (nil)))
+(insn 14 13 15 2 (set (reg:DI 5 di)
+        (reg/f:DI 83 [ _2 ])) "./management.cpp":19:30 -1
+     (nil))
+(call_insn 15 14 0 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))") [flags 0x41]  <function_decl 0x7f2a2a269500 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":19:30 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Function B2::B2 (B2::B2(int), funcdef_no=1528, decl_uid=40543, cgraph_uid=442, symbol_order=444)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [28 this+0 S8 A64])
+        (reg:DI 5 di [ this ])) "./management.cpp":35:5 -1
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])
+        (reg:SI 4 si [ i ])) "./management.cpp":35:5 -1
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg/f:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [28 this+0 S8 A64])) "./management.cpp":39:12 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:SI 86)
+        (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])) "./management.cpp":39:12 -1
+     (nil))
+(insn 9 8 10 2 (set (mem:SI (reg/f:DI 85) [7 this_5(D)->b2+0 S4 A32])
+        (reg:SI 86)) "./management.cpp":39:12 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f2a29c37e10 *.LC1>)) "./management.cpp":41:15 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::cout") [flags 0x40]  <var_decl 0x7f2a29fe4240 cout>)) "./management.cpp":41:15 -1
+     (nil))
+(call_insn 12 11 13 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)") [flags 0x41]  <function_decl 0x7f2a2a284d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":41:15 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 13 12 14 2 (set (reg/f:DI 82 [ _1 ])
+        (reg:DI 0 ax)) "./management.cpp":41:15 -1
+     (nil))
+(insn 14 13 15 2 (set (reg/f:DI 87)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [28 this+0 S8 A64])) "./management.cpp":41:35 -1
+     (nil))
+(insn 15 14 16 2 (set (reg:SI 83 [ _2 ])
+        (mem:SI (reg/f:DI 87) [7 this_5(D)->b2+0 S4 A32])) "./management.cpp":41:35 -1
+     (nil))
+(insn 16 15 17 2 (set (reg:SI 4 si)
+        (reg:SI 83 [ _2 ])) "./management.cpp":41:35 -1
+     (nil))
+(insn 17 16 18 2 (set (reg:DI 5 di)
+        (reg/f:DI 82 [ _1 ])) "./management.cpp":41:35 -1
+     (nil))
+(call_insn 18 17 19 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(int)") [flags 0x41]  <function_decl 0x7f2a2a269d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":41:35 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 19 18 20 2 (set (reg/f:DI 84 [ _3 ])
+        (reg:DI 0 ax)) "./management.cpp":41:35 -1
+     (nil))
+(insn 20 19 21 2 (set (reg:DI 88)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "./management.cpp":41:39 -1
+     (nil))
+(insn 21 20 22 2 (set (reg:DI 4 si)
+        (reg:DI 88)) "./management.cpp":41:39 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+        (nil)))
+(insn 22 21 23 2 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ _3 ])) "./management.cpp":41:39 -1
+     (nil))
+(call_insn 23 22 0 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))") [flags 0x41]  <function_decl 0x7f2a2a269500 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":41:39 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Function B2::print (B2::print(), funcdef_no=1530, decl_uid=40537, cgraph_uid=444, symbol_order=446)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [28 this+0 S8 A64])
+        (reg:DI 5 di [ this ])) "./management.cpp":43:10 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg/f:DI 84)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [28 this+0 S8 A64])) "./management.cpp":43:26 -1
+     (nil))
+(insn 7 6 8 2 (set (reg:SI 82 [ _1 ])
+        (mem:SI (reg/f:DI 84) [7 this_4(D)->b2+0 S4 A32])) "./management.cpp":43:26 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:SI 4 si)
+        (reg:SI 82 [ _1 ])) "./management.cpp":43:26 -1
+     (nil))
+(insn 9 8 10 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::cout") [flags 0x40]  <var_decl 0x7f2a29fe4240 cout>)) "./management.cpp":43:26 -1
+     (nil))
+(call_insn 10 9 11 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(int)") [flags 0x41]  <function_decl 0x7f2a2a269d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":43:26 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 11 10 12 2 (set (reg/f:DI 83 [ _2 ])
+        (reg:DI 0 ax)) "./management.cpp":43:26 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:DI 85)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "./management.cpp":43:30 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:DI 4 si)
+        (reg:DI 85)) "./management.cpp":43:30 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+        (nil)))
+(insn 14 13 15 2 (set (reg:DI 5 di)
+        (reg/f:DI 83 [ _2 ])) "./management.cpp":43:30 -1
+     (nil))
+(call_insn 15 14 0 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))") [flags 0x41]  <function_decl 0x7f2a2a269500 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":43:30 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Function B3::B3 (B3::B3(int), funcdef_no=1532, decl_uid=40562, cgraph_uid=446, symbol_order=448)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [30 this+0 S8 A64])
+        (reg:DI 5 di [ this ])) "./management.cpp":59:5 -1
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])
+        (reg:SI 4 si [ i ])) "./management.cpp":59:5 -1
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg/f:DI 85)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [30 this+0 S8 A64])) "./management.cpp":63:12 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:SI 86)
+        (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])) "./management.cpp":63:12 -1
+     (nil))
+(insn 9 8 10 2 (set (mem:SI (reg/f:DI 85) [7 this_5(D)->b3+0 S4 A32])
+        (reg:SI 86)) "./management.cpp":63:12 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f2a29c4d3f0 *.LC2>)) "./management.cpp":65:15 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::cout") [flags 0x40]  <var_decl 0x7f2a29fe4240 cout>)) "./management.cpp":65:15 -1
+     (nil))
+(call_insn 12 11 13 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)") [flags 0x41]  <function_decl 0x7f2a2a284d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":65:15 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 13 12 14 2 (set (reg/f:DI 82 [ _1 ])
+        (reg:DI 0 ax)) "./management.cpp":65:15 -1
+     (nil))
+(insn 14 13 15 2 (set (reg/f:DI 87)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [30 this+0 S8 A64])) "./management.cpp":65:35 -1
+     (nil))
+(insn 15 14 16 2 (set (reg:SI 83 [ _2 ])
+        (mem:SI (reg/f:DI 87) [7 this_5(D)->b3+0 S4 A32])) "./management.cpp":65:35 -1
+     (nil))
+(insn 16 15 17 2 (set (reg:SI 4 si)
+        (reg:SI 83 [ _2 ])) "./management.cpp":65:35 -1
+     (nil))
+(insn 17 16 18 2 (set (reg:DI 5 di)
+        (reg/f:DI 82 [ _1 ])) "./management.cpp":65:35 -1
+     (nil))
+(call_insn 18 17 19 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(int)") [flags 0x41]  <function_decl 0x7f2a2a269d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":65:35 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 19 18 20 2 (set (reg/f:DI 84 [ _3 ])
+        (reg:DI 0 ax)) "./management.cpp":65:35 -1
+     (nil))
+(insn 20 19 21 2 (set (reg:DI 88)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "./management.cpp":65:39 -1
+     (nil))
+(insn 21 20 22 2 (set (reg:DI 4 si)
+        (reg:DI 88)) "./management.cpp":65:39 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+        (nil)))
+(insn 22 21 23 2 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ _3 ])) "./management.cpp":65:39 -1
+     (nil))
+(call_insn 23 22 0 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))") [flags 0x41]  <function_decl 0x7f2a2a269500 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":65:39 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Function A::A (A::A(int, int, int, int), funcdef_no=1536, decl_uid=40588, cgraph_uid=450, symbol_order=452)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 8 NOTE_INSN_DELETED)
+(note 8 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 8 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])
+        (reg:DI 5 di [ this ])) "./management.cpp":81:5 -1
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])
+        (reg:SI 4 si [ i ])) "./management.cpp":81:5 -1
+     (nil))
+(insn 4 3 5 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [7 j+0 S4 A32])
+        (reg:SI 1 dx [ j ])) "./management.cpp":81:5 -1
+     (nil))
+(insn 5 4 6 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -20 [0xffffffffffffffec])) [7 k+0 S4 A32])
+        (reg:SI 2 cx [ k ])) "./management.cpp":81:5 -1
+     (nil))
+(insn 6 5 7 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [7 l+0 S4 A32])
+        (reg:SI 36 r8 [ l ])) "./management.cpp":81:5 -1
+     (nil))
+(note 7 6 10 2 NOTE_INSN_FUNCTION_BEG)
+(insn 10 7 11 2 (set (reg/f:DI 82 [ _1 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":81:53 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:SI 88)
+        (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [7 j+0 S4 A32])) "./management.cpp":81:53 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:SI 4 si)
+        (reg:SI 88)) "./management.cpp":81:53 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:DI 5 di)
+        (reg/f:DI 82 [ _1 ])) "./management.cpp":81:53 -1
+     (nil))
+(call_insn 14 13 15 2 (call (mem:QI (symbol_ref/i:DI ("B2::B2(int)") [flags 0x3]  <function_decl 0x7f2a29ce2800 __ct_base >) [0 __ct_base  S1 A8])
+        (const_int 0 [0])) "./management.cpp":81:53 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 15 14 16 2 (set (reg/f:DI 89)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":81:53 -1
+     (nil))
+(insn 16 15 17 2 (parallel [
+            (set (reg/f:DI 83 [ _2 ])
+                (plus:DI (reg/f:DI 89)
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "./management.cpp":81:53 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])
+            (const_int 4 [0x4]))
+        (nil)))
+(insn 17 16 18 2 (set (reg:SI 90)
+        (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -12 [0xfffffffffffffff4])) [7 i+0 S4 A32])) "./management.cpp":81:53 -1
+     (nil))
+(insn 18 17 19 2 (set (reg:SI 4 si)
+        (reg:SI 90)) "./management.cpp":81:53 -1
+     (nil))
+(insn 19 18 20 2 (set (reg:DI 5 di)
+        (reg/f:DI 83 [ _2 ])) "./management.cpp":81:53 -1
+     (nil))
+(call_insn 20 19 21 2 (call (mem:QI (symbol_ref/i:DI ("B1::B1(int)") [flags 0x3]  <function_decl 0x7f2a29cd6c00 __ct_base >) [0 __ct_base  S1 A8])
+        (const_int 0 [0])) "./management.cpp":81:53 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 21 20 22 2 (set (reg/f:DI 91)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":81:53 -1
+     (nil))
+(insn 22 21 23 2 (parallel [
+            (set (reg/f:DI 84 [ _3 ])
+                (plus:DI (reg/f:DI 91)
+                    (const_int 12 [0xc])))
+            (clobber (reg:CC 17 flags))
+        ]) "./management.cpp":81:53 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])
+            (const_int 12 [0xc]))
+        (nil)))
+(insn 23 22 24 2 (set (reg:SI 92)
+        (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -20 [0xffffffffffffffec])) [7 k+0 S4 A32])) "./management.cpp":81:53 -1
+     (nil))
+(insn 24 23 25 2 (set (reg:SI 4 si)
+        (reg:SI 92)) "./management.cpp":81:53 -1
+     (nil))
+(insn 25 24 26 2 (set (reg:DI 5 di)
+        (reg/f:DI 84 [ _3 ])) "./management.cpp":81:53 -1
+     (nil))
+(call_insn 26 25 27 2 (call (mem:QI (symbol_ref/i:DI ("B3::B3(int)") [flags 0x3]  <function_decl 0x7f2a29ce2f00 __ct_comp >) [0 __ct_comp  S1 A8])
+        (const_int 0 [0])) "./management.cpp":81:53 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 27 26 28 2 (set (reg/f:DI 93)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":85:11 -1
+     (nil))
+(insn 28 27 29 2 (set (reg:SI 94)
+        (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [7 l+0 S4 A32])) "./management.cpp":85:11 -1
+     (nil))
+(insn 29 28 30 2 (set (mem:SI (plus:DI (reg/f:DI 93)
+                (const_int 8 [0x8])) [7 this_8(D)->a+0 S4 A32])
+        (reg:SI 94)) "./management.cpp":85:11 -1
+     (nil))
+(insn 30 29 31 2 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f2a29c4d750 *.LC3>)) "./management.cpp":87:15 -1
+     (nil))
+(insn 31 30 32 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::cout") [flags 0x40]  <var_decl 0x7f2a29fe4240 cout>)) "./management.cpp":87:15 -1
+     (nil))
+(call_insn 32 31 33 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)") [flags 0x41]  <function_decl 0x7f2a2a284d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":87:15 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 33 32 34 2 (set (reg/f:DI 85 [ _4 ])
+        (reg:DI 0 ax)) "./management.cpp":87:15 -1
+     (nil))
+(insn 34 33 35 2 (set (reg/f:DI 95)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":87:34 -1
+     (nil))
+(insn 35 34 36 2 (set (reg:SI 86 [ _5 ])
+        (mem:SI (plus:DI (reg/f:DI 95)
+                (const_int 8 [0x8])) [7 this_8(D)->a+0 S4 A32])) "./management.cpp":87:34 -1
+     (nil))
+(insn 36 35 37 2 (set (reg:SI 4 si)
+        (reg:SI 86 [ _5 ])) "./management.cpp":87:34 -1
+     (nil))
+(insn 37 36 38 2 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ _4 ])) "./management.cpp":87:34 -1
+     (nil))
+(call_insn 38 37 39 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(int)") [flags 0x41]  <function_decl 0x7f2a2a269d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":87:34 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 39 38 40 2 (set (reg/f:DI 87 [ _6 ])
+        (reg:DI 0 ax)) "./management.cpp":87:34 -1
+     (nil))
+(insn 40 39 41 2 (set (reg:DI 96)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "./management.cpp":87:37 -1
+     (nil))
+(insn 41 40 42 2 (set (reg:DI 4 si)
+        (reg:DI 96)) "./management.cpp":87:37 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+        (nil)))
+(insn 42 41 43 2 (set (reg:DI 5 di)
+        (reg/f:DI 87 [ _6 ])) "./management.cpp":87:37 -1
+     (nil))
+(call_insn 43 42 0 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))") [flags 0x41]  <function_decl 0x7f2a2a269500 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":87:37 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Function A::print (A::print(), funcdef_no=1538, decl_uid=40578, cgraph_uid=452, symbol_order=454)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])
+        (reg:DI 5 di [ this ])) "./management.cpp":89:10 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg/f:DI 86)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":93:18 -1
+     (nil))
+(insn 7 6 8 2 (parallel [
+            (set (reg/f:DI 82 [ _1 ])
+                (plus:DI (reg/f:DI 86)
+                    (const_int 4 [0x4])))
+            (clobber (reg:CC 17 flags))
+        ]) "./management.cpp":93:18 -1
+     (expr_list:REG_EQUAL (plus:DI (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])
+            (const_int 4 [0x4]))
+        (nil)))
+(insn 8 7 9 2 (set (reg:DI 5 di)
+        (reg/f:DI 82 [ _1 ])) "./management.cpp":93:18 -1
+     (nil))
+(call_insn 9 8 10 2 (call (mem:QI (symbol_ref/i:DI ("B1::print()") [flags 0x3]  <function_decl 0x7f2a29cd6a00 print>) [0 print S1 A8])
+        (const_int 0 [0])) "./management.cpp":93:18 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 10 9 11 2 (set (reg/f:DI 83 [ _2 ])
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":95:18 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:DI 5 di)
+        (reg/f:DI 83 [ _2 ])) "./management.cpp":95:18 -1
+     (nil))
+(call_insn 12 11 13 2 (call (mem:QI (symbol_ref/i:DI ("B2::print()") [flags 0x3]  <function_decl 0x7f2a29ce2600 print>) [0 print S1 A8])
+        (const_int 0 [0])) "./management.cpp":95:18 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 13 12 14 2 (set (reg/f:DI 87)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [32 this+0 S8 A64])) "./management.cpp":97:15 -1
+     (nil))
+(insn 14 13 15 2 (set (reg:SI 84 [ _3 ])
+        (mem:SI (plus:DI (reg/f:DI 87)
+                (const_int 8 [0x8])) [7 this_5(D)->a+0 S4 A32])) "./management.cpp":97:15 -1
+     (nil))
+(insn 15 14 16 2 (set (reg:SI 4 si)
+        (reg:SI 84 [ _3 ])) "./management.cpp":97:15 -1
+     (nil))
+(insn 16 15 17 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::cout") [flags 0x40]  <var_decl 0x7f2a29fe4240 cout>)) "./management.cpp":97:15 -1
+     (nil))
+(call_insn 17 16 18 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(int)") [flags 0x41]  <function_decl 0x7f2a2a269d00 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":97:15 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))
+(insn 18 17 19 2 (set (reg/f:DI 85 [ _4 ])
+        (reg:DI 0 ax)) "./management.cpp":97:15 -1
+     (nil))
+(insn 19 18 20 2 (set (reg:DI 88)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "./management.cpp":97:18 -1
+     (nil))
+(insn 20 19 21 2 (set (reg:DI 4 si)
+        (reg:DI 88)) "./management.cpp":97:18 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)") [flags 0x41]  <function_decl 0x7f2a2a27fd00 endl>)
+        (nil)))
+(insn 21 20 22 2 (set (reg:DI 5 di)
+        (reg/f:DI 85 [ _4 ])) "./management.cpp":97:18 -1
+     (nil))
+(call_insn 22 21 0 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))") [flags 0x41]  <function_decl 0x7f2a2a269500 operator<<>) [0 operator<< S1 A8])
+            (const_int 0 [0]))) "./management.cpp":97:18 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+
+;; Function main (main, funcdef_no=1539, decl_uid=40693, cgraph_uid=453, symbol_order=455)
+
+Partition 0: size 16 align 16
+	aa
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+Removing jump 20.
+Merging block 5 into block 2...
+Merged blocks 2 and 5.
+Merged 2 and 5 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 2 4 3 2 NOTE_INSN_FUNCTION_BEG)
+(insn 3 2 6 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                        (const_int -8 [0xfffffffffffffff8])) [17 D.44365+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (scratch:DI)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "./management.cpp":111:1 -1
+     (nil))
+(insn 6 3 7 2 (parallel [
+            (set (reg:DI 84)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -32 [0xffffffffffffffe0])))
+            (clobber (reg:CC 17 flags))
+        ]) "./management.cpp":113:20 -1
+     (nil))
+(insn 7 6 8 2 (set (reg:SI 36 r8)
+        (const_int 4 [0x4])) "./management.cpp":113:20 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:SI 2 cx)
+        (const_int 3 [0x3])) "./management.cpp":113:20 -1
+     (nil))
+(insn 9 8 10 2 (set (reg:SI 1 dx)
+        (const_int 2 [0x2])) "./management.cpp":113:20 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:SI 4 si)
+        (const_int 1 [0x1])) "./management.cpp":113:20 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:DI 5 di)
+        (reg:DI 84)) "./management.cpp":113:20 -1
+     (nil))
+(call_insn 12 11 13 2 (call (mem:QI (symbol_ref/i:DI ("A::A(int, int, int, int)") [flags 0x3]  <function_decl 0x7f2a29cf9700 __ct_comp >) [0 __ct_comp  S1 A8])
+        (const_int 0 [0])) "./management.cpp":113:20 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (expr_list:SI (use (reg:SI 2 cx))
+                    (expr_list:SI (use (reg:SI 36 r8))
+                        (nil)))))))
+(insn 13 12 14 2 (parallel [
+            (set (reg:DI 85)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -32 [0xffffffffffffffe0])))
+            (clobber (reg:CC 17 flags))
+        ]) "./management.cpp":115:13 -1
+     (nil))
+(insn 14 13 15 2 (set (reg:DI 5 di)
+        (reg:DI 85)) "./management.cpp":115:13 -1
+     (nil))
+(call_insn 15 14 16 2 (call (mem:QI (symbol_ref/i:DI ("A::print()") [flags 0x3]  <function_decl 0x7f2a29cf9600 print>) [0 print S1 A8])
+        (const_int 0 [0])) "./management.cpp":115:13 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 16 15 19 2 (set (reg:SI 82 [ _5 ])
+        (const_int 0 [0])) "./management.cpp":117:12 -1
+     (nil))
+(insn 19 16 23 2 (set (reg:SI 83 [ <retval> ])
+        (reg:SI 82 [ _5 ])) -1
+     (nil))
+(insn 23 19 24 2 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                                (const_int -8 [0xfffffffffffffff8])) [17 D.44365+0 S8 A64])
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (scratch:DI))
+        ]) "./management.cpp":119:1 -1
+     (nil))
+(jump_insn 24 23 31 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 27)
+            (pc))) "./management.cpp":119:1 -1
+     (nil)
+ -> 27)
+(note 31 24 25 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(call_insn 25 31 26 6 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f2a29c58200 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "./management.cpp":119:1 -1
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (nil))
+(barrier 26 25 27)
+(code_label 27 26 32 7 10 (nil) [1 uses])
+(note 32 27 28 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 28 32 29 7 (set (reg/i:SI 0 ax)
+        (reg:SI 83 [ <retval> ])) "./management.cpp":119:1 -1
+     (nil))
+(insn 29 28 0 7 (use (reg/i:SI 0 ax)) "./management.cpp":119:1 -1
+     (nil))
+
+;; Function __static_initialization_and_destruction_0 (__static_initialization_and_destruction_0(int, int), funcdef_no=2028, decl_uid=44321, cgraph_uid=942, symbol_order=968)
+
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+;; Generating RTL for gimple basic block 4
+
+;; Generating RTL for gimple basic block 5
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Edge 2->6 redirected to 7
+Edge 4->6 redirected to 7
+Merging block 6 into block 5...
+Merged blocks 5 and 6.
+Merged 5 and 6 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -4 [0xfffffffffffffffc])) [7 __initialize_p+0 S4 A32])
+        (reg:SI 5 di [ __initialize_p ])) "./management.cpp":119:1 -1
+     (nil))
+(insn 3 2 4 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [7 __priority+0 S4 A32])
+        (reg:SI 4 si [ __priority ])) "./management.cpp":119:1 -1
+     (nil))
+(note 4 3 7 2 NOTE_INSN_FUNCTION_BEG)
+(insn 7 4 8 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -4 [0xfffffffffffffffc])) [7 __initialize_p+0 S4 A32])
+            (const_int 1 [0x1]))) "./management.cpp":119:1 -1
+     (nil))
+(jump_insn 8 7 9 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 22)
+            (pc))) "./management.cpp":119:1 659 {*jcc}
+     (nil)
+ -> 22)
+(note 9 8 10 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 10 9 11 4 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -8 [0xfffffffffffffff8])) [7 __priority+0 S4 A32])
+            (const_int 65535 [0xffff]))) "./management.cpp":119:1 -1
+     (nil))
+(jump_insn 11 10 12 4 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 22)
+            (pc))) "./management.cpp":119:1 659 {*jcc}
+     (nil)
+ -> 22)
+(note 12 11 13 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 13 12 14 5 (set (reg:DI 5 di)
+        (symbol_ref:DI ("std::__ioinit") [flags 0x2]  <var_decl 0x7f2a29fe47e0 __ioinit>)) "/usr/include/c++/9/iostream":74:25 -1
+     (nil))
+(call_insn 14 13 15 5 (call (mem:QI (symbol_ref:DI ("std::ios_base::Init::Init()") [flags 0x41]  <function_decl 0x7f2a2a714900 __ct_comp >) [0 __ct_comp  S1 A8])
+        (const_int 0 [0])) "/usr/include/c++/9/iostream":74:25 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 15 14 16 5 (set (reg:DI 1 dx)
+        (symbol_ref:DI ("__dso_handle") [flags 0x42]  <var_decl 0x7f2a29bedb40 __dso_handle>)) "/usr/include/c++/9/iostream":74:25 -1
+     (nil))
+(insn 16 15 17 5 (set (reg:DI 4 si)
+        (symbol_ref:DI ("std::__ioinit") [flags 0x2]  <var_decl 0x7f2a29fe47e0 __ioinit>)) "/usr/include/c++/9/iostream":74:25 -1
+     (nil))
+(insn 17 16 18 5 (set (reg:DI 82)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("std::ios_base::Init::~Init()") [flags 0x41]  <function_decl 0x7f2a2a714b00 __dt_comp >)
+                    ] UNSPEC_GOTPCREL)) [27  S8 A8])) "/usr/include/c++/9/iostream":74:25 -1
+     (nil))
+(insn 18 17 19 5 (set (reg:DI 5 di)
+        (reg:DI 82)) "/usr/include/c++/9/iostream":74:25 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("std::ios_base::Init::~Init()") [flags 0x41]  <function_decl 0x7f2a2a714b00 __dt_comp >)
+        (nil)))
+(call_insn 19 18 22 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("__cxa_atexit") [flags 0x41]  <function_decl 0x7f2a29c07600 __cxa_atexit>) [0 __cxa_atexit S1 A8])
+            (const_int 0 [0]))) "/usr/include/c++/9/iostream":74:25 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(code_label 22 19 23 7 11 (nil) [2 uses])
+(note 23 22 0 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+
+;; Function _GLOBAL__sub_I_main (_GLOBAL__sub_I_main, funcdef_no=2029, decl_uid=44327, cgraph_uid=943, symbol_order=1098)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 3 NOTE_INSN_DELETED)
+(note 3 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 2 3 5 2 NOTE_INSN_FUNCTION_BEG)
+(insn 5 2 6 2 (set (reg:SI 4 si)
+        (const_int 65535 [0xffff])) "./management.cpp":119:1 -1
+     (nil))
+(insn 6 5 7 2 (set (reg:SI 5 di)
+        (const_int 1 [0x1])) "./management.cpp":119:1 -1
+     (nil))
+(call_insn 7 6 0 2 (call (mem:QI (symbol_ref:DI ("__static_initialization_and_destruction_0(int, int)") [flags 0x3]  <function_decl 0x7f2a29c07400 __static_initialization_and_destruction_0>) [0 __static_initialization_and_destruction_0 S1 A8])
+        (const_int 0 [0])) "./management.cpp":119:1 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (nil))))

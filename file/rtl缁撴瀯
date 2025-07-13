@@ -1,0 +1,28 @@
+;; Function task (task, funcdef_no=16, decl_uid=4713, cgraph_uid=16, symbol_order=20)
+
+;; Generating RTL for gimple basic block 2
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+
+;;
+;; Full RTL generated for this function:
+;;
+
+
+(insn 24 23 25 2 (set (reg:DI 37 r8)
+        (symbol_ref:DI ("threadtask3") [flags 0x3] <function_decl 00000000056c9700 threadtask3>)) "main.c":36 -1
+     (nil))
+
+(call_insn 28 27 29 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x43] <function_decl 00000000056ada00 pthread_create>) [0 pthread_create S1 A8])
+            (const_int 32 [0x20]))) "main.c":36 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 2 cx))
+        (expr_list:DI (use (reg:DI 1 dx))
+            (expr_list:DI (use (reg:DI 37 r8))
+                (expr_list:DI (use (reg:DI 38 r9))
+                    (nil))))))
+
+;; Function threadtask3 (threadtask3, funcdef_no=17, decl_uid=4721, cgraph_uid=17, symbol_order=21)

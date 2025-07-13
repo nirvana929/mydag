@@ -1,0 +1,433 @@
+
+;; Function threadtask1 (threadtask1, funcdef_no=0, decl_uid=3525, cgraph_uid=1, symbol_order=1)
+
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+Removing jump 16.
+Merging block 5 into block 2...
+Merged blocks 2 and 5.
+Merged 2 and 5 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [8 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "./lock1.c":9:30 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fbd3217f480 mutex>)) "./lock1.c":10:5 -1
+     (nil))
+(call_insn 7 6 8 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x41]  <function_decl 0x7fbd321a6200 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
+            (const_int 0 [0]))) "./lock1.c":10:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 8 7 9 2 (set (reg:SI 5 di)
+        (const_int 65 [0x41])) "./lock1.c":11:5 -1
+     (nil))
+(call_insn 9 8 10 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("putchar") [flags 0x41]  <function_decl 0x7fbd32093d00 __builtin_putchar>) [0 __builtin_putchar S1 A8])
+            (const_int 0 [0]))) "./lock1.c":11:5 -1
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 10 9 11 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fbd3217f480 mutex>)) "./lock1.c":12:5 -1
+     (nil))
+(call_insn 11 10 12 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x41]  <function_decl 0x7fbd321a6400 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
+            (const_int 0 [0]))) "./lock1.c":12:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 12 11 15 2 (set (reg/f:DI 82 [ _5 ])
+        (const_int 0 [0])) "./lock1.c":13:12 -1
+     (nil))
+(insn 15 12 19 2 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ _5 ])) "./lock1.c":13:12 -1
+     (nil))
+(insn 19 15 20 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "./lock1.c":14:1 -1
+     (nil))
+(insn 20 19 0 2 (use (reg/i:DI 0 ax)) "./lock1.c":14:1 -1
+     (nil))
+
+;; Function threadtask2 (threadtask2, funcdef_no=1, decl_uid=3528, cgraph_uid=2, symbol_order=2)
+
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+Removing jump 16.
+Merging block 5 into block 2...
+Merged blocks 2 and 5.
+Merged 2 and 5 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [8 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "./lock1.c":17:30 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fbd3217f480 mutex>)) "./lock1.c":18:5 -1
+     (nil))
+(call_insn 7 6 8 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x41]  <function_decl 0x7fbd321a6200 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
+            (const_int 0 [0]))) "./lock1.c":18:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 8 7 9 2 (set (reg:SI 5 di)
+        (const_int 66 [0x42])) "./lock1.c":19:5 -1
+     (nil))
+(call_insn 9 8 10 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("putchar") [flags 0x41]  <function_decl 0x7fbd32093d00 __builtin_putchar>) [0 __builtin_putchar S1 A8])
+            (const_int 0 [0]))) "./lock1.c":19:5 -1
+     (nil)
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(insn 10 9 11 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fbd3217f480 mutex>)) "./lock1.c":20:5 -1
+     (nil))
+(call_insn 11 10 12 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x41]  <function_decl 0x7fbd321a6400 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
+            (const_int 0 [0]))) "./lock1.c":20:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 12 11 15 2 (set (reg/f:DI 82 [ _5 ])
+        (const_int 0 [0])) "./lock1.c":21:12 -1
+     (nil))
+(insn 15 12 19 2 (set (reg/f:DI 83 [ <retval> ])
+        (reg/f:DI 82 [ _5 ])) "./lock1.c":21:12 -1
+     (nil))
+(insn 19 15 20 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 83 [ <retval> ])) "./lock1.c":22:1 -1
+     (nil))
+(insn 20 19 0 2 (use (reg/i:DI 0 ax)) "./lock1.c":22:1 -1
+     (nil))
+
+;; Function main (main, funcdef_no=2, decl_uid=3530, cgraph_uid=3, symbol_order=3)
+
+Partition 1: size 8 align 8
+	t2
+Partition 0: size 8 align 8
+	t1
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+;; Generating RTL for gimple basic block 4
+
+;; Generating RTL for gimple basic block 5
+
+;; Generating RTL for gimple basic block 6
+
+;; Generating RTL for gimple basic block 7
+
+;; Generating RTL for gimple basic block 8
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Redirecting jump 20 from 8 to 9.
+Redirecting jump 38 from 8 to 9.
+Merging block 8 into block 7...
+Merged blocks 7 and 8.
+Merged 7 and 8 without moving.
+Removing jump 58.
+Merging block 10 into block 9...
+Merged blocks 9 and 10.
+Merged 9 and 10 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 2 4 3 2 NOTE_INSN_FUNCTION_BEG)
+(insn 3 2 6 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                        (const_int -8 [0xfffffffffffffff8])) [8 D.3549+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (scratch:DI)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "./lock1.c":24:12 -1
+     (nil))
+(insn 6 3 7 2 (parallel [
+            (set (reg:DI 88)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])))
+            (clobber (reg:CC 17 flags))
+        ]) "./lock1.c":28:9 -1
+     (nil))
+(insn 7 6 8 2 (set (reg:DI 2 cx)
+        (const_int 0 [0])) "./lock1.c":28:9 -1
+     (nil))
+(insn 8 7 9 2 (set (reg:DI 1 dx)
+        (symbol_ref:DI ("threadtask1") [flags 0x3]  <function_decl 0x7fbd31df3500 threadtask1>)) "./lock1.c":28:9 -1
+     (nil))
+(insn 9 8 10 2 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./lock1.c":28:9 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:DI 5 di)
+        (reg:DI 88)) "./lock1.c":28:9 -1
+     (nil))
+(call_insn 11 10 12 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fbd32183900 pthread_create>) [0 pthread_create S1 A8])
+            (const_int 0 [0]))) "./lock1.c":28:9 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 12 11 13 2 (set (reg:SI 82 [ _1 ])
+        (reg:SI 0 ax)) "./lock1.c":28:9 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 82 [ _1 ])
+            (const_int 0 [0]))) "./lock1.c":28:8 -1
+     (nil))
+(jump_insn 14 13 15 2 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 22)
+            (pc))) "./lock1.c":28:8 -1
+     (nil)
+ -> 22)
+(note 15 14 16 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 16 15 17 4 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7fbd31e00900 *.LC0>)) "./lock1.c":29:9 -1
+     (nil))
+(insn 17 16 18 4 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "./lock1.c":29:9 -1
+     (nil))
+(call_insn 18 17 19 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fbd32093a00 printf>) [0 __builtin_printf S1 A8])
+            (const_int 0 [0]))) "./lock1.c":29:9 -1
+     (nil)
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (nil))))
+(insn 19 18 20 4 (set (reg:SI 86 [ _5 ])
+        (const_int 1 [0x1])) "./lock1.c":30:16 -1
+     (nil))
+(jump_insn 20 19 21 4 (set (pc)
+        (label_ref:DI 55)) "./lock1.c":30:16 660 {jump}
+     (nil)
+ -> 55)
+(barrier 21 20 22)
+(code_label 22 21 23 5 6 (nil) [1 uses])
+(note 23 22 24 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 24 23 25 5 (parallel [
+            (set (reg:DI 89)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -16 [0xfffffffffffffff0])))
+            (clobber (reg:CC 17 flags))
+        ]) "./lock1.c":34:9 -1
+     (nil))
+(insn 25 24 26 5 (set (reg:DI 2 cx)
+        (const_int 0 [0])) "./lock1.c":34:9 -1
+     (nil))
+(insn 26 25 27 5 (set (reg:DI 1 dx)
+        (symbol_ref:DI ("threadtask2") [flags 0x3]  <function_decl 0x7fbd31df3700 threadtask2>)) "./lock1.c":34:9 -1
+     (nil))
+(insn 27 26 28 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./lock1.c":34:9 -1
+     (nil))
+(insn 28 27 29 5 (set (reg:DI 5 di)
+        (reg:DI 89)) "./lock1.c":34:9 -1
+     (nil))
+(call_insn 29 28 30 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fbd32183900 pthread_create>) [0 pthread_create S1 A8])
+            (const_int 0 [0]))) "./lock1.c":34:9 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 30 29 31 5 (set (reg:SI 83 [ _2 ])
+        (reg:SI 0 ax)) "./lock1.c":34:9 -1
+     (nil))
+(insn 31 30 32 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:SI 83 [ _2 ])
+            (const_int 0 [0]))) "./lock1.c":34:8 -1
+     (nil))
+(jump_insn 32 31 33 5 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 40)
+            (pc))) "./lock1.c":34:8 -1
+     (nil)
+ -> 40)
+(note 33 32 34 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 34 33 35 6 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7fbd31e00990 *.LC1>)) "./lock1.c":35:9 -1
+     (nil))
+(insn 35 34 36 6 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "./lock1.c":35:9 -1
+     (nil))
+(call_insn 36 35 37 6 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fbd32093a00 printf>) [0 __builtin_printf S1 A8])
+            (const_int 0 [0]))) "./lock1.c":35:9 -1
+     (nil)
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (nil))))
+(insn 37 36 38 6 (set (reg:SI 86 [ _5 ])
+        (const_int 1 [0x1])) "./lock1.c":36:16 -1
+     (nil))
+(jump_insn 38 37 39 6 (set (pc)
+        (label_ref:DI 55)) "./lock1.c":36:16 660 {jump}
+     (nil)
+ -> 55)
+(barrier 39 38 40)
+(code_label 40 39 41 7 8 (nil) [1 uses])
+(note 41 40 42 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 42 41 43 7 (set (reg:DI 84 [ t1.0_3 ])
+        (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [7 t1+0 S8 A64])) "./lock1.c":40:5 -1
+     (nil))
+(insn 43 42 44 7 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./lock1.c":40:5 -1
+     (nil))
+(insn 44 43 45 7 (set (reg:DI 5 di)
+        (reg:DI 84 [ t1.0_3 ])) "./lock1.c":40:5 -1
+     (nil))
+(call_insn 45 44 46 7 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fbd32183b00 pthread_join>) [0 pthread_join S1 A8])
+            (const_int 0 [0]))) "./lock1.c":40:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 46 45 47 7 (set (reg:DI 85 [ t2.1_4 ])
+        (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [7 t2+0 S8 A64])) "./lock1.c":41:5 -1
+     (nil))
+(insn 47 46 48 7 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./lock1.c":41:5 -1
+     (nil))
+(insn 48 47 49 7 (set (reg:DI 5 di)
+        (reg:DI 85 [ t2.1_4 ])) "./lock1.c":41:5 -1
+     (nil))
+(call_insn 49 48 50 7 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fbd32183b00 pthread_join>) [0 pthread_join S1 A8])
+            (const_int 0 [0]))) "./lock1.c":41:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 50 49 51 7 (set (reg:DI 5 di)
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fbd3217f480 mutex>)) "./lock1.c":45:5 -1
+     (nil))
+(call_insn 51 50 52 7 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_destroy") [flags 0x41]  <function_decl 0x7fbd321a6000 pthread_mutex_destroy>) [0 pthread_mutex_destroy S1 A8])
+            (const_int 0 [0]))) "./lock1.c":45:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 52 51 55 7 (set (reg:SI 86 [ _5 ])
+        (const_int 0 [0])) "./lock1.c":47:12 -1
+     (nil))
+(code_label 55 52 56 9 9 (nil) [2 uses])
+(note 56 55 57 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(insn 57 56 61 9 (set (reg:SI 87 [ <retval> ])
+        (reg:SI 86 [ _5 ])) -1
+     (nil))
+(insn 61 57 62 9 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                                (const_int -8 [0xfffffffffffffff8])) [8 D.3549+0 S8 A64])
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (scratch:DI))
+        ]) "./lock1.c":48:1 -1
+     (nil))
+(jump_insn 62 61 69 9 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 65)
+            (pc))) "./lock1.c":48:1 -1
+     (nil)
+ -> 65)
+(note 69 62 63 11 [bb 11] NOTE_INSN_BASIC_BLOCK)
+(call_insn 63 69 64 11 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fbd31e02c00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "./lock1.c":48:1 -1
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (nil))
+(barrier 64 63 65)
+(code_label 65 64 70 12 10 (nil) [1 uses])
+(note 70 65 66 12 [bb 12] NOTE_INSN_BASIC_BLOCK)
+(insn 66 70 67 12 (set (reg/i:SI 0 ax)
+        (reg:SI 87 [ <retval> ])) "./lock1.c":48:1 -1
+     (nil))
+(insn 67 66 0 12 (use (reg/i:SI 0 ax)) "./lock1.c":48:1 -1
+     (nil))

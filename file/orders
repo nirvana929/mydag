@@ -1,0 +1,55 @@
+cally.py ./main.c.234r.expand |\dot -Grankdir=LR -Tpng -o mygraphpro.png
+
+python3 cally.py ./file/main.c.234r.expand |\dot -Grankdir=LR -Tpng -o hw6_1.png
+
+c++filt < filt.expand | sed -e 's/.*[&]\s*//' -e 's/<.*>//' > simplified_expand.txt
+移除了函数模板，以及函数返回值类型
+gcc ./main.c \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -o mymain
+
+
+
+
+gcc ./main.c \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -fdump-rtl-expand
+
+ python3 cally.py ./main.c.234r.expand > mydot.txt
+ python3 mycally.py ./file/simplified.expand |\dot -Grankdir=LR -Tpng -o hw5_5.png
+
+ python3 mycally.py ./file/main.c.234r.expand |\dot -Grankdir=LR -Tpng -o hw6_5.png
+
+
+
+
+
+
+
+
+
+#c++     ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+gcc ./task.cpp \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -o mymain
+
+gcc -fdump-rtl-expand ./task3.cpp
+python3 mycally.py ./cppfile/test2/task1.cpp.233r.expand |\dot -Grankdir=LR -Tpng -o ./cppfile/cpp_img/hwtask1_1_1.png
+g++ -O2 -fdump-rtl-expand -fno-inline -fno-unroll-loops -fomit-frame-pointer ./task.cpp
+gcc ./task.cpp \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -fdump-rtl-expand
+
+ python3 mycally.py ./cppfile/test1/lock2.c.233r.expand |\dot -Grankdir=LR -Tpng -o ./cppfile/cpp_img/hwlock_2_1_1.png
+
+
+ grep '^;; Function ' task3.cpp.233r.expand | grep -v '_ZSt' > task3.txt
+
+
+       "args": ["./cppfile/test1/lock1.c.233r.expand"]
+
+gcc -fdump-rtl-expand ./lock1.c
