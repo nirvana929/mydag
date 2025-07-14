@@ -20,7 +20,7 @@ gcc ./main.c \
  python3 cally.py ./main.c.234r.expand > mydot.txt
  python3 mycally.py ./file/simplified.expand |\dot -Grankdir=LR -Tpng -o hw5_5.png
 
- python3 mycally.py ./file/main.c.234r.expand |\dot -Grankdir=LR -Tpng -o hw6_5.png
+ python3 ./file/mycally.py ./cfile/produce1.c.233r.expand |\dot -Grankdir=LR -Tpng -o produce_2.png
 
 
 
