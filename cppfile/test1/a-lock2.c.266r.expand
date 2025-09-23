@@ -78,7 +78,7 @@ try_optimize_cfg iteration 2
         (reg:DI 103)) "D:/software/w64devkit/w64devkit/x86_64-w64-mingw32/include/stdio.h":372:14 -1
      (nil))
 (call_insn 17 16 18 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("__mingw_vfprintf") [flags 0x43]  <function_decl 0000000002155d00 __mingw_vfprintf>) [0 __mingw_vfprintf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("__mingw_vfprintf") [flags 0x43]  <function_decl 00000000020f5d00 __mingw_vfprintf>) [0 __mingw_vfprintf S1 A8])
             (const_int 32 [0x20]))) "D:/software/w64devkit/w64devkit/x86_64-w64-mingw32/include/stdio.h":372:14 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -172,8 +172,8 @@ try_optimize_cfg iteration 2
         (const_int 1 [0x1])) "D:/software/w64devkit/w64devkit/x86_64-w64-mingw32/include/stdio.h":383:14 -1
      (nil))
 (insn 13 12 14 2 (set (reg:DI 103)
-        (mem/u/c:DI (symbol_ref:DI ("*__imp___acrt_iob_func") [flags 0x2002]  <var_decl 00000000023c5a20 D.6722>) [4  S8 A8])) "D:/software/w64devkit/w64devkit/x86_64-w64-mingw32/include/stdio.h":383:14 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("__acrt_iob_func") [flags 0x441]  <function_decl 0000000002130f00 __acrt_iob_func>)
+        (mem/u/c:DI (symbol_ref:DI ("*__imp___acrt_iob_func") [flags 0x2002]  <var_decl 0000000002365a20 D.6722>) [4  S8 A8])) "D:/software/w64devkit/w64devkit/x86_64-w64-mingw32/include/stdio.h":383:14 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__acrt_iob_func") [flags 0x441]  <function_decl 00000000020d0f00 __acrt_iob_func>)
         (nil)))
 (call_insn 14 13 15 2 (set (reg:DI 0 ax)
         (call (mem:QI (reg:DI 103) [0 __acrt_iob_func S1 A8])
@@ -197,7 +197,7 @@ try_optimize_cfg iteration 2
         (reg/f:DI 99 [ _2 ])) "D:/software/w64devkit/w64devkit/x86_64-w64-mingw32/include/stdio.h":383:14 discrim 1 -1
      (nil))
 (call_insn 20 19 21 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("__mingw_vfprintf") [flags 0x43]  <function_decl 0000000002155d00 __mingw_vfprintf>) [0 __mingw_vfprintf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("__mingw_vfprintf") [flags 0x43]  <function_decl 00000000020f5d00 __mingw_vfprintf>) [0 __mingw_vfprintf S1 A8])
             (const_int 32 [0x20]))) "D:/software/w64devkit/w64devkit/x86_64-w64-mingw32/include/stdio.h":383:14 discrim 1 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -261,40 +261,40 @@ try_optimize_cfg iteration 2
      (nil))
 (note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
 (insn 6 3 7 2 (set (reg:DI 100)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)) "./lock2.c":11:5 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)) "./lock2.c":11:5 -1
      (nil))
 (insn 7 6 8 2 (set (reg:DI 2 cx)
         (reg:DI 100)) "./lock2.c":11:5 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)
+     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)
         (nil)))
 (call_insn 8 7 9 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x43]  <function_decl 00000000023a7300 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x43]  <function_decl 0000000002347300 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":11:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
         (nil)))
 (insn 9 8 10 2 (set (reg:DI 101)
-        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 00000000023c5ab0 *.LC0>)) "./lock2.c":12:5 -1
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0000000002365ab0 *.LC0>)) "./lock2.c":12:5 -1
      (nil))
 (insn 10 9 11 2 (set (reg:DI 2 cx)
         (reg:DI 101)) "./lock2.c":12:5 -1
-     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 00000000023c5ab0 *.LC0>)
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0000000002365ab0 *.LC0>)
         (nil)))
 (call_insn 11 10 12 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002171900 printf>) [0 printf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002111900 printf>) [0 printf S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":12:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
         (nil)))
 (insn 12 11 13 2 (set (reg:DI 102)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)) "./lock2.c":13:5 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)) "./lock2.c":13:5 -1
      (nil))
 (insn 13 12 14 2 (set (reg:DI 2 cx)
         (reg:DI 102)) "./lock2.c":13:5 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)
+     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)
         (nil)))
 (call_insn 14 13 15 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x43]  <function_decl 00000000023a7500 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x43]  <function_decl 0000000002347500 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":13:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
@@ -347,40 +347,40 @@ try_optimize_cfg iteration 2
      (nil))
 (note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
 (insn 6 3 7 2 (set (reg:DI 100)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)) "./lock2.c":19:5 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)) "./lock2.c":19:5 -1
      (nil))
 (insn 7 6 8 2 (set (reg:DI 2 cx)
         (reg:DI 100)) "./lock2.c":19:5 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)
+     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)
         (nil)))
 (call_insn 8 7 9 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x43]  <function_decl 00000000023a7300 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x43]  <function_decl 0000000002347300 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":19:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
         (nil)))
 (insn 9 8 10 2 (set (reg:DI 101)
-        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 00000000023c5b40 *.LC1>)) "./lock2.c":20:5 -1
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0000000002365b40 *.LC1>)) "./lock2.c":20:5 -1
      (nil))
 (insn 10 9 11 2 (set (reg:DI 2 cx)
         (reg:DI 101)) "./lock2.c":20:5 -1
-     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 00000000023c5b40 *.LC1>)
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0000000002365b40 *.LC1>)
         (nil)))
 (call_insn 11 10 12 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002171900 printf>) [0 printf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002111900 printf>) [0 printf S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":20:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
         (nil)))
 (insn 12 11 13 2 (set (reg:DI 102)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)) "./lock2.c":21:5 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)) "./lock2.c":21:5 -1
      (nil))
 (insn 13 12 14 2 (set (reg:DI 2 cx)
         (reg:DI 102)) "./lock2.c":21:5 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)
+     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)
         (nil)))
 (call_insn 14 13 15 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x43]  <function_decl 00000000023a7500 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x43]  <function_decl 0000000002347500 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":21:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
@@ -438,7 +438,7 @@ try_optimize_cfg iteration 2
 (note 1 0 4 NOTE_INSN_DELETED)
 (note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
 (note 2 4 3 2 NOTE_INSN_FUNCTION_BEG)
-(call_insn 3 2 6 2 (call (mem:QI (symbol_ref:DI ("__main") [flags 0x43]  <function_decl 00000000023ff300 __main>) [0  S1 A8])
+(call_insn 3 2 6 2 (call (mem:QI (symbol_ref:DI ("__main") [flags 0x43]  <function_decl 000000000239f300 __main>) [0  S1 A8])
         (const_int 32 [0x20])) "./lock2.c":25:12 -1
      (expr_list:REG_EH_REGION (const_int -2147483648 [0xffffffff80000000])
         (nil))
@@ -447,7 +447,7 @@ try_optimize_cfg iteration 2
         (const_int 4 [0x4])) "./lock2.c":26:21 -1
      (nil))
 (call_insn 7 6 8 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x43]  <function_decl 0000000002069e00 malloc>) [0 __builtin_malloc S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x43]  <function_decl 0000000002001e00 malloc>) [0 __builtin_malloc S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":26:21 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -478,8 +478,8 @@ try_optimize_cfg iteration 2
         (const_int 2 [0x2])) "./lock2.c":28:9 -1
      (nil))
 (insn 14 13 15 4 (set (reg:DI 106)
-        (mem/u/c:DI (symbol_ref:DI ("*__imp___acrt_iob_func") [flags 0x2002]  <var_decl 00000000023c5a20 D.6722>) [4  S8 A8])) "./lock2.c":28:9 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("__acrt_iob_func") [flags 0x441]  <function_decl 0000000002130f00 __acrt_iob_func>)
+        (mem/u/c:DI (symbol_ref:DI ("*__imp___acrt_iob_func") [flags 0x2002]  <var_decl 0000000002365a20 D.6722>) [4  S8 A8])) "./lock2.c":28:9 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__acrt_iob_func") [flags 0x441]  <function_decl 00000000020d0f00 __acrt_iob_func>)
         (nil)))
 (call_insn 15 14 16 4 (set (reg:DI 0 ax)
         (call (mem:QI (reg:DI 106) [0 __acrt_iob_func S1 A8])
@@ -491,17 +491,17 @@ try_optimize_cfg iteration 2
         (reg:DI 0 ax)) "./lock2.c":28:9 -1
      (nil))
 (insn 17 16 18 4 (set (reg:DI 107)
-        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 00000000023c5bd0 *.LC2>)) "./lock2.c":28:9 discrim 1 -1
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0000000002365bd0 *.LC2>)) "./lock2.c":28:9 discrim 1 -1
      (nil))
 (insn 18 17 19 4 (set (reg:DI 1 dx)
         (reg:DI 107)) "./lock2.c":28:9 discrim 1 -1
-     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 00000000023c5bd0 *.LC2>)
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0000000002365bd0 *.LC2>)
         (nil)))
 (insn 19 18 20 4 (set (reg:DI 2 cx)
         (reg/f:DI 98 [ _1 ])) "./lock2.c":28:9 discrim 1 -1
      (nil))
 (call_insn 20 19 21 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("fprintf") [flags 0x3]  <function_decl 0000000002171700 fprintf>) [0 fprintf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("fprintf") [flags 0x3]  <function_decl 0000000002111700 fprintf>) [0 fprintf S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":28:9 discrim 1 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
@@ -532,20 +532,20 @@ try_optimize_cfg iteration 2
         (reg:DI 109)) "./lock2.c":33:9 -1
      (nil))
 (insn 30 29 31 5 (set (reg:DI 36 r8)
-        (symbol_ref:DI ("threadtask1") [flags 0x3]  <function_decl 00000000023b7100 threadtask1>)) "./lock2.c":33:9 -1
+        (symbol_ref:DI ("threadtask1") [flags 0x3]  <function_decl 0000000002357100 threadtask1>)) "./lock2.c":33:9 -1
      (nil))
 (insn 31 30 32 5 (set (reg:DI 1 dx)
         (const_int 0 [0])) "./lock2.c":33:9 -1
      (nil))
 (insn 32 31 33 5 (set (reg:DI 110)
-        (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 00000000022cb7e0 thread>)) "./lock2.c":33:9 -1
+        (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 000000000226b7e0 thread>)) "./lock2.c":33:9 -1
      (nil))
 (insn 33 32 34 5 (set (reg:DI 2 cx)
         (reg:DI 110)) "./lock2.c":33:9 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 00000000022cb7e0 thread>)
+     (expr_list:REG_EQUAL (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 000000000226b7e0 thread>)
         (nil)))
 (call_insn 34 33 35 5 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x43]  <function_decl 000000000239ee00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x43]  <function_decl 000000000233ee00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":33:9 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
@@ -569,14 +569,14 @@ try_optimize_cfg iteration 2
  -> 45)
 (note 38 37 39 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
 (insn 39 38 40 6 (set (reg:DI 111)
-        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 00000000023c5c60 *.LC3>)) "./lock2.c":34:9 -1
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0000000002365c60 *.LC3>)) "./lock2.c":34:9 -1
      (nil))
 (insn 40 39 41 6 (set (reg:DI 2 cx)
         (reg:DI 111)) "./lock2.c":34:9 -1
-     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 00000000023c5c60 *.LC3>)
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0000000002365c60 *.LC3>)
         (nil)))
 (call_insn 41 40 42 6 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002171900 printf>) [0 printf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002111900 printf>) [0 printf S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":34:9 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
@@ -599,20 +599,20 @@ try_optimize_cfg iteration 2
         (reg:DI 112)) "./lock2.c":39:9 -1
      (nil))
 (insn 49 48 50 7 (set (reg:DI 36 r8)
-        (symbol_ref:DI ("threadtask2") [flags 0x3]  <function_decl 00000000023b7300 threadtask2>)) "./lock2.c":39:9 -1
+        (symbol_ref:DI ("threadtask2") [flags 0x3]  <function_decl 0000000002357300 threadtask2>)) "./lock2.c":39:9 -1
      (nil))
 (insn 50 49 51 7 (set (reg:DI 1 dx)
         (const_int 0 [0])) "./lock2.c":39:9 -1
      (nil))
 (insn 51 50 52 7 (set (reg:DI 113)
-        (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 00000000022cb870 thread1>)) "./lock2.c":39:9 -1
+        (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 000000000226b870 thread1>)) "./lock2.c":39:9 -1
      (nil))
 (insn 52 51 53 7 (set (reg:DI 2 cx)
         (reg:DI 113)) "./lock2.c":39:9 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 00000000022cb870 thread1>)
+     (expr_list:REG_EQUAL (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 000000000226b870 thread1>)
         (nil)))
 (call_insn 53 52 54 7 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x43]  <function_decl 000000000239ee00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x43]  <function_decl 000000000233ee00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":39:9 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
@@ -636,14 +636,14 @@ try_optimize_cfg iteration 2
  -> 64)
 (note 57 56 58 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
 (insn 58 57 59 8 (set (reg:DI 114)
-        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 00000000023c5cf0 *.LC4>)) "./lock2.c":40:9 -1
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0000000002365cf0 *.LC4>)) "./lock2.c":40:9 -1
      (nil))
 (insn 59 58 60 8 (set (reg:DI 2 cx)
         (reg:DI 114)) "./lock2.c":40:9 -1
-     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 00000000023c5cf0 *.LC4>)
+     (expr_list:REG_EQUAL (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0000000002365cf0 *.LC4>)
         (nil)))
 (call_insn 60 59 61 8 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002171900 printf>) [0 printf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x3]  <function_decl 0000000002111900 printf>) [0 printf S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":40:9 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
@@ -659,7 +659,7 @@ try_optimize_cfg iteration 2
 (code_label 64 63 65 9 13 (nil) [1 uses])
 (note 65 64 66 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
 (insn 66 65 67 9 (set (reg:DI 101 [ thread.1_4 ])
-        (mem/c:DI (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 00000000022cb7e0 thread>) [5 thread+0 S8 A64])) "./lock2.c":45:5 -1
+        (mem/c:DI (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 000000000226b7e0 thread>) [5 thread+0 S8 A64])) "./lock2.c":45:5 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 1 dx)
         (const_int 0 [0])) "./lock2.c":45:5 -1
@@ -668,14 +668,14 @@ try_optimize_cfg iteration 2
         (reg:DI 101 [ thread.1_4 ])) "./lock2.c":45:5 -1
      (nil))
 (call_insn 69 68 70 9 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x43]  <function_decl 000000000239ef00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x43]  <function_decl 000000000233ef00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":45:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
         (expr_list:DI (use (reg:DI 1 dx))
             (nil))))
 (insn 70 69 71 9 (set (reg:DI 102 [ thread1.2_5 ])
-        (mem/c:DI (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 00000000022cb870 thread1>) [5 thread1+0 S8 A64])) "./lock2.c":46:5 -1
+        (mem/c:DI (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 000000000226b870 thread1>) [5 thread1+0 S8 A64])) "./lock2.c":46:5 -1
      (nil))
 (insn 71 70 72 9 (set (reg:DI 1 dx)
         (const_int 0 [0])) "./lock2.c":46:5 -1
@@ -684,21 +684,21 @@ try_optimize_cfg iteration 2
         (reg:DI 102 [ thread1.2_5 ])) "./lock2.c":46:5 -1
      (nil))
 (call_insn 73 72 74 9 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x43]  <function_decl 000000000239ef00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x43]  <function_decl 000000000233ef00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":46:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))
         (expr_list:DI (use (reg:DI 1 dx))
             (nil))))
 (insn 74 73 75 9 (set (reg:DI 115)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)) "./lock2.c":49:5 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)) "./lock2.c":49:5 -1
      (nil))
 (insn 75 74 76 9 (set (reg:DI 2 cx)
         (reg:DI 115)) "./lock2.c":49:5 -1
-     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 00000000022cb750 mutex>)
+     (expr_list:REG_EQUAL (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 000000000226b750 mutex>)
         (nil)))
 (call_insn 76 75 77 9 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_destroy") [flags 0x43]  <function_decl 00000000023a7800 pthread_mutex_destroy>) [0 pthread_mutex_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_destroy") [flags 0x43]  <function_decl 0000000002347800 pthread_mutex_destroy>) [0 pthread_mutex_destroy S1 A8])
             (const_int 32 [0x20]))) "./lock2.c":49:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 2 cx))

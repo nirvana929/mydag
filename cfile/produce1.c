@@ -90,8 +90,6 @@ void *watcher(void *arg)
 /* ========== 主函数 ========== */
 int main(void)
 {
-
-
     sem_init(&sem_empty, 0, BUF_SIZE);
     sem_init(&sem_full,  0, 0);
 
