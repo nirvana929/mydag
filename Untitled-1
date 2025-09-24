@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch cally.py or mycally.py",
+      "program": "${workspaceFolder}/mycally.py",
+      "console": "integratedTerminal",
+        "justmycode": true,
+      "args": ["./cppfile/test1/lock1.c.233r.expand"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "pythonFile",
+      "type": "pickString",
+      "description": "Select the Python file to debug",
+      "options": [
+        "cally.py",
+        "mycally.py"
+      ]
+
+    }
+  ]
+}

@@ -1,0 +1,637 @@
+
+;; Function threadA (threadA, funcdef_no=6, decl_uid=3364, cgraph_uid=7, symbol_order=8)
+
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+Removing jump 22.
+Merging block 5 into block 2...
+Merged blocks 2 and 5.
+Merged 2 and 5 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [4 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "./sem.c":12:26 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":14:5 -1
+     (nil))
+(call_insn 7 6 8 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_wait") [flags 0x41]  <function_decl 0x7fcbc589a100 sem_wait>) [0 sem_wait S1 A8])
+            (const_int 0 [0]))) "./sem.c":14:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 8 7 9 2 (set (reg:SI 82 [ shared_resource.0_1 ])
+        (mem/c:SI (symbol_ref:DI ("shared_resource") [flags 0x2]  <var_decl 0x7fcbc5c7d240 shared_resource>) [1 shared_resource+0 S4 A32])) "./sem.c":17:21 -1
+     (nil))
+(insn 9 8 10 2 (parallel [
+            (set (reg:SI 83 [ _2 ])
+                (plus:SI (reg:SI 82 [ shared_resource.0_1 ])
+                    (const_int 10 [0xa])))
+            (clobber (reg:CC 17 flags))
+        ]) "./sem.c":17:21 -1
+     (nil))
+(insn 10 9 11 2 (set (mem/c:SI (symbol_ref:DI ("shared_resource") [flags 0x2]  <var_decl 0x7fcbc5c7d240 shared_resource>) [1 shared_resource+0 S4 A32])
+        (reg:SI 83 [ _2 ])) "./sem.c":17:21 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:SI 84 [ shared_resource.1_3 ])
+        (mem/c:SI (symbol_ref:DI ("shared_resource") [flags 0x2]  <var_decl 0x7fcbc5c7d240 shared_resource>) [1 shared_resource+0 S4 A32])) "./sem.c":18:5 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:SI 4 si)
+        (reg:SI 84 [ shared_resource.1_3 ])) "./sem.c":18:5 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7fcbc58a7360 *.LC0>)) "./sem.c":18:5 -1
+     (nil))
+(insn 14 13 15 2 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "./sem.c":18:5 -1
+     (nil))
+(call_insn 15 14 16 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fcbc5b4aa00 printf>) [0 __builtin_printf S1 A8])
+            (const_int 0 [0]))) "./sem.c":18:5 -1
+     (nil)
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (expr_list:SI (use (reg:SI 4 si))
+                (nil)))))
+(insn 16 15 17 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":21:5 -1
+     (nil))
+(call_insn 17 16 18 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_post") [flags 0x41]  <function_decl 0x7fcbc589a400 sem_post>) [0 sem_post S1 A8])
+            (const_int 0 [0]))) "./sem.c":21:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 18 17 21 2 (set (reg/f:DI 85 [ _9 ])
+        (const_int 0 [0])) "./sem.c":23:12 -1
+     (nil))
+(insn 21 18 25 2 (set (reg/f:DI 86 [ <retval> ])
+        (reg/f:DI 85 [ _9 ])) "./sem.c":23:12 -1
+     (nil))
+(insn 25 21 26 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 86 [ <retval> ])) "./sem.c":24:1 -1
+     (nil))
+(insn 26 25 0 2 (use (reg/i:DI 0 ax)) "./sem.c":24:1 -1
+     (nil))
+
+;; Function threadB (threadB, funcdef_no=7, decl_uid=3367, cgraph_uid=8, symbol_order=9)
+
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+Removing jump 22.
+Merging block 5 into block 2...
+Merged blocks 2 and 5.
+Merged 2 and 5 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [4 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "./sem.c":27:26 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":29:5 -1
+     (nil))
+(call_insn 7 6 8 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_wait") [flags 0x41]  <function_decl 0x7fcbc589a100 sem_wait>) [0 sem_wait S1 A8])
+            (const_int 0 [0]))) "./sem.c":29:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 8 7 9 2 (set (reg:SI 82 [ shared_resource.2_1 ])
+        (mem/c:SI (symbol_ref:DI ("shared_resource") [flags 0x2]  <var_decl 0x7fcbc5c7d240 shared_resource>) [1 shared_resource+0 S4 A32])) "./sem.c":32:21 -1
+     (nil))
+(insn 9 8 10 2 (parallel [
+            (set (reg:SI 83 [ _2 ])
+                (plus:SI (reg:SI 82 [ shared_resource.2_1 ])
+                    (const_int 20 [0x14])))
+            (clobber (reg:CC 17 flags))
+        ]) "./sem.c":32:21 -1
+     (nil))
+(insn 10 9 11 2 (set (mem/c:SI (symbol_ref:DI ("shared_resource") [flags 0x2]  <var_decl 0x7fcbc5c7d240 shared_resource>) [1 shared_resource+0 S4 A32])
+        (reg:SI 83 [ _2 ])) "./sem.c":32:21 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:SI 84 [ shared_resource.3_3 ])
+        (mem/c:SI (symbol_ref:DI ("shared_resource") [flags 0x2]  <var_decl 0x7fcbc5c7d240 shared_resource>) [1 shared_resource+0 S4 A32])) "./sem.c":33:5 -1
+     (nil))
+(insn 12 11 13 2 (set (reg:SI 4 si)
+        (reg:SI 84 [ shared_resource.3_3 ])) "./sem.c":33:5 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7fcbc58a7750 *.LC1>)) "./sem.c":33:5 -1
+     (nil))
+(insn 14 13 15 2 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "./sem.c":33:5 -1
+     (nil))
+(call_insn 15 14 16 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fcbc5b4aa00 printf>) [0 __builtin_printf S1 A8])
+            (const_int 0 [0]))) "./sem.c":33:5 -1
+     (nil)
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (expr_list:SI (use (reg:SI 4 si))
+                (nil)))))
+(insn 16 15 17 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":36:5 -1
+     (nil))
+(call_insn 17 16 18 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_post") [flags 0x41]  <function_decl 0x7fcbc589a400 sem_post>) [0 sem_post S1 A8])
+            (const_int 0 [0]))) "./sem.c":36:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 18 17 21 2 (set (reg/f:DI 85 [ _9 ])
+        (const_int 0 [0])) "./sem.c":38:12 -1
+     (nil))
+(insn 21 18 25 2 (set (reg/f:DI 86 [ <retval> ])
+        (reg/f:DI 85 [ _9 ])) "./sem.c":38:12 -1
+     (nil))
+(insn 25 21 26 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 86 [ <retval> ])) "./sem.c":39:1 -1
+     (nil))
+(insn 26 25 0 2 (use (reg/i:DI 0 ax)) "./sem.c":39:1 -1
+     (nil))
+
+;; Function threadC (threadC, funcdef_no=8, decl_uid=3370, cgraph_uid=9, symbol_order=10)
+
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+Removing jump 19.
+Merging block 5 into block 2...
+Merged blocks 2 and 5.
+Merged 2 and 5 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -8 [0xfffffffffffffff8])) [4 arg+0 S8 A64])
+        (reg:DI 5 di [ arg ])) "./sem.c":42:26 -1
+     (nil))
+(note 3 2 6 2 NOTE_INSN_FUNCTION_BEG)
+(insn 6 3 7 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":49:5 -1
+     (nil))
+(call_insn 7 6 8 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_wait") [flags 0x41]  <function_decl 0x7fcbc589a100 sem_wait>) [0 sem_wait S1 A8])
+            (const_int 0 [0]))) "./sem.c":49:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 8 7 9 2 (set (reg:SI 82 [ shared_resource.4_1 ])
+        (mem/c:SI (symbol_ref:DI ("shared_resource") [flags 0x2]  <var_decl 0x7fcbc5c7d240 shared_resource>) [1 shared_resource+0 S4 A32])) "./sem.c":50:5 -1
+     (nil))
+(insn 9 8 10 2 (set (reg:SI 4 si)
+        (reg:SI 82 [ shared_resource.4_1 ])) "./sem.c":50:5 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7fcbc58a7ab0 *.LC2>)) "./sem.c":50:5 -1
+     (nil))
+(insn 11 10 12 2 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "./sem.c":50:5 -1
+     (nil))
+(call_insn 12 11 13 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fcbc5b4aa00 printf>) [0 __builtin_printf S1 A8])
+            (const_int 0 [0]))) "./sem.c":50:5 -1
+     (nil)
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:DI (use (reg:DI 5 di))
+            (expr_list:SI (use (reg:SI 4 si))
+                (nil)))))
+(insn 13 12 14 2 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":51:5 -1
+     (nil))
+(call_insn 14 13 15 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_post") [flags 0x41]  <function_decl 0x7fcbc589a400 sem_post>) [0 sem_post S1 A8])
+            (const_int 0 [0]))) "./sem.c":51:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 15 14 18 2 (set (reg/f:DI 83 [ _6 ])
+        (const_int 0 [0])) "./sem.c":53:12 -1
+     (nil))
+(insn 18 15 22 2 (set (reg/f:DI 84 [ <retval> ])
+        (reg/f:DI 83 [ _6 ])) "./sem.c":53:12 -1
+     (nil))
+(insn 22 18 23 2 (set (reg/i:DI 0 ax)
+        (reg/f:DI 84 [ <retval> ])) "./sem.c":54:1 -1
+     (nil))
+(insn 23 22 0 2 (use (reg/i:DI 0 ax)) "./sem.c":54:1 -1
+     (nil))
+
+;; Function main (main, funcdef_no=9, decl_uid=3372, cgraph_uid=10, symbol_order=11)
+
+Partition 0: size 8 align 8
+	task_arg_9
+Partition 3: size 8 align 8
+	thread2
+Partition 2: size 8 align 8
+	thread1
+Partition 1: size 8 align 8
+	thread
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+;; Generating RTL for gimple basic block 4
+
+;; Generating RTL for gimple basic block 5
+
+;; Generating RTL for gimple basic block 6
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Redirecting jump 20 from 6 to 7.
+Merging block 6 into block 5...
+Merged blocks 5 and 6.
+Merged 5 and 6 without moving.
+Removing jump 71.
+Merging block 8 into block 7...
+Merged blocks 7 and 8.
+Merged 7 and 8 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 2 4 3 2 NOTE_INSN_FUNCTION_BEG)
+(insn 3 2 6 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                        (const_int -8 [0xfffffffffffffff8])) [4 D.3397+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (scratch:DI)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "./sem.c":56:12 -1
+     (nil))
+(insn 6 3 7 2 (set (reg:DI 5 di)
+        (const_int 4 [0x4])) "./sem.c":57:21 -1
+     (nil))
+(call_insn 7 6 8 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fcbc5b68f00 malloc>) [0 __builtin_malloc S1 A8])
+            (const_int 0 [0]))) "./sem.c":57:21 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 8 7 9 2 (set (reg/f:DI 88)
+        (reg:DI 0 ax)) "./sem.c":57:21 -1
+     (expr_list:REG_NOALIAS (reg/f:DI 88)
+        (nil)))
+(insn 9 8 10 2 (set (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [5 task_arg+0 S8 A64])
+        (reg/f:DI 88)) "./sem.c":57:21 -1
+     (nil))
+(insn 10 9 11 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -16 [0xfffffffffffffff0])) [5 task_arg+0 S8 A64])
+            (const_int 0 [0]))) "./sem.c":58:8 -1
+     (nil))
+(jump_insn 11 10 12 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 22)
+            (pc))) "./sem.c":58:8 -1
+     (nil)
+ -> 22)
+(note 12 11 13 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 13 12 14 4 (set (reg/f:DI 82 [ stderr.5_1 ])
+        (mem/f/c:DI (symbol_ref:DI ("stderr") [flags 0x40]  <var_decl 0x7fcbc6da7c60 stderr>) [6 stderr+0 S8 A64])) "./sem.c":59:9 -1
+     (nil))
+(insn 14 13 15 4 (set (reg:DI 2 cx)
+        (reg/f:DI 82 [ stderr.5_1 ])) "./sem.c":59:9 -1
+     (nil))
+(insn 15 14 16 4 (set (reg:DI 1 dx)
+        (const_int 19 [0x13])) "./sem.c":59:9 -1
+     (nil))
+(insn 16 15 17 4 (set (reg:DI 4 si)
+        (const_int 1 [0x1])) "./sem.c":59:9 -1
+     (nil))
+(insn 17 16 18 4 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7fcbc58a7ea0 *.LC3>)) "./sem.c":59:9 -1
+     (nil))
+(call_insn 18 17 19 4 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("fwrite") [flags 0x41]  <function_decl 0x7fcbc5b4a500 __builtin_fwrite>) [0 __builtin_fwrite S1 A8])
+            (const_int 0 [0]))) "./sem.c":59:9 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 19 18 20 4 (set (reg:SI 86 [ _5 ])
+        (const_int 1 [0x1])) "./sem.c":60:16 -1
+     (nil))
+(jump_insn 20 19 21 4 (set (pc)
+        (label_ref:DI 68)) "./sem.c":60:16 660 {jump}
+     (nil)
+ -> 68)
+(barrier 21 20 22)
+(code_label 22 21 23 5 8 (nil) [1 uses])
+(note 23 22 24 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(insn 24 23 25 5 (set (reg/f:DI 89)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [5 task_arg+0 S8 A64])) "./sem.c":62:15 -1
+     (nil))
+(insn 25 24 26 5 (set (mem:SI (reg/f:DI 89) [1 *task_arg_9+0 S4 A32])
+        (const_int 41 [0x29])) "./sem.c":62:15 -1
+     (nil))
+(insn 26 25 27 5 (set (reg:SI 1 dx)
+        (const_int 1 [0x1])) "./sem.c":66:5 -1
+     (nil))
+(insn 27 26 28 5 (set (reg:SI 4 si)
+        (const_int 0 [0])) "./sem.c":66:5 -1
+     (nil))
+(insn 28 27 29 5 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":66:5 -1
+     (nil))
+(call_insn 29 28 30 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_init") [flags 0x41]  <function_decl 0x7fcbc5894c00 sem_init>) [0 sem_init S1 A8])
+            (const_int 0 [0]))) "./sem.c":66:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:SI (use (reg:SI 4 si))
+            (expr_list:SI (use (reg:SI 1 dx))
+                (nil)))))
+(insn 30 29 31 5 (set (reg:DI 90)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [5 task_arg+0 S8 A64])) "./sem.c":69:5 -1
+     (nil))
+(insn 31 30 32 5 (parallel [
+            (set (reg:DI 91)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -40 [0xffffffffffffffd8])))
+            (clobber (reg:CC 17 flags))
+        ]) "./sem.c":69:5 -1
+     (nil))
+(insn 32 31 33 5 (set (reg:DI 2 cx)
+        (reg:DI 90)) "./sem.c":69:5 -1
+     (nil))
+(insn 33 32 34 5 (set (reg:DI 1 dx)
+        (symbol_ref:DI ("threadA") [flags 0x3]  <function_decl 0x7fcbc589a600 threadA>)) "./sem.c":69:5 -1
+     (nil))
+(insn 34 33 35 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./sem.c":69:5 -1
+     (nil))
+(insn 35 34 36 5 (set (reg:DI 5 di)
+        (reg:DI 91)) "./sem.c":69:5 -1
+     (nil))
+(call_insn 36 35 37 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fcbc5c86300 pthread_create>) [0 pthread_create S1 A8])
+            (const_int 0 [0]))) "./sem.c":69:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 37 36 38 5 (set (reg:DI 92)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [5 task_arg+0 S8 A64])) "./sem.c":70:5 -1
+     (nil))
+(insn 38 37 39 5 (parallel [
+            (set (reg:DI 93)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -32 [0xffffffffffffffe0])))
+            (clobber (reg:CC 17 flags))
+        ]) "./sem.c":70:5 -1
+     (nil))
+(insn 39 38 40 5 (set (reg:DI 2 cx)
+        (reg:DI 92)) "./sem.c":70:5 -1
+     (nil))
+(insn 40 39 41 5 (set (reg:DI 1 dx)
+        (symbol_ref:DI ("threadB") [flags 0x3]  <function_decl 0x7fcbc589a800 threadB>)) "./sem.c":70:5 -1
+     (nil))
+(insn 41 40 42 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./sem.c":70:5 -1
+     (nil))
+(insn 42 41 43 5 (set (reg:DI 5 di)
+        (reg:DI 93)) "./sem.c":70:5 -1
+     (nil))
+(call_insn 43 42 44 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fcbc5c86300 pthread_create>) [0 pthread_create S1 A8])
+            (const_int 0 [0]))) "./sem.c":70:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 44 43 45 5 (set (reg:DI 94)
+        (mem/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -16 [0xfffffffffffffff0])) [5 task_arg+0 S8 A64])) "./sem.c":71:5 -1
+     (nil))
+(insn 45 44 46 5 (parallel [
+            (set (reg:DI 95)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -24 [0xffffffffffffffe8])))
+            (clobber (reg:CC 17 flags))
+        ]) "./sem.c":71:5 -1
+     (nil))
+(insn 46 45 47 5 (set (reg:DI 2 cx)
+        (reg:DI 94)) "./sem.c":71:5 -1
+     (nil))
+(insn 47 46 48 5 (set (reg:DI 1 dx)
+        (symbol_ref:DI ("threadC") [flags 0x3]  <function_decl 0x7fcbc589aa00 threadC>)) "./sem.c":71:5 -1
+     (nil))
+(insn 48 47 49 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./sem.c":71:5 -1
+     (nil))
+(insn 49 48 50 5 (set (reg:DI 5 di)
+        (reg:DI 95)) "./sem.c":71:5 -1
+     (nil))
+(call_insn 50 49 51 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fcbc5c86300 pthread_create>) [0 pthread_create S1 A8])
+            (const_int 0 [0]))) "./sem.c":71:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (expr_list:DI (use (reg:DI 2 cx))
+                    (nil))))))
+(insn 51 50 52 5 (set (reg:DI 83 [ thread.6_2 ])
+        (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -40 [0xffffffffffffffd8])) [3 thread+0 S8 A64])) "./sem.c":74:5 -1
+     (nil))
+(insn 52 51 53 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./sem.c":74:5 -1
+     (nil))
+(insn 53 52 54 5 (set (reg:DI 5 di)
+        (reg:DI 83 [ thread.6_2 ])) "./sem.c":74:5 -1
+     (nil))
+(call_insn 54 53 55 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fcbc5c86500 pthread_join>) [0 pthread_join S1 A8])
+            (const_int 0 [0]))) "./sem.c":74:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 55 54 56 5 (set (reg:DI 84 [ thread1.7_3 ])
+        (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -32 [0xffffffffffffffe0])) [3 thread1+0 S8 A64])) "./sem.c":75:5 -1
+     (nil))
+(insn 56 55 57 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./sem.c":75:5 -1
+     (nil))
+(insn 57 56 58 5 (set (reg:DI 5 di)
+        (reg:DI 84 [ thread1.7_3 ])) "./sem.c":75:5 -1
+     (nil))
+(call_insn 58 57 59 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fcbc5c86500 pthread_join>) [0 pthread_join S1 A8])
+            (const_int 0 [0]))) "./sem.c":75:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 59 58 60 5 (set (reg:DI 85 [ thread2.8_4 ])
+        (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -24 [0xffffffffffffffe8])) [3 thread2+0 S8 A64])) "./sem.c":76:5 -1
+     (nil))
+(insn 60 59 61 5 (set (reg:DI 4 si)
+        (const_int 0 [0])) "./sem.c":76:5 -1
+     (nil))
+(insn 61 60 62 5 (set (reg:DI 5 di)
+        (reg:DI 85 [ thread2.8_4 ])) "./sem.c":76:5 -1
+     (nil))
+(call_insn 62 61 63 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fcbc5c86500 pthread_join>) [0 pthread_join S1 A8])
+            (const_int 0 [0]))) "./sem.c":76:5 -1
+     (nil)
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 63 62 64 5 (set (reg:DI 5 di)
+        (symbol_ref:DI ("semaphore") [flags 0x2]  <var_decl 0x7fcbc5c7d2d0 semaphore>)) "./sem.c":79:5 -1
+     (nil))
+(call_insn 64 63 65 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("sem_destroy") [flags 0x41]  <function_decl 0x7fcbc5894d00 sem_destroy>) [0 sem_destroy S1 A8])
+            (const_int 0 [0]))) "./sem.c":79:5 -1
+     (expr_list:REG_EH_REGION (const_int 0 [0])
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(insn 65 64 68 5 (set (reg:SI 86 [ _5 ])
+        (const_int 0 [0])) "./sem.c":81:12 -1
+     (nil))
+(code_label 68 65 69 7 10 (nil) [1 uses])
+(note 69 68 70 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(insn 70 69 74 7 (set (reg:SI 87 [ <retval> ])
+        (reg:SI 86 [ _5 ])) -1
+     (nil))
+(insn 74 70 75 7 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                                (const_int -8 [0xfffffffffffffff8])) [4 D.3397+0 S8 A64])
+                        (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (scratch:DI))
+        ]) "./sem.c":82:1 -1
+     (nil))
+(jump_insn 75 74 82 7 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 78)
+            (pc))) "./sem.c":82:1 -1
+     (nil)
+ -> 78)
+(note 82 75 76 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(call_insn 76 82 77 9 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fcbc58a4100 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "./sem.c":82:1 -1
+     (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+        (expr_list:REG_NORETURN (const_int 0 [0])
+            (expr_list:REG_EH_REGION (const_int 0 [0])
+                (nil))))
+    (nil))
+(barrier 77 76 78)
+(code_label 78 77 83 10 11 (nil) [1 uses])
+(note 83 78 79 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+(insn 79 83 80 10 (set (reg/i:SI 0 ax)
+        (reg:SI 87 [ <retval> ])) "./sem.c":82:1 -1
+     (nil))
+(insn 80 79 0 10 (use (reg/i:SI 0 ax)) "./sem.c":82:1 -1
+     (nil))
