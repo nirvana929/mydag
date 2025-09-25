@@ -16,16 +16,20 @@ gcc ./main.c \
  -I./build/include/ -I./include -I./ \
  -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
  -fdump-rtl-expand
+ gcc ./cfile/produce.c \
+ -I./build/include/ -I./include -I./ \
+ -L./build/lib/ -Wl,-Bstatic -levent -levent_core -Wl,-Bdynamic \
+ -fdump-rtl-expand
 
  python3 cally.py ./main.c.234r.expand > mydot.txt
  python3 mycally.py ./file/simplified.expand |\dot -Grankdir=LR -Tpng -o hw5_5.png
 
- python3 ./file/mycally.py ./cfile/produce1.c.233r.expand --file ..\cfile\produce1.c |\dot -Grankdir=LR -Tpng -o ./produce_4.png
+ python3 ./file/mycally.py ./cfile/produce1.c.233r.expand --file ..\cfile\produce1.c |\dot -Grankdir=LR -Tpng -o ./produce_3.png
 
- python3 ./file/mycally.py ./cfile/produce1.c.233r.expand |\dot -Grankdir=LR -Tpng -o ./cfile/c_img/produce_4.png
+ python3 ./mycally.py ./cfile/produce1.c.233r_test.expand |\dot -Grankdir=LR -Tpng -o ./cfile/c_img/produce_4.png
 
 
-
+ python3 ./mycally.py ./cfile/produce1.c.233r.expand > ./cfile/test/test.txt
 
 
 

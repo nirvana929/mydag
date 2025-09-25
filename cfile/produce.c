@@ -103,8 +103,8 @@ int main(void)
 
     /* 等待所有线程结束 */
     for (int i = 0; i < PRODUCER_COUNT; ++i) pthread_join(prod[i], NULL);
-    pthread_join(cons,  NULL);
     pthread_join(watch, NULL);
+    pthread_join(cons,  NULL);
 
     /* 清理资源 */
     sem_destroy(&sem_empty);

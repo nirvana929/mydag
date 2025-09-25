@@ -544,7 +544,7 @@ def full_call_graph(functions, **kwargs):
                 if (not no_externs or caller in functions) and \
                         (exclude is None or
                          re.match(exclude, caller) is None):
-                    join_search = re.search(myjoin, caller)
+                    join_search = re.search(myjoin, caller)#处理pthread——join节点
                     if join_search is not None:
                         myg_thread = functions[func]["myinfo"][caller]
                         myg_task = functions[func]["myinfo"][myg_thread]
@@ -617,7 +617,7 @@ def full_call_graph(functions, **kwargs):
                             count_switch=0
                             prenum=1
                         else:
-                            print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
+                              print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
                     printed_functions += 1
                     pre = caller
             if printed_functions == 0:

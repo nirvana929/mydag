@@ -7,7 +7,9 @@
       "name": "Launch cally.py or mycally.py",
       "program": "${workspaceFolder}/mycally.py",
       "console": "integratedTerminal",
-      "args": ["./test/main.c.233r.expand"]
+      "args": [
+        "./cfile/a-produce1.c.266r.expand"
+      ]
     }
   ],
   "inputs": [
@@ -19,7 +21,6 @@
         "cally.py",
         "mycally.py"
       ]
-
     }
   ]
 }
