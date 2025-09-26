@@ -1,0 +1,32 @@
+digraph G {
+    rankdir=LR;  // 水平布局，从左到右
+    node [shape=ellipse];
+
+    // 节点和边
+    v1 -> v2;
+    v2 -> v3;
+    v3 -> v4;
+    v4 -> v5;
+    v5 -> v6;
+    v6 -> v7;
+    v7 -> v8;
+    v8 -> v9;
+    v9 -> v10;
+    v10 -> v11;
+
+    // 上层分支 (虚线)
+    v4 -> v12 [style=dashed];
+    v12 -> v13 -> v14 -> v7 [style=dotted];
+
+    // 下层分支 (虚线)
+    v5 -> v15 [style=dashed];
+    v15 -> v16 -> v17 -> v9 [style=dotted];
+
+    // 交叉引用 (虚线)
+    v7 -> v13 [style=dashed];
+    v9 -> v16 [style=dashed];
+
+    // 额外分支
+    v2 -> v18 [style=dashed];
+    v18 -> v19 -> v20 -> v8 [style=dotted];
+}
