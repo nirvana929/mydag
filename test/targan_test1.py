@@ -153,9 +153,7 @@ class TarjanGUI:
                         # 连接首尾节点
                         self.G.add_edge(first_node, cycle_name)  # 首节点连接环
                         self.G.add_edge(cycle_name, last_node)  # 尾节点连接环
-                        for node in nodes[1:-1]:  # 中间节点连接环
-                            self.G.add_edge(node, cycle_name)
-                            self.G.add_edge(cycle_name, node)
+
 
     def show_semaphore_structure(self):
         """显示信号量数据结构"""
@@ -188,7 +186,7 @@ class TarjanGUI:
             for u, v in self.G.edges():
                 f.write(f'  "{u}" -> "{v}";\n')
             for node in self.G.nodes():
-                if node in node_colors:
+                if node in node_colors:  
                     f.write(f'  "{node}" [style=filled, fillcolor="{node_colors[node]}"];\n')
             
             f.write("}\n")
