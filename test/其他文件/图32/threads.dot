@@ -1,0 +1,46 @@
+digraph G {
+  rankdir=LR;
+  node [shape=box, style=filled];
+  "Main/Start" -> "Main/End";
+  "Main/End" -> "Thread1/1_1";
+  "Main/End" -> "Thread2/2_1";
+  "Main/End" -> "Thread3/3_1";
+  "Thread1/1_1" -> "Thread1/1_2";
+  "Thread1/1_2" -> "Thread1/1_3";
+  "Thread1/1_3" -> "Thread1/1_4";
+  "Thread1/1_3" -> "Thread2/2_1";
+  "Thread2/2_1" -> "Thread2/2_2";
+  "Thread2/2_2" -> "Thread2/2_3";
+  "Thread2/2_3" -> "Thread2/2_4";
+  "Thread2/2_3" -> "Thread3/3_1";
+  "Thread3/3_1" -> "Thread3/3_2";
+  "Thread3/3_2" -> "Thread3/3_3";
+  "Thread3/3_3" -> "Thread3/3_4";
+  "Thread3/3_3" -> "Thread1/1_1";
+  "Main/Start" [fillcolor="#64B5F6"];
+  "Main/End" [fillcolor="#64B5F6"];
+  "Thread1/1_1" [fillcolor="#81C784"];
+  "Thread1/1_2" [fillcolor="#81C784"];
+  "Thread1/1_3" [fillcolor="#81C784"];
+  "Thread1/1_4" [fillcolor="#81C784"];
+  "Thread2/2_1" [fillcolor="#FFD54F"];
+  "Thread2/2_2" [fillcolor="#FFD54F"];
+  "Thread2/2_3" [fillcolor="#FFD54F"];
+  "Thread2/2_4" [fillcolor="#FFD54F"];
+  "Thread3/3_1" [fillcolor="#BA68C8"];
+  "Thread3/3_2" [fillcolor="#BA68C8"];
+  "Thread3/3_3" [fillcolor="#BA68C8"];
+  "Thread3/3_4" [fillcolor="#BA68C8"];
+  subgraph cluster_Cycle1 {
+    label="Cycle1"; style=dashed; color="#90A4AE";
+    "Thread3/3_3" [fillcolor="#BA68C8"];
+    "Thread3/3_1" [fillcolor="#BA68C8"];
+    "Thread3/3_2" [fillcolor="#BA68C8"];
+    "Thread1/1_1" [fillcolor="#81C784"];
+    "Thread1/1_3" [fillcolor="#81C784"];
+    "Thread1/1_2" [fillcolor="#81C784"];
+    "Thread2/2_2" [fillcolor="#FFD54F"];
+    "Thread2/2_1" [fillcolor="#FFD54F"];
+    "Thread2/2_3" [fillcolor="#FFD54F"];
+  }
+}
