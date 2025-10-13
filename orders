@@ -30,7 +30,7 @@ gcc ./main.c \
  python3 ./mycally.py ./cfile/produce1.c.233r_test.expand > ./cfile/c_img/produce_4.dot
 
  python3 ./mycally.py ./cfile/simpletest.c.233r.expand |\dot -Grankdir=LR -Tpng -o ./cfile/c_img/produce_5.png
- python3 ./mycally.py ./cfile/simpletest.c.233r.expand > ./cfile/c_img/produce_4.dot
+ python3 ./mycally.py ./cfile/simpletest.c.233r.expand > ./cfile/c_img/simpletest_4.dot
 
  python3 ./mycally.py ./cfile/produce1.c.233r.expand > ./cfile/test/test.txt
 

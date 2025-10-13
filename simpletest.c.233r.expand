@@ -55,10 +55,10 @@ try_optimize_cfg iteration 2
 (code_label 27 8 9 4 3 (nil) [1 uses])
 (note 9 27 10 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
 (insn 10 9 11 4 (set (reg:DI 5 di)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fe445e34480 mutex>)) "./cfile/simpletest.c":12:9 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fa1d933f480 mutex>)) "./cfile/simpletest.c":12:9 -1
      (nil))
 (call_insn 11 10 12 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x41]  <function_decl 0x7fe445e5b200 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x41]  <function_decl 0x7fa1d9366200 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
             (const_int 0 [0]))) "./cfile/simpletest.c":12:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -82,13 +82,13 @@ try_optimize_cfg iteration 2
         (reg:SI 82 [ _1 ])) "./cfile/simpletest.c":13:9 -1
      (nil))
 (insn 15 14 16 4 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7fe445acf2d0 *.LC0>)) "./cfile/simpletest.c":13:9 -1
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7fa1d8fda2d0 *.LC0>)) "./cfile/simpletest.c":13:9 -1
      (nil))
 (insn 16 15 17 4 (set (reg:QI 0 ax)
         (const_int 0 [0])) "./cfile/simpletest.c":13:9 -1
      (nil))
 (call_insn 17 16 18 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fe445d48a00 printf>) [0 __builtin_printf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fa1d9253a00 printf>) [0 __builtin_printf S1 A8])
             (const_int 0 [0]))) "./cfile/simpletest.c":13:9 -1
      (nil)
     (expr_list (use (reg:QI 0 ax))
@@ -96,10 +96,10 @@ try_optimize_cfg iteration 2
             (expr_list:SI (use (reg:SI 4 si))
                 (nil)))))
 (insn 18 17 19 4 (set (reg:DI 5 di)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fe445e34480 mutex>)) "./cfile/simpletest.c":14:9 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fa1d933f480 mutex>)) "./cfile/simpletest.c":14:9 -1
      (nil))
 (call_insn 19 18 20 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x41]  <function_decl 0x7fe445e5b400 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x41]  <function_decl 0x7fa1d9366400 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
             (const_int 0 [0]))) "./cfile/simpletest.c":14:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -109,16 +109,16 @@ try_optimize_cfg iteration 2
         (const_int 1 [0x1])) "./cfile/simpletest.c":16:9 -1
      (nil))
 (call_insn 21 20 22 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("sleep") [flags 0x41]  <function_decl 0x7fe445e8fb00 sleep>) [0 sleep S1 A8])
+        (call (mem:QI (symbol_ref:DI ("sleep") [flags 0x41]  <function_decl 0x7fa1d939ab00 sleep>) [0 sleep S1 A8])
             (const_int 0 [0]))) "./cfile/simpletest.c":16:9 -1
      (nil)
     (expr_list:SI (use (reg:SI 5 di))
         (nil)))
 (insn 22 21 23 4 (set (reg:DI 5 di)
-        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fe445e34510 sem>)) "./cfile/simpletest.c":17:9 -1
+        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fa1d933f510 sem>)) "./cfile/simpletest.c":17:9 -1
      (nil))
 (call_insn 23 22 24 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("sem_post") [flags 0x41]  <function_decl 0x7fe445e84e00 sem_post>) [0 sem_post S1 A8])
+        (call (mem:QI (symbol_ref:DI ("sem_post") [flags 0x41]  <function_decl 0x7fa1d938fe00 sem_post>) [0 sem_post S1 A8])
             (const_int 0 [0]))) "./cfile/simpletest.c":17:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -217,10 +217,10 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "./cfile/simpletest.c":25:5 -1
      (nil))
 (insn 7 6 8 2 (set (reg:DI 5 di)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fe445e34480 mutex>)) "./cfile/simpletest.c":25:5 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fa1d933f480 mutex>)) "./cfile/simpletest.c":25:5 -1
      (nil))
 (call_insn 8 7 9 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_init") [flags 0x41]  <function_decl 0x7fe445e53f00 pthread_mutex_init>) [0 pthread_mutex_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_init") [flags 0x41]  <function_decl 0x7fa1d935ef00 pthread_mutex_init>) [0 pthread_mutex_init S1 A8])
             (const_int 0 [0]))) "./cfile/simpletest.c":25:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -234,10 +234,10 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "./cfile/simpletest.c":26:5 -1
      (nil))
 (insn 11 10 12 2 (set (reg:DI 5 di)
-        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fe445e34510 sem>)) "./cfile/simpletest.c":26:5 -1
+        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fa1d933f510 sem>)) "./cfile/simpletest.c":26:5 -1
      (nil))
 (call_insn 12 11 13 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("sem_init") [flags 0x41]  <function_decl 0x7fe445e84600 sem_init>) [0 sem_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("sem_init") [flags 0x41]  <function_decl 0x7fa1d938f600 sem_init>) [0 sem_init S1 A8])
             (const_int 0 [0]))) "./cfile/simpletest.c":26:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -250,23 +250,23 @@ try_optimize_cfg iteration 2
                 (plus:DI (reg/f:DI 77 virtual-stack-vars)
                     (const_int -16 [0xfffffffffffffff0])))
             (clobber (reg:CC 17 flags))
-        ]) "./cfile/simpletest.c":28:5 -1
+        ]) "./cfile/simpletest.c":27:5 -1
      (nil))
 (insn 14 13 15 2 (set (reg:DI 2 cx)
-        (const_int 0 [0])) "./cfile/simpletest.c":28:5 -1
+        (const_int 0 [0])) "./cfile/simpletest.c":27:5 -1
      (nil))
 (insn 15 14 16 2 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker") [flags 0x3]  <function_decl 0x7fe445ac4400 worker>)) "./cfile/simpletest.c":28:5 -1
+        (symbol_ref:DI ("worker") [flags 0x3]  <function_decl 0x7fa1d8fcf400 worker>)) "./cfile/simpletest.c":27:5 -1
      (nil))
 (insn 16 15 17 2 (set (reg:DI 4 si)
-        (const_int 0 [0])) "./cfile/simpletest.c":28:5 -1
+        (const_int 0 [0])) "./cfile/simpletest.c":27:5 -1
      (nil))
 (insn 17 16 18 2 (set (reg:DI 5 di)
-        (symbol_ref:DI ("tid") [flags 0x2]  <var_decl 0x7f234cd172d0 thread1>)) "./main.c":69:9 -1
+        (reg:DI 86)) "./cfile/simpletest.c":27:5 -1
      (nil))
 (call_insn 18 17 19 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe445e38900 pthread_create>) [0 pthread_create S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":28:5 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fa1d9343900 pthread_create>) [0 pthread_create S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":27:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
     (expr_list:DI (use (reg:DI 5 di))
@@ -276,71 +276,71 @@ try_optimize_cfg iteration 2
                     (nil))))))
 (insn 19 18 20 2 (set (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
                 (const_int -20 [0xffffffffffffffec])) [3 i+0 S4 A32])
-        (const_int 0 [0])) "./cfile/simpletest.c":30:14 -1
+        (const_int 0 [0])) "./cfile/simpletest.c":29:14 -1
      (nil))
 (jump_insn 20 19 21 2 (set (pc)
-        (label_ref 36)) "./cfile/simpletest.c":30:5 -1
+        (label_ref 36)) "./cfile/simpletest.c":29:5 -1
      (nil)
  -> 36)
 (barrier 21 20 38)
 (code_label 38 21 22 4 7 (nil) [1 uses])
 (note 22 38 23 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
 (insn 23 22 24 4 (set (reg:DI 5 di)
-        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fe445e34510 sem>)) "./cfile/simpletest.c":31:9 -1
+        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fa1d933f510 sem>)) "./cfile/simpletest.c":30:9 -1
      (nil))
 (call_insn 24 23 25 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("sem_wait") [flags 0x41]  <function_decl 0x7fe445e84b00 sem_wait>) [0 sem_wait S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":31:9 -1
+        (call (mem:QI (symbol_ref:DI ("sem_wait") [flags 0x41]  <function_decl 0x7fa1d938fb00 sem_wait>) [0 sem_wait S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":30:9 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 25 24 26 4 (set (reg:DI 5 di)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fe445e34480 mutex>)) "./cfile/simpletest.c":32:9 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fa1d933f480 mutex>)) "./cfile/simpletest.c":31:9 -1
      (nil))
 (call_insn 26 25 27 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x41]  <function_decl 0x7fe445e5b200 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":32:9 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_lock") [flags 0x41]  <function_decl 0x7fa1d9366200 pthread_mutex_lock>) [0 pthread_mutex_lock S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":31:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 27 26 28 4 (set (reg:SI 87)
         (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
-                (const_int -20 [0xffffffffffffffec])) [3 i+0 S4 A32])) "./cfile/simpletest.c":33:9 -1
+                (const_int -20 [0xffffffffffffffec])) [3 i+0 S4 A32])) "./cfile/simpletest.c":32:9 -1
      (nil))
 (insn 28 27 29 4 (parallel [
             (set (reg:SI 82 [ _1 ])
                 (plus:SI (reg:SI 87)
                     (const_int 1 [0x1])))
             (clobber (reg:CC 17 flags))
-        ]) "./cfile/simpletest.c":33:9 -1
+        ]) "./cfile/simpletest.c":32:9 -1
      (expr_list:REG_EQUAL (plus:SI (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
                     (const_int -20 [0xffffffffffffffec])) [3 i+0 S4 A32])
             (const_int 1 [0x1]))
         (nil)))
 (insn 29 28 30 4 (set (reg:SI 4 si)
-        (reg:SI 82 [ _1 ])) "./cfile/simpletest.c":33:9 -1
+        (reg:SI 82 [ _1 ])) "./cfile/simpletest.c":32:9 -1
      (nil))
 (insn 30 29 31 4 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7fe445acf990 *.LC1>)) "./cfile/simpletest.c":33:9 -1
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7fa1d8fda990 *.LC1>)) "./cfile/simpletest.c":32:9 -1
      (nil))
 (insn 31 30 32 4 (set (reg:QI 0 ax)
-        (const_int 0 [0])) "./cfile/simpletest.c":33:9 -1
+        (const_int 0 [0])) "./cfile/simpletest.c":32:9 -1
      (nil))
 (call_insn 32 31 33 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fe445d48a00 printf>) [0 __builtin_printf S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":33:9 -1
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fa1d9253a00 printf>) [0 __builtin_printf S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":32:9 -1
      (nil)
     (expr_list (use (reg:QI 0 ax))
         (expr_list:DI (use (reg:DI 5 di))
             (expr_list:SI (use (reg:SI 4 si))
                 (nil)))))
 (insn 33 32 34 4 (set (reg:DI 5 di)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fe445e34480 mutex>)) "./cfile/simpletest.c":34:9 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fa1d933f480 mutex>)) "./cfile/simpletest.c":33:9 -1
      (nil))
 (call_insn 34 33 35 4 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x41]  <function_decl 0x7fe445e5b400 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":34:9 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_unlock") [flags 0x41]  <function_decl 0x7fa1d9366400 pthread_mutex_unlock>) [0 pthread_mutex_unlock S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":33:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
     (expr_list:DI (use (reg:DI 5 di))
@@ -352,71 +352,71 @@ try_optimize_cfg iteration 2
                             (const_int -20 [0xffffffffffffffec])) [3 i+0 S4 A32])
                     (const_int 1 [0x1])))
             (clobber (reg:CC 17 flags))
-        ]) "./cfile/simpletest.c":30:29 -1
+        ]) "./cfile/simpletest.c":29:29 -1
      (nil))
 (code_label 36 35 37 5 6 (nil) [1 uses])
 (note 37 36 41 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
 (insn 41 37 42 5 (set (reg:CCGC 17 flags)
         (compare:CCGC (mem/c:SI (plus:DI (reg/f:DI 77 virtual-stack-vars)
                     (const_int -20 [0xffffffffffffffec])) [3 i+0 S4 A32])
-            (const_int 4 [0x4]))) "./cfile/simpletest.c":30:5 -1
+            (const_int 4 [0x4]))) "./cfile/simpletest.c":29:5 -1
      (nil))
 (jump_insn 42 41 43 5 (set (pc)
         (if_then_else (le (reg:CCGC 17 flags)
                 (const_int 0 [0]))
             (label_ref 38)
-            (pc))) "./cfile/simpletest.c":30:5 -1
+            (pc))) "./cfile/simpletest.c":29:5 -1
      (nil)
  -> 38)
 (note 43 42 44 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
 (insn 44 43 45 6 (set (reg:DI 83 [ tid.0_2 ])
         (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
-                (const_int -16 [0xfffffffffffffff0])) [7 tid+0 S8 A64])) "./cfile/simpletest.c":37:5 -1
+                (const_int -16 [0xfffffffffffffff0])) [7 tid+0 S8 A64])) "./cfile/simpletest.c":36:5 -1
      (nil))
 (insn 45 44 46 6 (set (reg:DI 4 si)
-        (const_int 0 [0])) "./cfile/simpletest.c":37:5 -1
+        (const_int 0 [0])) "./cfile/simpletest.c":36:5 -1
      (nil))
 (insn 46 45 47 6 (set (reg:DI 5 di)
-        (symbol_ref:DI ("tid") [flags 0x3]  <function_decl 0x7fe445ac4400 worker>)) "./cfile/simpletest.c":28:5 -1
+        (reg:DI 83 [ tid.0_2 ])) "./cfile/simpletest.c":36:5 -1
      (nil))
 (call_insn 47 46 48 6 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe445e38b00 pthread_join>) [0 pthread_join S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":37:5 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fa1d9343b00 pthread_join>) [0 pthread_join S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":36:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (expr_list:DI (use (reg:DI 4 si))
             (nil))))
 (insn 48 47 49 6 (set (reg:DI 5 di)
-        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fe445e34510 sem>)) "./cfile/simpletest.c":39:5 -1
+        (symbol_ref:DI ("sem") [flags 0x2]  <var_decl 0x7fa1d933f510 sem>)) "./cfile/simpletest.c":38:5 -1
      (nil))
 (call_insn 49 48 50 6 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("sem_destroy") [flags 0x41]  <function_decl 0x7fe445e84700 sem_destroy>) [0 sem_destroy S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":39:5 -1
+        (call (mem:QI (symbol_ref:DI ("sem_destroy") [flags 0x41]  <function_decl 0x7fa1d938f700 sem_destroy>) [0 sem_destroy S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":38:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 50 49 51 6 (set (reg:DI 5 di)
-        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fe445e34480 mutex>)) "./cfile/simpletest.c":40:5 -1
+        (symbol_ref:DI ("mutex") [flags 0x2]  <var_decl 0x7fa1d933f480 mutex>)) "./cfile/simpletest.c":39:5 -1
      (nil))
 (call_insn 51 50 52 6 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_mutex_destroy") [flags 0x41]  <function_decl 0x7fe445e5b000 pthread_mutex_destroy>) [0 pthread_mutex_destroy S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":40:5 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_mutex_destroy") [flags 0x41]  <function_decl 0x7fa1d9366000 pthread_mutex_destroy>) [0 pthread_mutex_destroy S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":39:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 52 51 53 6 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7fe445acfa20 *.LC2>)) "./cfile/simpletest.c":41:5 -1
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7fa1d8fdaa20 *.LC2>)) "./cfile/simpletest.c":40:5 -1
      (nil))
 (call_insn 53 52 54 6 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe445d49100 __builtin_puts>) [0 __builtin_puts S1 A8])
-            (const_int 0 [0]))) "./cfile/simpletest.c":41:5 -1
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa1d9254100 __builtin_puts>) [0 __builtin_puts S1 A8])
+            (const_int 0 [0]))) "./cfile/simpletest.c":40:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 54 53 57 6 (set (reg:SI 84 [ _14 ])
-        (const_int 0 [0])) "./cfile/simpletest.c":42:12 -1
+        (const_int 0 [0])) "./cfile/simpletest.c":41:12 -1
      (nil))
 (insn 57 54 61 6 (set (reg:SI 85 [ <retval> ])
         (reg:SI 84 [ _14 ])) -1
@@ -429,18 +429,18 @@ try_optimize_cfg iteration 2
                         (mem/v/f:DI (const_int 40 [0x28]) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
                     ] UNSPEC_SP_TEST))
             (clobber (scratch:DI))
-        ]) "./cfile/simpletest.c":43:1 -1
+        ]) "./cfile/simpletest.c":42:1 -1
      (nil))
 (jump_insn 62 61 69 6 (set (pc)
         (if_then_else (eq (reg:CCZ 17 flags)
                 (const_int 0 [0]))
             (label_ref 65)
-            (pc))) "./cfile/simpletest.c":43:1 -1
+            (pc))) "./cfile/simpletest.c":42:1 -1
      (nil)
  -> 65)
 (note 69 62 63 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
-(call_insn 63 69 64 9 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fe445ad2700 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
-        (const_int 0 [0])) "./cfile/simpletest.c":43:1 -1
+(call_insn 63 69 64 9 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fa1d8fdd700 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "./cfile/simpletest.c":42:1 -1
      (expr_list:REG_ARGS_SIZE (const_int 0 [0])
         (expr_list:REG_NORETURN (const_int 0 [0])
             (expr_list:REG_EH_REGION (const_int 0 [0])
@@ -450,7 +450,7 @@ try_optimize_cfg iteration 2
 (code_label 65 64 70 10 9 (nil) [1 uses])
 (note 70 65 66 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
 (insn 66 70 67 10 (set (reg/i:SI 0 ax)
-        (reg:SI 85 [ <retval> ])) "./cfile/simpletest.c":43:1 -1
+        (reg:SI 85 [ <retval> ])) "./cfile/simpletest.c":42:1 -1
      (nil))
-(insn 67 66 0 10 (use (reg/i:SI 0 ax)) "./cfile/simpletest.c":43:1 -1
+(insn 67 66 0 10 (use (reg/i:SI 0 ax)) "./cfile/simpletest.c":42:1 -1
      (nil))

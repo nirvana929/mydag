@@ -8,7 +8,7 @@
       "program": "${workspaceFolder}/mycally.py",
       "console": "integratedTerminal",
       "args": [
-        "./cfile/a-produce1.c.266r.expand"
+        "./cfile/simpletest.c.233r.expand"
       ]
     }
   ],

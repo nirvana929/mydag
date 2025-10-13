@@ -24,8 +24,7 @@ int main()
     pthread_t tid;
     pthread_mutex_init(&mutex, NULL);
     sem_init(&sem, 0, 0);  // 初始化信号量，初值0
-
-      (&tid, NULL, worker, NULL);
+    pthread_create(&tid, NULL, worker, NULL);
 
     for (int i = 0; i < 5; i++) {
         sem_wait(&sem);                // 等待工作完成信号
