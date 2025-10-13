@@ -27,7 +27,10 @@ gcc ./main.c \
  python3 ./file/mycally.py ./cfile/produce1.c.233r.expand --file ..\cfile\produce1.c |\dot -Grankdir=LR -Tpng -o ./produce_3.png
 
  python3 ./mycally.py ./cfile/produce1.c.233r_test.expand |\dot -Grankdir=LR -Tpng -o ./cfile/c_img/produce_4.png
+ python3 ./mycally.py ./cfile/produce1.c.233r_test.expand > ./cfile/c_img/produce_4.dot
 
+ python3 ./mycally.py ./cfile/simpletest.c.233r.expand |\dot -Grankdir=LR -Tpng -o ./cfile/c_img/produce_5.png
+ python3 ./mycally.py ./cfile/simpletest.c.233r.expand > ./cfile/c_img/produce_4.dot
 
  python3 ./mycally.py ./cfile/produce1.c.233r.expand > ./cfile/test/test.txt
 
@@ -56,4 +59,4 @@ gcc ./task.cpp \
 
        "args": ["./cppfile/test1/lock1.c.233r.expand"]
 
-gcc -fdump-rtl-expand ./lock1.c
+gcc -fdump-rtl-expand ./cfile/simpletest.c

@@ -45,7 +45,7 @@ void *producer(void *arg)
 }
 
 /* ========== 消费者线程 ========== */
-void *consumer(void *arg)
+void *consumer(void *arg) 
 {
     while (1) {
         sem_wait(&sem_full);                   /* -- 已填 */

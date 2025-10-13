@@ -325,7 +325,7 @@ class TarjanGUI:
             for t, nds in thr.items():
                 info += f"  {t}: {', '.join(nds)}\n"
         messagebox.showinfo("信号量结构", info)
-
+ 
     def _set_status(self, text):
         self.status.config(text=text)
 
