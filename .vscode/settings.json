@@ -1,0 +1,10 @@
+{
+  "http.proxy": "http://192.168.109.1:7890",
+  "https.proxy": "http://192.168.109.1:7890",
+  "http.proxyStrictSSL": false,
+  "remote.SSH.remoteServerListenOnSocket": false,
+  "terminal.integrated.env.linux": {
+    "http_proxy": "http://192.168.109.1:7890",
+    "https_proxy": "http://192.168.109.1:7890"
+  }
+}
