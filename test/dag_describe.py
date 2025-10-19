@@ -1,112 +1,183 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Tarjan 强连通分量可视化系统（整合版，信号量管线）
+"""
+Tarjan 强连通分量可视化（整合版）
 
-import os
-import re
+核心功能
+---------
+1. 读取 DOT / TXT（circle）文件，展示原始图。
+2. 查看互斥锁：根据 TXT 中的互斥量描述，标记 lock→unlock 区域。
+3. 生成信号量图：叠加 sem_post→sem_wait 虚线边，运行 Tarjan，并展示线程矩形框。
+4. 显示互斥锁 / 信号量信息（包含可选的源代码行号范围）。
+
+交互规范
+---------
+- 左侧按钮均为主功能；右侧为“展示区 + 子功能区”。
+- 无子功能时隐藏子功能区；有子功能时显示对应按钮。
+- “查看互斥锁”点击后默认展示互斥锁图；子功能可切换查看文本信息。
+- “生成信号量图”默认展示信号量图；子功能提供原始图、Tarjan 图、线程图、信息以及线程颜色图例。
+"""
+
+from __future__ import annotations
+
+import hashlib
 import json
+import os
 import random
 import subprocess
-import hashlib
 import tkinter as tk
+from dataclasses import dataclass
+from pathlib import Path
 from tkinter import filedialog, messagebox
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 import networkx as nx
 from PIL import Image, ImageTk
 
 try:
-    import pydot
-except Exception:
+    import pydot  # type: ignore
+except Exception:  # pragma: no cover - 可选依赖
     pydot = None
 
 
-def _norm(s: str) -> str:
-    return s.strip().strip('"').strip("'")
+# --------------------------------------------------------------------------- #
+# 工具函数
+# --------------------------------------------------------------------------- #
+
+def _norm(text: str) -> str:
+    """统一去除首尾空白与引号。"""
+    return text.strip().strip('"').strip("'").strip()
 
 
 def _suffix_num(name: str) -> int:
+    """提取节点名末尾数字，若无则返回 0，用于稳定排序。"""
     tail = name.split('/')[-1]
-    m = re.findall(r"(\d+)$", tail)
-    return int(m[-1]) if m else 0
+    digits = ''.join(ch for ch in tail if ch.isdigit())
+    return int(digits) if digits else 0
 
 
-def _md5_path(path: str) -> str:
-    return hashlib.md5(os.path.abspath(path).encode()).hexdigest()
+def _edge_attr_string(attrs: Dict[str, str]) -> str:
+    """将边属性转换为 Graphviz 属性字符串。"""
+    if not attrs:
+        return ""
+    parts = []
+    for key, val in attrs.items():
+        if val is None:
+            continue
+        clean = _norm(str(val))
+        parts.append(f'{key}="{clean}"')
+    return " [" + ", ".join(parts) + "]" if parts else ""
 
+
+def _hash_path(path: str) -> str:
+    return hashlib.md5(os.path.abspath(path).encode("utf-8")).hexdigest()
+
+
+# --------------------------------------------------------------------------- #
+# 数据结构
+# --------------------------------------------------------------------------- #
+
+@dataclass
+class MutexRecord:
+    lock: str
+    unlock: str
+    var: str
+    idx: str
+    lock_line: Optional[int]
+    unlock_line: Optional[int]
+    covered: List[str]
+
+
+@dataclass
+class SemRecord:
+    post: str
+    wait: str
+    var: str
+    idx: str
+    post_line: Optional[int]
+    wait_line: Optional[int]
+
+
+# --------------------------------------------------------------------------- #
+# 主界面
+# --------------------------------------------------------------------------- #
 
 class TarjanGUI:
-    def __init__(self, root):
+    def __init__(self, root: tk.Tk) -> None:
         self.root = root
         self.root.title("Tarjan 强连通分量可视化（整合版）")
         self.root.geometry("1380x860")
         self.root.configure(bg="#ECEFF1")
 
-        # 目录
-        self.dot_dir = os.path.join(os.getcwd(), "配置文件")
-        self.output_root = os.path.join(os.getcwd(), "dag图")
-        os.makedirs(self.output_root, exist_ok=True)
+        # 工作路径
+        self.base_dir = Path.cwd()
+        self.dot_dir = self.base_dir / "配置文件"
+        self.output_root = self.base_dir / "dag图"
+        self.output_root.mkdir(parents=True, exist_ok=True)
 
         # 状态
-        self.G = nx.DiGraph()            # 原始图
-        self.sccs = []                   # Tarjan 结果
-        self.threads = []                # 线程名
-        self.cycle_data = {}             # 信号量环
-        self.mutex_info = []             # 互斥锁信息
-        self.sem_pairs = []              # [(post, wait, var, id)] —— 最近一次管线解析结果
+        self.current_dot_path: Optional[Path] = None
+        self.current_circle_path: Optional[Path] = None
+        self.current_config_dir: Optional[Path] = None
+        self.current_output_dir: Optional[Path] = None
+        self.current_intermediate_dot: Optional[Path] = None
+
+        self.G: nx.DiGraph = nx.DiGraph()
+        self.sccs: List[Iterable[str]] = []
+        self.threads: List[str] = []
+        self.thread_color_map: Dict[str, str] = {}
+        self.cycle_data: Dict[str, Dict[str, List[str]]] = {}
+
+        self.mutex_records: List[MutexRecord] = []
+        self.sem_records: List[SemRecord] = []
+        self.mutex_prepared = False
+
+        self.cached_images: Dict[str, Optional[Path]] = {
+            "original": None,
+            "tarjan": None,
+            "threads": None,
+        }
+
         self.mode = "tarjan"
+        self.tk_img: Optional[ImageTk.PhotoImage] = None
 
-        self.current_config_dir = None
-        self.current_dot_path = None
-        self.current_circle_path = None
-        self.current_output_dir = None
-        self.current_intermediate_dot = None
-
-        # 缓存的图片路径（“查看原始图/强连通分量/信号量图”）
-        self.cached_images = {"original": None, "tarjan": None, "threads": None}
-
-        # 颜色
         self.THREAD_COLORS = [
             "#90CAF9", "#A5D6A7", "#FFE082", "#F48FB1",
             "#CE93D8", "#FFAB91", "#80CBC4", "#B39DDB"
         ]
-        self.thread_color_map = {}
         self.MUTEX_COLORS = [
             "#FFB74D", "#81C784", "#64B5F6", "#BA68C8",
             "#E57373", "#4DB6AC", "#FFD54F", "#9575CD",
-            "#4FC3F7", "#AED581", "#FF8A65", "#BA68C8"
+            "#4FC3F7", "#AED581", "#FF8A65", "#B39DDB"
         ]
 
-        # UI
         self._build_ui()
-        self._toggle_subtoolbar(False)
         self.use_default()
 
-    # ===================== UI =====================
-    def _build_ui(self):
+    # ------------------------------------------------------------------ UI --
+
+    def _build_ui(self) -> None:
         main = tk.Frame(self.root, bg="#ECEFF1")
         main.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        # 左侧
         left = tk.LabelFrame(main, text="操作", bg="#CFD8DC",
-                             padx=10, pady=10, font=("Microsoft YaHei", 10, "bold"))
+                             font=("Microsoft YaHei", 10, "bold"),
+                             padx=10, pady=10)
         left.pack(side=tk.LEFT, fill=tk.Y, padx=8, pady=8)
 
-        def btn(text, cmd):
-            return tk.Button(left, text=text, command=cmd, width=22, height=2,
-                             bg="#ECEFF1", relief=tk.RAISED,
-                             activebackground="#CFD8DC", font=("Microsoft YaHei", 9))
+        def add_btn(text: str, cmd) -> None:
+            tk.Button(left, text=text, command=cmd,
+                      width=22, height=2, bg="#ECEFF1",
+                      relief=tk.RAISED, activebackground="#CFD8DC",
+                      font=("Microsoft YaHei", 9)).pack(pady=6)
 
-        btn("使用默认配置（dag1）", self._wrap_hide(self.use_default)).pack(pady=5)
-        btn("选择 dot 文件", self._wrap_hide(self.select_dot_file)).pack(pady=5)
-        btn("选择 txt 文件", self._wrap_hide(self.select_txt_file)).pack(pady=5)
-        btn("生成原始图", self._wrap_hide(self.generate_original_graph)).pack(pady=5)
-        btn("查看互斥锁", self._wrap_hide(self.view_mutex)).pack(pady=5)
-        btn("显示互斥锁信息", self._wrap_hide(self.show_mutex_info)).pack(pady=5)
-        # 合并入口：生成信号量图
-        btn("生成信号量图", self.generate_semaphore_pipeline).pack(pady=5)
-        btn("显示信号量信息", self._wrap_hide(self.show_semaphore_info)).pack(pady=5)
+        add_btn("使用默认配置（dag1）", self.use_default)
+        add_btn("选择 dot 文件", self.select_dot_file)
+        add_btn("选择 txt 文件", self.select_txt_file)
+        add_btn("生成原始图", self.generate_original_graph)
+        add_btn("查看互斥锁", self.view_mutex)
+        add_btn("生成信号量图", self.generate_semaphore_pipeline)
 
-        # 右侧
         right = tk.LabelFrame(main, text="可视化", bg="#FFFFFF",
                               font=("Microsoft YaHei", 10, "bold"))
         right.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10)
@@ -115,465 +186,422 @@ class TarjanGUI:
                                anchor="w", bg="#ECEFF1", font=("Consolas", 10))
         self.status.pack(fill=tk.X)
 
-        self.canvas = tk.Canvas(right, bg="#FAFAFA", highlightthickness=1, relief=tk.SUNKEN)
+        self.canvas = tk.Canvas(right, bg="#FAFAFA",
+                                highlightthickness=1, relief=tk.SUNKEN)
         self.canvas.pack(fill=tk.BOTH, expand=True)
 
-        # 底部子功能区（默认隐藏，仅生成信号量图后显示）
         self.bottom = tk.Frame(right, bg="#ECEFF1")
-        def view_btn(text, cmd):
-            return tk.Button(self.bottom, text=text, command=cmd, width=18,
-                             bg="#ECEFF1", activebackground="#CFD8DC",
-                             font=("Microsoft YaHei", 9))
-        view_btn("查看原始图", lambda: self._display_cached_image("original")).pack(side=tk.LEFT, padx=4)
-        view_btn("查看强连通分量", lambda: self._display_cached_image("tarjan")).pack(side=tk.LEFT, padx=4)
-        view_btn("查看信号量图", lambda: self._display_cached_image("threads")).pack(side=tk.LEFT, padx=4)
-        view_btn("查看信号量数据结构", self.show_semaphore_structure).pack(side=tk.LEFT, padx=4)
-        view_btn("显示线程颜色图例", self.show_thread_legend).pack(side=tk.LEFT, padx=4)
+        self._subtoolbar_visible = False
 
         # 画布交互
         self.canvas.bind("<ButtonPress-1>", self._start_move)
         self.canvas.bind("<B1-Motion>", self._on_move)
         self.canvas.bind("<MouseWheel>", self._on_zoom)
-        self.canvas.bind("<Button-4>", lambda e: self._on_zoom(e))
-        self.canvas.bind("<Button-5>", lambda e: self._on_zoom(e))
+        self.canvas.bind("<Button-4>", self._on_zoom)  # Linux
+        self.canvas.bind("<Button-5>", self._on_zoom)
 
-    def _toggle_subtoolbar(self, show: bool):
-        # 子功能区显隐控制
-        if show:
-            if not getattr(self, "_subtoolbar_visible", False):
-                self.bottom.pack(fill=tk.X, pady=8)
-                self._subtoolbar_visible = True
+    def _build_subtoolbar(self, specs: Sequence[Tuple[str, callable]]) -> None:
+        for child in self.bottom.winfo_children():
+            child.destroy()
+        for text, cmd in specs:
+            tk.Button(self.bottom, text=text, command=cmd, width=18,
+                      bg="#ECEFF1", activebackground="#CFD8DC",
+                      font=("Microsoft YaHei", 9)).pack(side=tk.LEFT, padx=4)
+
+    def _toggle_subtoolbar(self, show: bool) -> None:
+        if show and not self._subtoolbar_visible:
+            self.bottom.pack(fill=tk.X, pady=8)
+            self._subtoolbar_visible = True
+        elif not show and self._subtoolbar_visible:
+            self.bottom.pack_forget()
+            self._subtoolbar_visible = False
+
+    def _set_subtoolbar(self, specs: Optional[Sequence[Tuple[str, callable]]]) -> None:
+        if specs:
+            self._build_subtoolbar(specs)
+            self._toggle_subtoolbar(True)
         else:
-            if getattr(self, "_subtoolbar_visible", False):
-                self.bottom.pack_forget()
-                self._subtoolbar_visible = False
-
-    def _wrap_hide(self, func):
-        # 包装器：在执行左侧除“生成信号量图”之外的动作前，隐藏子工具区
-        def _inner():
             self._toggle_subtoolbar(False)
-            return func()
-        return _inner
 
-    # ===================== 状态管理 / 文件加载 =====================
-    def _update_status(self):
-        cfg = self.current_config_dir or "<未选择>"
-        dot = os.path.basename(self.current_dot_path) if self.current_dot_path else "无"
-        txt = os.path.basename(self.current_circle_path) if self.current_circle_path else "无"
+    # --------------------------------------------------------------- 状态 --
+
+    def _update_status(self) -> None:
+        cfg = str(self.current_config_dir) if self.current_config_dir else "<未选择>"
+        dot = self.current_dot_path.name if self.current_dot_path else "无"
+        txt = self.current_circle_path.name if self.current_circle_path else "无"
         self.status.config(text=f"当前配置：{cfg} | DOT: {dot} | TXT: {txt}")
 
-    def _ensure_output_dir(self):
+    def _ensure_output_dir(self) -> Path:
         if not self.current_config_dir:
             self.current_output_dir = self.output_root
             return self.current_output_dir
-        info_path = os.path.join(self.output_root, "info.json")
-        mapping = {}
-        if os.path.exists(info_path):
+
+        mapping_path = self.output_root / "info.json"
+        mapping: Dict[str, str] = {}
+        if mapping_path.exists():
             try:
-                with open(info_path, 'r', encoding='utf-8') as f:
-                    mapping = json.load(f)
+                mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
             except Exception:
                 mapping = {}
-        key = _md5_path(self.current_config_dir)
-        if key in mapping and os.path.exists(mapping[key]):
-            self.current_output_dir = mapping[key]
+
+        key = _hash_path(str(self.current_config_dir))
+        if key in mapping and Path(mapping[key]).exists():
+            self.current_output_dir = Path(mapping[key])
             return self.current_output_dir
-        idx = 1
-        existing = [d for d in os.listdir(self.output_root) if d.startswith("图")]
-        if existing:
-            idx = len(existing) + 1
-        outdir = os.path.join(self.output_root, f"图{idx}")
-        os.makedirs(outdir, exist_ok=True)
-        mapping[key] = outdir
-        with open(info_path, 'w', encoding='utf-8') as f:
-            json.dump(mapping, f, ensure_ascii=False, indent=2)
+
+        next_idx = len([p for p in self.output_root.iterdir() if p.name.startswith("图")]) + 1
+        outdir = self.output_root / f"图{next_idx}"
+        outdir.mkdir(parents=True, exist_ok=True)
+        mapping[key] = str(outdir)
+        mapping_path.write_text(json.dumps(mapping, ensure_ascii=False, indent=2), encoding="utf-8")
         self.current_output_dir = outdir
         return outdir
 
-    def _read_dot_to_graph(self, dot_path: str) -> nx.DiGraph:
-        try:
-            try:
-                g = nx.DiGraph(nx.nx_pydot.read_dot(dot_path))
-            except Exception:
-                graphs = pydot.graph_from_dot_file(dot_path)
-                if not graphs:
-                    raise RuntimeError("pydot 解析 dot 失败")
-                g = nx.DiGraph(nx.nx_pydot.from_pydot(graphs[0]))
-        except Exception as e:
-            raise e
-        g = nx.relabel_nodes(g, lambda x: _norm(x))
-        return g
+    # ------------------------------------------------------------- 文件读写 --
 
-    def _extract_threads(self):
-        threads = set()
-        for n in self.G.nodes():
-            if '/' in n:
-                threads.add(n.split('/')[0])
+    def _read_dot_to_graph(self, path: Path) -> nx.DiGraph:
+        try:
+            graph = nx.DiGraph(nx.nx_pydot.read_dot(str(path)))
+        except Exception:
+            if not pydot:
+                raise
+            pd_graphs = pydot.graph_from_dot_file(str(path))
+            if not pd_graphs:
+                raise RuntimeError("pydot 解析 dot 失败")
+            graph = nx.DiGraph(nx.nx_pydot.from_pydot(pd_graphs[0]))
+        return nx.relabel_nodes(graph, _norm)
+
+    def _render_dot_quiet(self, dot_str: str, out_png: Path) -> None:
+        tmp = self.output_root / "_temp_render.dot"
+        tmp.write_text(dot_str, encoding="utf-8")
+        try:
+            subprocess.run(["dot", "-Tpng", str(tmp), "-o", str(out_png)], check=True)
+        except Exception as exc:
+            messagebox.showerror("Graphviz 错误", str(exc))
+        finally:
+            if tmp.exists():
+                tmp.unlink()
+
+    def _render_dot_to_canvas(self, dot_str: str, out_png: Path) -> None:
+        self._render_dot_quiet(dot_str, out_png)
+        if out_png.exists():
+            self._show_image(out_png)
+            messagebox.showinfo("完成", f"已生成图像：\n{out_png}")
+
+    def _show_image(self, path: Path) -> None:
+        img = Image.open(path)
+        self.tk_img = ImageTk.PhotoImage(img)
+        self.canvas.delete("all")
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_img)
+        self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
+
+    def _display_cached_image(self, key: str) -> None:
+        path = self.cached_images.get(key)
+        if not path or not Path(path).exists():
+            messagebox.showwarning("提示", "对应图像不存在，请先生成信号量图。")
+            return
+        self._show_image(Path(path))
+
+    # -------------------------------------------------------------- 图状态 --
+
+    def _extract_threads(self) -> None:
+        threads = {n.split('/')[0] for n in self.G.nodes() if '/' in n}
         self.threads = sorted(threads)
         self.thread_color_map = {
             t: self.THREAD_COLORS[i % len(self.THREAD_COLORS)]
             for i, t in enumerate(self.threads)
         }
 
-    # ===================== 左侧基础功能 =====================
-    def use_default(self):
-        dag1 = os.path.join(self.dot_dir, "dag1")
-        for root, _, files in os.walk(dag1):
-            for f in files:
-                if f.lower().endswith(".dot"):
-                    dot = os.path.join(root, f)
-                    self.current_dot_path = dot
-                    self.current_config_dir = os.path.dirname(dot)
-                    self.current_circle_path = None
-                    self.G = self._read_dot_to_graph(dot)
-                    self._extract_threads()
-                    self._ensure_output_dir()
-                    self._update_status()
-                    messagebox.showinfo("成功", f"已加载默认配置：{dot}")
-                    return
-        messagebox.showwarning("提示", "未找到默认 DOT 文件，请手动选择。")
+    # ----------------------------------------------------------- 功能实现 --
 
-    def select_dot_file(self):
-        path = filedialog.askopenfilename(title="选择 DOT 文件",
-                                          filetypes=[("DOT 文件", "*.dot")])
-        if not path:
+    def use_default(self) -> None:
+        dag1 = self.dot_dir / "dag1"
+        if not dag1.exists():
+            messagebox.showwarning("提示", "未找到默认配置，请手动选择。")
             return
+        for path in dag1.rglob("*.dot"):
+            try:
+                self.G = self._read_dot_to_graph(path)
+            except Exception as exc:
+                messagebox.showerror("错误", f"读取 DOT 失败：{exc}")
+                return
+            self.current_dot_path = path
+            self.current_config_dir = path.parent
+            self.current_circle_path = None
+            self._extract_threads()
+            self._ensure_output_dir()
+            self._update_status()
+            self._set_subtoolbar(None)
+            messagebox.showinfo("成功", f"已加载默认配置：{path}")
+            return
+        messagebox.showwarning("提示", "默认目录中未找到 DOT 文件，请手动选择。")
+
+    def select_dot_file(self) -> None:
+        path_str = filedialog.askopenfilename(
+            title="选择 DOT 文件", filetypes=[("DOT 文件", "*.dot")]
+        )
+        if not path_str:
+            return
+        path = Path(path_str)
         try:
-            G_test = self._read_dot_to_graph(path)
-        except Exception as e:
-            messagebox.showerror("错误", f"读取 .dot 失败：\n{e}")
+            self.G = self._read_dot_to_graph(path)
+        except Exception as exc:
+            messagebox.showerror("错误", f"加载 DOT 失败：\n{exc}")
             return
         self.current_dot_path = path
-        self.current_config_dir = os.path.dirname(path)
-        self.G = G_test
-        self._extract_threads()
-        self.mutex_info.clear()
+        self.current_config_dir = path.parent
         self.cached_images = {"original": None, "tarjan": None, "threads": None}
+        self.sem_records.clear()
+        self.current_intermediate_dot = None
+        self._extract_threads()
         self._ensure_output_dir()
         self._update_status()
-        messagebox.showinfo("成功", f"已加载 DOT 文件：{os.path.basename(path)}")
+        self._set_subtoolbar(None)
+        messagebox.showinfo("成功", f"已加载 DOT 文件：{path.name}")
 
-    def select_txt_file(self):
-        path = filedialog.askopenfilename(title="选择 TXT 文件",
-                                          filetypes=[("TXT 文件", "*.txt")])
-        if not path:
+    def select_txt_file(self) -> None:
+        path_str = filedialog.askopenfilename(
+            title="选择 TXT 文件", filetypes=[("TXT 文件", "*.txt")]
+        )
+        if not path_str:
             return
-        if not os.path.isfile(path):
+        path = Path(path_str)
+        if not path.exists():
             messagebox.showerror("错误", "文件不存在。")
             return
         self.current_circle_path = path
         self._update_status()
-        messagebox.showinfo("成功", f"已选择 TXT 文件：{os.path.basename(path)}")
+        self._set_subtoolbar(None)
+        messagebox.showinfo("成功", f"已选择 TXT 文件：{path.name}")
 
-    def generate_original_graph(self):
+    # -------------------------------------------------------- 原始图展示 --
+
+    def generate_original_graph(self) -> None:
         if not self.current_dot_path:
             messagebox.showerror("错误", "请先选择 dot 文件。")
             return
         out_dir = self._ensure_output_dir()
-        out_png = os.path.join(out_dir, "原始图.png")
+        out_png = out_dir / "原始图.png"
         try:
-            subprocess.run(["dot", "-Tpng", self.current_dot_path, "-o", out_png], check=True)
-            self.cached_images["original"] = out_png
-            self._show_image(out_png)
-            messagebox.showinfo("成功", f"已生成原始图：\n{out_png}")
-        except Exception as e:
-            messagebox.showerror("错误", f"生成原始图失败：\n{e}")
-
-    # ===================== 合并入口：生成信号量图 =====================
-    def generate_semaphore_pipeline(self):
-        # 前置
-        if not self.current_dot_path:
-            messagebox.showerror("错误", "请先加载 dot 文件。")
+            subprocess.run(
+                ["dot", "-Tpng", str(self.current_dot_path), "-o", str(out_png)],
+                check=True,
+            )
+        except Exception as exc:
+            messagebox.showerror("错误", f"生成原始图失败：\n{exc}")
             return
+        self.cached_images["original"] = out_png
+        self._show_image(out_png)
+        self._set_subtoolbar(None)
+        messagebox.showinfo("成功", f"已生成原始图：\n{out_png}")
+
+    # ------------------------------------------------------------- 互斥锁 --
+
+    def _parse_optional_line(self, parts: List[str]) -> Optional[int]:
+        if len(parts) < 4:
+            return None
+        try:
+            return int(parts[3])
+        except Exception:
+            return None
+
+    def _prepare_mutex_data(self) -> bool:
         if not self.current_circle_path:
             messagebox.showerror("错误", "请先加载 txt 文件。")
-            return
+            return False
 
-        out_dir = self._ensure_output_dir()
+        entries: List[Tuple[str, str, str, str, Optional[int]]] = []
+        block = None
+        for line in self.current_circle_path.read_text(encoding="utf-8", errors="ignore").splitlines():
+            s = _norm(line)
+            if not s:
+                continue
+            if s == "互斥量":
+                block = "mutex"
+                continue
+            if s == "信号量":
+                block = "sem"
+                continue
+            if block != "mutex":
+                continue
+            parts = s.split()
+            if len(parts) < 3:
+                continue
+            func, var, idx = parts[0], parts[1], parts[2]
+            line_no = self._parse_optional_line(parts)
+            lower = func.lower()
+            if "pthread_mutex_unlock" in lower or "/unlock" in lower:
+                entries.append((_norm(func), var, idx, "unlock", line_no))
+            elif "pthread_mutex_lock" in lower or "/lock" in lower:
+                entries.append((_norm(func), var, idx, "lock", line_no))
 
-        # Step 1: 解析 TXT -> sem_pairs；生成“工作图”(算法上当作实边)
-        self.sem_pairs = self._parse_semaphore_pairs()
-        work_graph = self.G.copy()
-        for post, wait, _, _ in self.sem_pairs:
-            if post not in work_graph:
-                work_graph.add_node(post)
-            if wait not in work_graph:
-                work_graph.add_node(wait)
-            work_graph.add_edge(post, wait)
-
-        # 写“中间结果 DOT”（展示层写虚线）
-        graph_idx = os.path.basename(out_dir).lstrip("图") or "1"
-        inter_dir = os.path.join(out_dir, "中间结果")
-        os.makedirs(inter_dir, exist_ok=True)
-        self.current_intermediate_dot = os.path.join(inter_dir, f"文件图{graph_idx}.dot")
-
-        inter_lines = [
-            "digraph G {",
-            '  rankdir=LR;',
-            '  fontname="Microsoft YaHei";'
-        ]
-        for u, v in self.G.edges():
-            inter_lines.append(f'  "{u}" -> "{v}";')
-        for post, wait, var, idx in self.sem_pairs:
-            inter_lines.append(
-                f'  "{post}" -> "{wait}" [style=dashed, color="#FF7043", label="{var} {idx}"];'
-            )
-        inter_lines.append("}")
-        try:
-            with open(self.current_intermediate_dot, 'w', encoding='utf-8') as f:
-                f.write("\n".join(inter_lines))
-        except Exception as e:
-            messagebox.showerror("错误", f"写入中间结果失败：\n{e}")
-            return
-
-        # 用中间结果渲染“查看原始图”（要求：不是最初 DOT，而是叠加虚线后的图）
-        self.cached_images["original"] = os.path.join(out_dir, "原始图.png")
-        self._render_dot_quiet("\n".join(inter_lines), self.cached_images["original"])
-
-        # Step 2: Tarjan（算法上包含 post→wait 的实边）
-        self._run_tarjan_on_graph(work_graph, out_dir)
-
-        # Step 3: 矩形框（算法上包含 post→wait 的实边）
-        self._generate_threads_on_graph(work_graph, out_dir)
-
-        # 显示信号量图，并展示子功能按钮
-        self._display_cached_image("threads")
-        self._toggle_subtoolbar(True)
-        messagebox.showinfo("完成", "信号量图已生成。")
-
-    # ===================== 互斥锁（保留） =====================
-    def view_mutex(self):
-        if not self.current_dot_path or not self.current_circle_path:
-            messagebox.showerror("错误", "请先加载 dot 与 txt 文件。")
-            return
-        entries = []
-        with open(self.current_circle_path, 'r', encoding='utf-8', errors='ignore') as f:
-            for line in f:
-                s = _norm(line)
-                if not s or s.startswith('信号量') or s.startswith('互斥量'):
-                    continue
-                parts = s.split()
-                if len(parts) < 3:
-                    continue
-                func, var, idx = parts[0], parts[1], parts[2]
-                fl = func.lower()
-                if 'pthread_mutex_lock' in fl or '/lock' in fl:
-                    entries.append((func, var, idx, 'lock'))
-                elif 'pthread_mutex_unlock' in fl or '/unlock' in fl:
-                    entries.append((func, var, idx, 'unlock'))
-        stacks, pairs = {}, []
-        for func, var, idx, typ in entries:
+        stacks: Dict[str, List[Tuple[str, str, Optional[int]]]] = {}
+        pairs: List[MutexRecord] = []
+        for func, var, idx, typ, line_no in entries:
             stacks.setdefault(idx, [])
-            if typ == 'lock':
-                stacks[idx].append((func, var))
-            elif typ == 'unlock' and stacks[idx]:
-                lock_func, v = stacks[idx].pop()
-                pairs.append((lock_func, func, v, idx))
-        if not pairs:
-            messagebox.showwarning('提示', '未找到配对的互斥锁记录')
-            return
+            if typ == "lock":
+                stacks[idx].append((func, var, line_no))
+            elif typ == "unlock" and stacks[idx]:
+                lock_func, lock_var, lock_line = stacks[idx].pop()
+                if lock_var != var:
+                    # 变量不一致时仍以 unlock 的变量为准
+                    lock_var = var
+                record = MutexRecord(
+                    lock=_norm(lock_func),
+                    unlock=_norm(func),
+                    var=lock_var,
+                    idx=idx,
+                    lock_line=lock_line,
+                    unlock_line=line_no,
+                    covered=[],
+                )
+                pairs.append(record)
 
+        if not pairs:
+            messagebox.showwarning("提示", "未找到配对的互斥锁记录")
+            self.mutex_prepared = False
+            return False
+
+        self.mutex_records.clear()
+        for rec in pairs:
+            if rec.lock not in self.G.nodes or rec.unlock not in self.G.nodes:
+                continue
+            reach_from_lock = nx.descendants(self.G, rec.lock)
+            reach_to_unlock = nx.ancestors(self.G, rec.unlock)
+            between = sorted(reach_from_lock & reach_to_unlock | {rec.lock, rec.unlock},
+                             key=lambda x: (x.split('/')[0] if '/' in x else x, _suffix_num(x)))
+            rec.covered = between
+            self.mutex_records.append(rec)
+
+        if not self.mutex_records:
+            messagebox.showwarning("提示", "互斥锁节点未在图中找到。")
+            self.mutex_prepared = False
+            return False
+
+        self.mutex_prepared = True
+        return True
+
+    def _show_mutex_graph(self) -> None:
+        if not self.mutex_prepared:
+            messagebox.showwarning("提示", "请先点击“查看互斥锁”解析数据。")
+            return
         dot_lines = ['digraph Mutex {', 'rankdir=LR;', 'fontname="Microsoft YaHei";']
         for u, v in self.G.edges():
             dot_lines.append(f'"{u}" -> "{v}";')
         for n in self.G.nodes():
             dot_lines.append(f'"{n}" [shape=box, style=filled, fillcolor="#E3F2FD"];')
 
-        color_map, self.mutex_info, cluster_id = {}, [], 0
-        for lock_node, unlock_node, var, idx in pairs:
-            L = _norm(lock_node); U = _norm(unlock_node)
-            if L not in self.G.nodes or U not in self.G.nodes:
-                continue
-            reach_from_L = nx.descendants(self.G, L)
-            reach_to_U = nx.ancestors(self.G, U)
-            between = set(reach_from_L) & set(reach_to_U)
-            between.update({L, U})
-            self.mutex_info.append([idx, L, U, sorted(between)])
-            if var not in color_map:
-                color_map[var] = self.MUTEX_COLORS[len(color_map) % len(self.MUTEX_COLORS)]
-            color = color_map[var]
+        color_map: Dict[str, str] = {}
+        cluster_id = 0
+        for rec in self.mutex_records:
+            color = color_map.setdefault(
+                rec.var, self.MUTEX_COLORS[len(color_map) % len(self.MUTEX_COLORS)]
+            )
             cluster_id += 1
-            dot_lines.append(f'subgraph cluster_{cluster_id}{{')
-            dot_lines.append(f'label="mutex var: {var} id: {idx}"; color="{color}";')
-            for n in between:
-                dot_lines.append(f'"{n}";')
+            dot_lines.append(f'subgraph cluster_{cluster_id} {{')
+            dot_lines.append(f'  label="{rec.var}"; color="{color}";')
+            for node in rec.covered:
+                dot_lines.append(f'  "{node}";')
             dot_lines.append('}')
         dot_lines.append('}')
+
         out_dir = self._ensure_output_dir()
-        out_png = os.path.join(out_dir, 'mutex.png')
+        out_png = out_dir / "mutex.png"
         self._render_dot_to_canvas("\n".join(dot_lines), out_png)
 
-    def show_mutex_info(self):
+    def show_mutex_info(self) -> None:
+        if not self.mutex_prepared:
+            messagebox.showwarning("提示", "请先点击“查看互斥锁”解析数据。")
+            return
         self.canvas.delete("all")
         y = 20
         self.canvas.create_text(20, y, anchor="nw",
                                 text="互斥锁信息（编号、锁节点、解锁节点、覆盖节点）",
                                 font=("Microsoft YaHei", 14, "bold"), fill="#000")
         y += 40
-        if not self.mutex_info:
-            self.canvas.create_text(20, y, anchor="nw",
-                                    text="暂无数据，请先点击“查看互斥锁”生成",
-                                    font=("Consolas", 12), fill="#555")
-            return
-        for idx, lock, unlock, nodes in self.mutex_info:
-            nodes_sorted = sorted(nodes, key=lambda x: (x.split('/')[0] if '/' in x else x, _suffix_num(x)))
-            text = (f"ID={idx}\nLOCK: {lock}\nUNLOCK: {unlock}\n"
-                    f"COVERED: {', '.join(nodes_sorted)}\n")
+        for rec in self.mutex_records:
+            text = (
+                f"ID={rec.idx}\n"
+                f"LOCK: {rec.lock}\n"
+                f"UNLOCK: {rec.unlock}\n"
+                f"COVERED: {', '.join(rec.covered)}\n"
+            )
+            if rec.lock_line is not None or rec.unlock_line is not None:
+                lock_line = rec.lock_line if rec.lock_line is not None else "?"
+                unlock_line = rec.unlock_line if rec.unlock_line is not None else "?"
+                text += f"LINES: {lock_line} -> {unlock_line}\n"
             self.canvas.create_text(20, y, anchor="nw",
                                     text=text, font=("Consolas", 11), fill="#263238")
-            y += 90
+            y += 100
         self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
 
-    # ===================== 信号量 =====================
-    def _parse_semaphore_pairs(self):
+    def view_mutex(self) -> None:
+        if not self.current_dot_path or not self.current_circle_path:
+            messagebox.showerror("错误", "请先加载 dot 与 txt 文件。")
+            self._set_subtoolbar(None)
+            return
+        if not self._prepare_mutex_data():
+            self._set_subtoolbar(None)
+            return
+        self._set_subtoolbar([
+            ("查看互斥锁图", self._show_mutex_graph),
+            ("查看互斥锁信息", self.show_mutex_info),
+        ])
+        self._show_mutex_graph()
+
+    # ------------------------------------------------------------ 信号量 --
+
+    def _parse_semaphore_pairs(self) -> List[SemRecord]:
         if not self.current_circle_path:
             return []
-        by_id, block = {}, None
-        with open(self.current_circle_path, 'r', encoding='utf-8', errors='ignore') as f:
-            for line in f:
-                s = _norm(line)
-                if not s:
-                    continue
-                if s == "互斥量":
-                    block = "mutex"; continue
-                if s == "信号量":
-                    block = "sem"; continue
-                parts = s.split()
-                if len(parts) < 3:
-                    continue
-                func, var, idx = parts[0], parts[1], parts[2]
-                if block != "sem":
-                    continue
-                by_id.setdefault(idx, {"post": None, "wait": None, "var": var})
-                if 'sem_post' in func:
-                    by_id[idx]['post'] = func
-                elif 'sem_wait' in func:
-                    by_id[idx]['wait'] = func
-        pairs = []
+        by_id: Dict[str, Dict[str, Optional[str]]] = {}
+        block = None
+        for line in self.current_circle_path.read_text(encoding="utf-8", errors="ignore").splitlines():
+            s = _norm(line)
+            if not s:
+                continue
+            if s == "互斥量":
+                block = "mutex"
+                continue
+            if s == "信号量":
+                block = "sem"
+                continue
+            if block != "sem":
+                continue
+            parts = s.split()
+            if len(parts) < 3:
+                continue
+            func, var, idx = parts[0], parts[1], parts[2]
+            line_no = self._parse_optional_line(parts)
+            record = by_id.setdefault(
+                idx,
+                {"post": None, "wait": None, "var": var, "post_line": None, "wait_line": None},
+            )
+            if "sem_post" in func:
+                record["post"] = _norm(func)
+                record["post_line"] = line_no
+            elif "sem_wait" in func:
+                record["wait"] = _norm(func)
+                record["wait_line"] = line_no
+
+        pairs: List[SemRecord] = []
         for idx, info in by_id.items():
-            if info['post'] and info['wait']:
-                pairs.append((info['post'], info['wait'], info['var'], idx))
+            if info["post"] and info["wait"]:
+                pairs.append(
+                    SemRecord(
+                        post=str(info["post"]),
+                        wait=str(info["wait"]),
+                        var=str(info["var"]),
+                        idx=idx,
+                        post_line=info.get("post_line"),
+                        wait_line=info.get("wait_line"),
+                    )
+                )
         return pairs
 
-    def show_semaphore_info(self):
-        pairs = self._parse_semaphore_pairs()
-        self.canvas.delete('all')
-        y = 20
-        self.canvas.create_text(20, y, anchor='nw', text='信号量配对（post → wait）',
-                                font=("Microsoft YaHei", 14, 'bold'), fill='#000')
-        y += 36
-        if not pairs:
-            self.canvas.create_text(20, y, anchor='nw',
-                                    text='暂无数据，请先加载 txt 或检查内容',
-                                    font=("Consolas", 12), fill='#555')
-            return
-        for post, wait, var, idx in pairs:
-            self.canvas.create_text(20, y, anchor='nw',
-                                    text=f'ID={idx}  VAR={var}  {post} -> {wait}',
-                                    font=("Consolas", 11), fill='#263238')
-            y += 24
-        self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
-
-    def show_semaphore_structure(self):
-        if not self.cycle_data:
-            messagebox.showerror("错误", "信号量环数据为空，请先生成信号量图。")
-            return
-        info = ["信号量环数据结构："]
-        for cname, threads in self.cycle_data.items():
-            info.append(f"\n{cname}:")
-            for t, nds in threads.items():
-                info.append(f"  {t}: {', '.join(nds)}")
-        self.canvas.delete("all")
-        self.canvas.create_text(20, 20, anchor="nw",
-                                text="\n".join(info), font=("Consolas", 12), fill="#263238")
-        self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
-
-    def show_thread_legend(self):
-        self.canvas.delete("all")
-        y = 40
-        self.canvas.create_text(40, 10, anchor="nw",
-                                text="线程颜色图例",
-                                font=("Microsoft YaHei", 14, "bold"), fill="#212121")
-        for t, color in self.thread_color_map.items():
-            self.canvas.create_rectangle(40, y, 100, y + 30, fill=color, outline="black")
-            self.canvas.create_text(120, y + 15, anchor="w", text=t, font=("Microsoft YaHei", 12))
-            y += 40
-        self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
-
-    # ===================== Tarjan/矩形框（保留逻辑） =====================
-    def run_tarjan(self):
-        if not self.current_dot_path:
-            messagebox.showerror("错误", "请先加载 dot 文件。")
-            return
-        self.sccs = list(nx.strongly_connected_components(self.G))
-        self.mode = "tarjan"
-        self.generate_graphviz_scc()
-        messagebox.showinfo("Tarjan", f"强连通分量数量: {len(self.sccs)}")
-
-    def remove_cycle(self):
-        if not self.threads:
-            messagebox.showerror("错误", "未检测到线程名，请检查 dot 文件。")
-            return
-        self.create_semaphore_cycles()
-        self.mode = "thread"
-        self.generate_graphviz_scc()
-        messagebox.showinfo("完成", "已生成矩形框（线程配色）。")
-
-    def create_semaphore_cycles(self):
-        self.cycle_data.clear()
-        for comp in self.sccs:
-            if len(comp) <= 1:
-                continue
-            groups = {}
-            for node in comp:
-                prefix = node.split('/')[0] if '/' in node else "Unknown"
-                groups.setdefault(prefix, []).append(node)
-            for t in groups:
-                groups[t] = sorted(groups[t], key=_suffix_num)
-            cname = f"Cycle{len(self.cycle_data) + 1}"
-            self.cycle_data[cname] = dict(sorted(groups.items()))
-
-    def generate_graphviz_scc(self):
-        dotfile = "temp_graph.dot"
-        node_colors = {}
-
-        if self.mode == "tarjan":
-            for comp in self.sccs:
-                color = "#%06x" % random.randint(0, 0xFFFFFF)
-                for node in comp:
-                    node_colors[node] = color
-        elif self.mode == "thread":
-            for node in self.G.nodes():
-                prefix = node.split('/')[0] if '/' in node else "Unknown"
-                node_colors[node] = self.thread_color_map.get(prefix, "#CFD8DC")
-
-        with open(dotfile, "w", encoding="utf-8") as f:
-            f.write('digraph G {\n  rankdir=LR;\n  fontname="Microsoft YaHei";\n')
-            for u, v in self.G.edges():
-                f.write(f'  "{u}" -> "{v}";\n')
-            if self.mode == "thread" and self.cycle_data:
-                for cname, tnodes in self.cycle_data.items():
-                    f.write(f'  subgraph cluster_{cname} {{\n    style=dashed;\n    color=gray;\n    label="{cname}";\n')
-                    for t, nds in tnodes.items():
-                        for node in nds:
-                            col = node_colors.get(node, "#FFFFFF")
-                            f.write(f'    "{node}" [style=filled, fillcolor="{col}"];\n')
-                    f.write("  }\n")
-            for node, col in node_colors.items():
-                f.write(f'  "{node}" [style=filled, fillcolor="{col}"];\n')
-            f.write("}\n")
-
-        out_dir = self._ensure_output_dir()
-        filename = "tarjan.png" if self.mode == "tarjan" else "threads.png"
-        img_path = os.path.join(out_dir, filename)
-        subprocess.run(["dot", "-Tpng", dotfile, "-o", img_path], check=True)
-        self._show_image(img_path)
-        os.remove(dotfile)
-
-    # ===================== Tarjan/矩形框（基于管线的输出） =====================
-    def _run_tarjan_on_graph(self, graph: nx.DiGraph, out_dir: str):
+    def _run_tarjan_from_intermediate(self, graph: nx.DiGraph, out_dir: Path) -> None:
         self.sccs = list(nx.strongly_connected_components(graph))
-        colors = {}
+        colors: Dict[str, str] = {}
         for comp in self.sccs:
             color = "#%06x" % random.randint(0, 0xFFFFFF)
             for node in comp:
@@ -584,36 +612,24 @@ class TarjanGUI:
             '  rankdir=LR;',
             '  fontname="Microsoft YaHei";'
         ]
-        for u, v in graph.edges():
-            lines.append(f'  "{u}" -> "{v}";')
-        # 叠加写入信号量虚线依赖（展示层用虚线）
-        for post, wait, var, idx in self.sem_pairs:
-            lines.append(f'  "{post}" -> "{wait}" [style=dashed, color="#FF7043", label="{var} {idx}"];')
+        for u, v, data in graph.edges(data=True):
+            lines.append(f'  "{u}" -> "{v}"{_edge_attr_string(data)};')
         for node in graph.nodes():
             col = colors.get(node, "#B0BEC5")
             lines.append(f'  "{node}" [style=filled, fillcolor="{col}"];')
         lines.append("}")
 
-        self.cached_images["tarjan"] = os.path.join(out_dir, "tarjan.png")
-        self._render_dot_quiet("\n".join(lines), self.cached_images["tarjan"])
+        out_png = out_dir / "tarjan.png"
+        self.cached_images["tarjan"] = out_png
+        self._render_dot_quiet("\n".join(lines), out_png)
 
-    def _generate_threads_on_graph(self, graph: nx.DiGraph, out_dir: str):
-        # 线程配色
-        threads = set()
-        for n in graph.nodes():
-            if '/' in n:
-                threads.add(n.split('/')[0])
-        self.thread_color_map = {
-            t: self.THREAD_COLORS[i % len(self.THREAD_COLORS)]
-            for i, t in enumerate(sorted(threads))
-        }
-        # 构建信号量环
-        cycles = {}
+    def _generate_threads_from_intermediate(self, graph: nx.DiGraph, out_dir: Path) -> None:
+        cycles: Dict[str, Dict[str, List[str]]] = {}
         idx = 0
         for comp in self.sccs:
             if len(comp) <= 1:
                 continue
-            per_thread = {}
+            per_thread: Dict[str, List[str]] = {}
             for node in comp:
                 prefix = node.split('/')[0] if '/' in node else "Unknown"
                 per_thread.setdefault(prefix, []).append(node)
@@ -623,9 +639,10 @@ class TarjanGUI:
                 per_thread[t] = sorted(per_thread[t], key=_suffix_num)
             idx += 1
             cycles[f"Cycle{idx}"] = dict(sorted(per_thread.items()))
+
         self.cycle_data = cycles
 
-        node_colors = {}
+        node_colors: Dict[str, str] = {}
         for node in graph.nodes():
             prefix = node.split('/')[0] if '/' in node else "Unknown"
             node_colors[node] = self.thread_color_map.get(prefix, "#CFD8DC")
@@ -635,80 +652,157 @@ class TarjanGUI:
             '  rankdir=LR;',
             '  fontname="Microsoft YaHei";'
         ]
-        for u, v in graph.edges():
-            lines.append(f'  "{u}" -> "{v}";')
-        # 叠加写入信号量虚线依赖
-        for post, wait, var, idx in self.sem_pairs:
-            lines.append(f'  "{post}" -> "{wait}" [style=dashed, color="#FF7043", label="{var} {idx}"];')
-
-        for cname, tnodes in self.cycle_data.items():
+        for u, v, data in graph.edges(data=True):
+            lines.append(f'  "{u}" -> "{v}"{_edge_attr_string(data)};')
+        for cname, per_thread in cycles.items():
             lines.append(f'  subgraph cluster_{cname} {{')
             lines.append('    style=dashed;')
             lines.append('    color=gray;')
             lines.append(f'    label="{cname}";')
-            for t, nds in tnodes.items():
-                for node in nds:
+            for t, nodes in per_thread.items():
+                for node in nodes:
                     col = node_colors.get(node, "#FFFFFF")
                     lines.append(f'    "{node}" [style=filled, fillcolor="{col}"];')
             lines.append("  }")
-
         for node, col in node_colors.items():
             lines.append(f'  "{node}" [style=filled, fillcolor="{col}"];')
         lines.append("}")
 
-        self.cached_images["threads"] = os.path.join(out_dir, "threads.png")
-        self._render_dot_quiet("\n".join(lines), self.cached_images["threads"])
+        out_png = out_dir / "threads.png"
+        self.cached_images["threads"] = out_png
+        self._render_dot_quiet("\n".join(lines), out_png)
 
-    # ===================== 渲染/显示 工具 =====================
-    def _render_dot_quiet(self, dot_str: str, out_png: str):
-        tmp = "_temp_render.dot"
-        with open(tmp, 'w', encoding='utf-8') as f:
-            f.write(dot_str)
-        try:
-            subprocess.run(["dot", "-Tpng", tmp, "-o", out_png], check=True)
-        except Exception as e:
-            messagebox.showerror("Graphviz 错误", str(e))
-        finally:
-            if os.path.exists(tmp):
-                os.remove(tmp)
-
-    def _render_dot_to_canvas(self, dot_str: str, out_png: str):
-        tmp = "_temp_render.dot"
-        with open(tmp, 'w', encoding='utf-8') as f:
-            f.write(dot_str)
-        try:
-            subprocess.run(["dot", "-Tpng", tmp, "-o", out_png], check=True)
-            self._show_image(out_png)
-            messagebox.showinfo("完成", f"已生成图像：\n{out_png}")
-        except Exception as e:
-            messagebox.showerror("Graphviz 错误", str(e))
-        finally:
-            if os.path.exists(tmp):
-                os.remove(tmp)
-
-    def _display_cached_image(self, key: str):
-        path = self.cached_images.get(key)
-        if not path or not os.path.exists(path):
-            messagebox.showwarning("提示", "对应图像不存在，请先点击“生成信号量图”。")
+    def generate_semaphore_pipeline(self) -> None:
+        if not self.current_dot_path:
+            messagebox.showerror("错误", "请先加载 dot 文件。")
+            self._set_subtoolbar(None)
             return
-        self._show_image(path)
+        if not self.current_circle_path:
+            messagebox.showerror("错误", "请先加载 txt 文件。")
+            self._set_subtoolbar(None)
+            return
 
-    def _show_image(self, path):
-        img = Image.open(path)
-        self.tk_img = ImageTk.PhotoImage(img)
+        out_dir = self._ensure_output_dir()
+        self.sem_records = self._parse_semaphore_pairs()
+
+        graph_idx = self.current_output_dir.name.lstrip("图") if self.current_output_dir else "1"
+        inter_dir = out_dir / "中间结果"
+        inter_dir.mkdir(parents=True, exist_ok=True)
+        intermediate_path = inter_dir / f"文件图{graph_idx}.dot"
+
+        lines = [
+            "digraph G {",
+            '  rankdir=LR;',
+            '  fontname="Microsoft YaHei";'
+        ]
+        for u, v in self.G.edges():
+            lines.append(f'  "{u}" -> "{v}";')
+        for rec in self.sem_records:
+            lines.append(
+                f'  "{rec.post}" -> "{rec.wait}" '
+                f'[style=dashed, color="#FF7043", label="{rec.var} {rec.idx}"];'
+            )
+        lines.append("}")
+        intermediate_path.write_text("\n".join(lines), encoding="utf-8")
+        self.current_intermediate_dot = intermediate_path
+
+        self.cached_images["original"] = out_dir / "原始图.png"
+        self._render_dot_quiet("\n".join(lines), self.cached_images["original"])
+
+        g_intermediate = self._read_dot_to_graph(intermediate_path)
+        self._run_tarjan_from_intermediate(g_intermediate, out_dir)
+        self._generate_threads_from_intermediate(g_intermediate, out_dir)
+
+        self._display_cached_image("threads")
+        self._set_subtoolbar([
+            ("查看原始图", lambda: self._display_cached_image("original")),
+            ("查看强连通分量", lambda: self._display_cached_image("tarjan")),
+            ("查看信号量图", lambda: self._display_cached_image("threads")),
+            ("显示信号量信息", self.show_semaphore_info),
+            ("显示线程颜色图例", self.show_thread_legend),
+        ])
+        messagebox.showinfo("完成", "信号量图已生成。")
+
+    def show_semaphore_info(self) -> None:
+        pairs = self.sem_records or self._parse_semaphore_pairs()
         self.canvas.delete("all")
-        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_img)
+        y = 20
+        self.canvas.create_text(20, y, anchor="nw",
+                                text="信号量配对（post → wait）",
+                                font=("Microsoft YaHei", 14, "bold"), fill="#000")
+        y += 36
+        if not pairs:
+            self.canvas.create_text(20, y, anchor="nw",
+                                    text="暂无数据，请先加载 txt 或生成信号量图",
+                                    font=("Consolas", 12), fill="#555")
+            return
+        for rec in pairs:
+            extra = ""
+            if rec.post_line is not None or rec.wait_line is not None:
+                a = rec.post_line if rec.post_line is not None else "?"
+                b = rec.wait_line if rec.wait_line is not None else "?"
+                extra = f"  LINES: {a} -> {b}"
+            self.canvas.create_text(
+                20, y, anchor="nw",
+                text=f"ID={rec.idx}  VAR={rec.var}  {rec.post} -> {rec.wait}{extra}",
+                font=("Consolas", 11), fill="#263238"
+            )
+            y += 24
+
+        if self.cycle_data:
+            y += 20
+            self.canvas.create_text(20, y, anchor="nw",
+                                    text="信号量环数据结构：",
+                                    font=("Microsoft YaHei", 13, "bold"), fill="#000")
+            y += 28
+            for cname, per_thread in self.cycle_data.items():
+                self.canvas.create_text(20, y, anchor="nw",
+                                        text=f"{cname}:", font=("Consolas", 11), fill="#263238")
+                y += 20
+                for thread, nodes in per_thread.items():
+                    self.canvas.create_text(
+                        40, y, anchor="nw",
+                        text=f"{thread}: {', '.join(nodes)}",
+                        font=("Consolas", 10), fill="#455A64"
+                    )
+                    y += 18
         self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
 
-    def _start_move(self, e): self.canvas.scan_mark(e.x, e.y)
-    def _on_move(self, e): self.canvas.scan_dragto(e.x, e.y, gain=1)
-    def _on_zoom(self, e):
-        scale = 1.1 if getattr(e, "delta", 0) > 0 or getattr(e, "num", 0) == 4 else 0.9
-        self.canvas.scale(tk.ALL, e.x, e.y, scale, scale)
+    # ---------------------------------------------------------- 其他视图 --
+
+    def show_thread_legend(self) -> None:
+        self.canvas.delete("all")
+        y = 40
+        self.canvas.create_text(40, 10, anchor="nw",
+                                text="线程颜色图例",
+                                font=("Microsoft YaHei", 14, "bold"), fill="#212121")
+        for thread, color in self.thread_color_map.items():
+            self.canvas.create_rectangle(40, y, 100, y + 30, fill=color, outline="black")
+            self.canvas.create_text(120, y + 15, anchor="w",
+                                    text=thread, font=("Microsoft YaHei", 12))
+            y += 40
+        self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
+
+    # -------------------------------------------------------------- 画布 --
+
+    def _start_move(self, event) -> None:
+        self.canvas.scan_mark(event.x, event.y)
+
+    def _on_move(self, event) -> None:
+        self.canvas.scan_dragto(event.x, event.y, gain=1)
+
+    def _on_zoom(self, event) -> None:
+        delta = event.delta if hasattr(event, "delta") else (120 if event.num == 4 else -120)
+        scale = 1.1 if delta > 0 else 0.9
+        self.canvas.scale(tk.ALL, event.x, event.y, scale, scale)
         self.canvas.configure(scrollregion=self.canvas.bbox(tk.ALL))
 
 
-if __name__ == "__main__":
+def main() -> None:
     root = tk.Tk()
     app = TarjanGUI(root)
     root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
