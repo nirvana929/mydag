@@ -85,6 +85,8 @@ class MutexRecord:
     idx: str
     lock_line: Optional[int]
     unlock_line: Optional[int]
+    lock_file: Optional[str]
+    unlock_file: Optional[str]
     covered: List[str]
 
 
@@ -96,6 +98,8 @@ class SemRecord:
     idx: str
     post_line: Optional[int]
     wait_line: Optional[int]
+    post_file: Optional[str]
+    wait_file: Optional[str]
 
 
 # --------------------------------------------------------------------------- #
@@ -172,8 +176,7 @@ class TarjanGUI:
                       font=("Microsoft YaHei", 9)).pack(pady=6)
 
         add_btn("使用默认配置（dag1）", self.use_default)
-        add_btn("选择 dot 文件", self.select_dot_file)
-        add_btn("选择 txt 文件", self.select_txt_file)
+        add_btn("选择配置文件", self.select_config_folder)
         add_btn("生成原始图", self.generate_original_graph)
         add_btn("查看互斥锁", self.view_mutex)
         add_btn("生成信号量图", self.generate_semaphore_pipeline)
@@ -374,6 +377,56 @@ class TarjanGUI:
         self._set_subtoolbar(None)
         messagebox.showinfo("成功", f"已选择 TXT 文件：{path.name}")
 
+    def select_config_folder(self) -> None:
+        """
+        选择配置文件夹，并自动匹配其中的 dot / txt 文件。
+
+        约束：
+        - 仅在所选文件夹的第一层查找（不递归）。
+        - 至少需要一个 dot 文件；txt 文件可选。若存在多个，取按名称排序后的第一个。
+        """
+        folder = filedialog.askdirectory(title="选择配置文件夹")
+        if not folder:
+            return
+        folder_path = Path(folder)
+        if not folder_path.is_dir():
+            messagebox.showerror("错误", "请选择有效的文件夹。")
+            return
+
+        dot_files = sorted([p for p in folder_path.iterdir() if p.is_file() and p.suffix.lower() == ".dot"])
+        if not dot_files:
+            messagebox.showerror("错误", "该文件夹中未找到 dot 文件。")
+            return
+        dot_path = dot_files[0]
+
+        txt_files = sorted([p for p in folder_path.iterdir() if p.is_file() and p.suffix.lower() == ".txt"])
+        txt_path = txt_files[0] if txt_files else None
+
+        try:
+            self.G = self._read_dot_to_graph(dot_path)
+        except Exception as exc:
+            messagebox.showerror("错误", f"加载 DOT 失败：\n{exc}")
+            return
+
+        self.current_dot_path = dot_path
+        self.current_circle_path = txt_path
+        self.current_config_dir = folder_path
+        self.cached_images = {"original": None, "tarjan": None, "threads": None}
+        self.sem_records.clear()
+        self.current_intermediate_dot = None
+
+        self._extract_threads()
+        self._ensure_output_dir()
+        self._update_status()
+        self._set_subtoolbar(None)
+
+        info = [f"DOT：{dot_path.name}"]
+        if txt_path:
+            info.append(f"TXT：{txt_path.name}")
+        else:
+            info.append("TXT：<未找到，部分功能不可用>")
+        messagebox.showinfo("成功", "已加载配置文件夹：\n" + "\n".join(info))
+
     # -------------------------------------------------------- 原始图展示 --
 
     def generate_original_graph(self) -> None:
@@ -397,20 +450,31 @@ class TarjanGUI:
 
     # ------------------------------------------------------------- 互斥锁 --
 
-    def _parse_optional_line(self, parts: List[str]) -> Optional[int]:
-        if len(parts) < 4:
-            return None
-        try:
-            return int(parts[3])
-        except Exception:
-            return None
+    def _parse_optional_meta(self, parts: List[str]) -> Tuple[Optional[int], Optional[str]]:
+        """
+        解析可选的源码行号与文件名。
+
+        格式约定：
+        - 第四列：行号（整数）。若无法转换为整数，则视为文件名。
+        - 第五列：文件名（字符串，可选）。若存在则覆盖第四列中的文件名。
+        """
+        line_no: Optional[int] = None
+        file_name: Optional[str] = None
+        if len(parts) >= 4:
+            try:
+                line_no = int(parts[3])
+            except Exception:
+                file_name = parts[3]
+        if len(parts) >= 5:
+            file_name = parts[4]
+        return line_no, file_name
 
     def _prepare_mutex_data(self) -> bool:
         if not self.current_circle_path:
             messagebox.showerror("错误", "请先加载 txt 文件。")
             return False
 
-        entries: List[Tuple[str, str, str, str, Optional[int]]] = []
+        entries: List[Tuple[str, str, str, str, Optional[int], Optional[str]]] = []
         block = None
         for line in self.current_circle_path.read_text(encoding="utf-8", errors="ignore").splitlines():
             s = _norm(line)
@@ -428,21 +492,21 @@ class TarjanGUI:
             if len(parts) < 3:
                 continue
             func, var, idx = parts[0], parts[1], parts[2]
-            line_no = self._parse_optional_line(parts)
+            line_no, file_name = self._parse_optional_meta(parts)
             lower = func.lower()
             if "pthread_mutex_unlock" in lower or "/unlock" in lower:
-                entries.append((_norm(func), var, idx, "unlock", line_no))
+                entries.append((_norm(func), var, idx, "unlock", line_no, file_name))
             elif "pthread_mutex_lock" in lower or "/lock" in lower:
-                entries.append((_norm(func), var, idx, "lock", line_no))
+                entries.append((_norm(func), var, idx, "lock", line_no, file_name))
 
-        stacks: Dict[str, List[Tuple[str, str, Optional[int]]]] = {}
+        stacks: Dict[str, List[Tuple[str, str, Optional[int], Optional[str]]]] = {}
         pairs: List[MutexRecord] = []
-        for func, var, idx, typ, line_no in entries:
+        for func, var, idx, typ, line_no, file_name in entries:
             stacks.setdefault(idx, [])
             if typ == "lock":
-                stacks[idx].append((func, var, line_no))
+                stacks[idx].append((func, var, line_no, file_name))
             elif typ == "unlock" and stacks[idx]:
-                lock_func, lock_var, lock_line = stacks[idx].pop()
+                lock_func, lock_var, lock_line, lock_file = stacks[idx].pop()
                 if lock_var != var:
                     # 变量不一致时仍以 unlock 的变量为准
                     lock_var = var
@@ -453,6 +517,8 @@ class TarjanGUI:
                     idx=idx,
                     lock_line=lock_line,
                     unlock_line=line_no,
+                    lock_file=lock_file,
+                    unlock_file=file_name,
                     covered=[],
                 )
                 pairs.append(record)
@@ -520,19 +586,30 @@ class TarjanGUI:
                                 font=("Microsoft YaHei", 14, "bold"), fill="#000")
         y += 40
         for rec in self.mutex_records:
-            text = (
-                f"ID={rec.idx}\n"
-                f"LOCK: {rec.lock}\n"
-                f"UNLOCK: {rec.unlock}\n"
-                f"COVERED: {', '.join(rec.covered)}\n"
-            )
+            lock_file = rec.lock_file or rec.unlock_file
+            lines = [
+                f"ID: {rec.idx}",
+                f"LOCK: {rec.lock}",
+                f"UNLOCK: {rec.unlock}",
+            ]
+            if lock_file:
+                lines.append(f"FILE: {lock_file}")
             if rec.lock_line is not None or rec.unlock_line is not None:
                 lock_line = rec.lock_line if rec.lock_line is not None else "?"
                 unlock_line = rec.unlock_line if rec.unlock_line is not None else "?"
-                text += f"LINES: {lock_line} -> {unlock_line}\n"
-            self.canvas.create_text(20, y, anchor="nw",
-                                    text=text, font=("Consolas", 11), fill="#263238")
-            y += 100
+                lines.append(f"LINES: {lock_line} -> {unlock_line}")
+            lines.append("COVERED:")
+            lines.extend(f"  - {node}" for node in rec.covered)
+            text = "\n".join(lines)
+            item = self.canvas.create_text(
+                20, y, anchor="nw", text=text, font=("Consolas", 11),
+                fill="#263238", width=max(self.canvas.winfo_width() - 60, 400)
+            )
+            bbox = self.canvas.bbox(item)
+            if bbox:
+                y = bbox[3] + 20
+            else:
+                y += 120
         self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
 
     def view_mutex(self) -> None:
@@ -572,17 +649,27 @@ class TarjanGUI:
             if len(parts) < 3:
                 continue
             func, var, idx = parts[0], parts[1], parts[2]
-            line_no = self._parse_optional_line(parts)
+            line_no, file_name = self._parse_optional_meta(parts)
             record = by_id.setdefault(
                 idx,
-                {"post": None, "wait": None, "var": var, "post_line": None, "wait_line": None},
+                {
+                    "post": None,
+                    "wait": None,
+                    "var": var,
+                    "post_line": None,
+                    "wait_line": None,
+                    "post_file": None,
+                    "wait_file": None,
+                },
             )
             if "sem_post" in func:
                 record["post"] = _norm(func)
                 record["post_line"] = line_no
+                record["post_file"] = file_name
             elif "sem_wait" in func:
                 record["wait"] = _norm(func)
                 record["wait_line"] = line_no
+                record["wait_file"] = file_name
 
         pairs: List[SemRecord] = []
         for idx, info in by_id.items():
@@ -595,6 +682,8 @@ class TarjanGUI:
                         idx=idx,
                         post_line=info.get("post_line"),
                         wait_line=info.get("wait_line"),
+                        post_file=info.get("post_file"),
+                        wait_file=info.get("wait_file"),
                     )
                 )
         return pairs
@@ -738,10 +827,13 @@ class TarjanGUI:
             return
         for rec in pairs:
             extra = ""
+            file_info = rec.post_file or rec.wait_file
+            if file_info:
+                extra += f"  FILE: {file_info}"
             if rec.post_line is not None or rec.wait_line is not None:
                 a = rec.post_line if rec.post_line is not None else "?"
                 b = rec.wait_line if rec.wait_line is not None else "?"
-                extra = f"  LINES: {a} -> {b}"
+                extra += f"  LINES: {a} -> {b}"
             self.canvas.create_text(
                 20, y, anchor="nw",
                 text=f"ID={rec.idx}  VAR={rec.var}  {rec.post} -> {rec.wait}{extra}",
