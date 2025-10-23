@@ -1,0 +1,325 @@
+from __future__ import annotations
+
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+from typing import Optional
+
+import tkinter as tk
+from tkinter import filedialog, messagebox
+
+# 允许包外直接运行（python3 gui.py）时的导入回退
+try:  # 相对导入（推荐：python3 -m mycally.gui）
+    from .builder import build_callee_info
+    from .model import CallGraph, RenderOptions
+    from .parser import Parser
+    from .renderer import DotRenderer
+    from .threads import infer_thread_edges
+except Exception:  # 绝对导入回退（在 mycally/ 目录内执行 python3 gui.py）
+    import sys
+    from pathlib import Path
+
+    pkg_root = Path(__file__).resolve().parent
+    # 优先尝试以包形式导入
+    sys.path.insert(0, str(pkg_root.parent))
+    try:
+        from mycally.builder import build_callee_info
+        from mycally.model import CallGraph, RenderOptions
+        from mycally.parser import Parser
+        from mycally.renderer import DotRenderer
+        from mycally.threads import infer_thread_edges
+    except Exception:
+        # 回退到同目录模块导入
+        sys.path.insert(0, str(pkg_root))
+        from builder import build_callee_info
+        from model import CallGraph, RenderOptions
+        from parser import Parser
+        from renderer import DotRenderer
+        from threads import infer_thread_edges
+
+
+class MyCallyGUI:
+    def __init__(self, root: tk.Tk) -> None:
+        self.root = root
+        self.root.title("MyCally 助手")
+        self.root.geometry("1200x800")
+
+        self.current_c_path: Optional[Path] = None
+        self.current_expand_path: Optional[Path] = None
+        self.current_image: Optional[tk.PhotoImage] = None
+
+        self._build_ui()
+
+    # ------------------------------------------------------------------ UI --
+
+    def _build_ui(self) -> None:
+        main = tk.Frame(self.root, bg="#ECEFF1")
+        main.pack(fill=tk.BOTH, expand=True)
+
+        # 左侧按钮区
+        sidebar = tk.Frame(main, width=220, bg="#CFD8DC")
+        sidebar.pack(side=tk.LEFT, fill=tk.Y)
+
+        def add_button(text: str, command) -> None:
+            btn = tk.Button(
+                sidebar,
+                text=text,
+                command=command,
+                width=20,
+                height=2,
+                bg="#ECEFF1",
+                activebackground="#B0BEC5",
+                relief=tk.RAISED,
+                font=("Microsoft YaHei", 10),
+            )
+            btn.pack(pady=12, padx=12)
+
+        add_button("读入 C 文件", self.load_c_file)
+        add_button("读入 expand 文件", self.load_expand_file)
+        add_button("生成 dag 图", self.generate_dag)
+
+        # 右侧展示区
+        content = tk.Frame(main, bg="#FFFFFF")
+        content.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+
+        info_frame = tk.Frame(content, bg="#FFFFFF")
+        info_frame.pack(fill=tk.X, padx=12, pady=12)
+
+        self.c_label = tk.Label(info_frame, text="C 文件：<未选择>", anchor="w", bg="#FFFFFF", font=("Consolas", 11))
+        self.c_label.pack(fill=tk.X)
+
+        self.expand_label = tk.Label(info_frame, text="expand 文件：<未选择>", anchor="w", bg="#FFFFFF", font=("Consolas", 11))
+        self.expand_label.pack(fill=tk.X, pady=(6, 0))
+
+        canvas_frame = tk.Frame(content, bg="#ECEFF1")
+        canvas_frame.pack(fill=tk.BOTH, expand=True, padx=12, pady=12)
+
+        self.canvas = tk.Canvas(canvas_frame, bg="#FAFAFA", relief=tk.SUNKEN)
+        self.canvas.pack(fill=tk.BOTH, expand=True)
+        self.canvas.create_text(
+            0,
+            0,
+            text="生成后的 DAG 图将在此显示",
+            anchor=tk.NW,
+            font=("Microsoft YaHei", 12),
+            fill="#607D8B",
+            tags="placeholder",
+        )
+
+        self.canvas.bind("<ButtonPress-1>", self._start_pan)
+        self.canvas.bind("<B1-Motion>", self._do_pan)
+        self.canvas.bind("<MouseWheel>", self._on_zoom)
+        self.canvas.bind("<Button-4>", self._on_zoom)  # Linux scroll up
+        self.canvas.bind("<Button-5>", self._on_zoom)  # Linux scroll down
+        self.canvas_scale = 1.0
+
+    # -------------------------------------------------------------- Helpers --
+
+    def load_c_file(self) -> None:
+        path = filedialog.askopenfilename(title="选择 C 源文件", filetypes=[("C 文件", "*.c"), ("所有文件", "*")])
+        if not path:
+            return
+
+        c_path = Path(path).resolve()
+        if not c_path.exists():
+            messagebox.showerror("错误", "所选 C 文件不存在。")
+            return
+
+        try:
+            expand_path = self._compile_to_expand(c_path)
+        except Exception as exc:
+            messagebox.showerror("编译失败", str(exc))
+            return
+
+        base_name = c_path.stem
+        target_dir = Path("test") / base_name
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+        dest_expand = target_dir / expand_path.name
+        try:
+            shutil.copy2(expand_path, dest_expand)
+        except Exception as exc:
+            messagebox.showerror("复制失败", f"无法将 expand 文件复制到 {dest_expand}。\n{exc}")
+            return
+
+        self.current_c_path = c_path
+        self.current_expand_path = dest_expand
+
+        self._update_labels()
+        self._clear_canvas()
+
+        messagebox.showinfo("完成", f"已生成 expand 文件：\n{dest_expand}")
+
+    def load_expand_file(self) -> None:
+        path = filedialog.askopenfilename(
+            title="选择 expand 文件", filetypes=[("expand 文件", "*.expand"), ("所有文件", "*")]
+        )
+        if not path:
+            return
+
+        expand_path = Path(path).resolve()
+        if not expand_path.exists():
+            messagebox.showerror("错误", "所选 expand 文件不存在。")
+            return
+
+        self.current_c_path = None
+        self.current_expand_path = expand_path
+
+        self._update_labels()
+        self._clear_canvas()
+
+    def generate_dag(self) -> None:
+        if not self.current_expand_path or not self.current_expand_path.exists():
+            messagebox.showwarning("提示", "请先选择 expand 文件。")
+            return
+
+        try:
+            dot_str, png_path = self._build_dag(self.current_expand_path)
+        except Exception as exc:
+            messagebox.showerror("生成失败", str(exc))
+            return
+
+        try:
+            self._show_image(png_path)
+        except Exception as exc:
+            messagebox.showerror("显示失败", f"已生成图像，但加载时出错：\n{exc}")
+            return
+
+        messagebox.showinfo("完成", f"已生成 DAG 图：\n{png_path}")
+
+    # ------------------------------------------------------------- Internal --
+
+    def _compile_to_expand(self, c_path: Path) -> Path:
+        """调用 gcc 生成 expand 文件并返回其路径。"""
+        work_dir = c_path.parent
+        base_name = c_path.name
+
+        with tempfile.NamedTemporaryFile(dir=work_dir, suffix=".o", delete=False) as tmp:
+            obj_name = Path(tmp.name).name
+        try:
+            subprocess.run(
+                ["gcc", "-fdump-rtl-expand", "-c", base_name, "-o", obj_name],
+                cwd=work_dir,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+        except subprocess.CalledProcessError as exc:
+            raise RuntimeError(exc.stderr.decode("utf-8", errors="ignore") or str(exc))
+        finally:
+            obj_file = work_dir / obj_name
+            if obj_file.exists():
+                obj_file.unlink()
+
+        candidates = sorted(work_dir.glob(f"{base_name}.*.expand"), key=lambda p: p.stat().st_mtime, reverse=True)
+        if not candidates:
+            raise RuntimeError("未找到由 gcc 生成的 expand 文件。")
+        return candidates[0]
+
+    def _build_dag(self, expand_path: Path) -> tuple[str, Path]:
+        """解析 expand 文件并生成 DAG PNG，返回 (dot, png_path)。"""
+        parser = Parser()
+        graph: CallGraph = parser.parse_files([str(expand_path)])
+        build_callee_info(graph)
+        thread_edges = infer_thread_edges(graph)
+
+        renderer = DotRenderer(graph, RenderOptions(), extra_edges=thread_edges)
+        dot_str = renderer.render_full()
+
+        base_name = self._derive_base_name(expand_path)
+        target_dir = Path("test") / base_name
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+        dot_path = target_dir / "dag.dot"
+        png_path = target_dir / "dag.png"
+        dot_path.write_text(dot_str, encoding="utf-8")
+
+        try:
+            subprocess.run(["dot", "-Tpng", str(dot_path), "-o", str(png_path)], check=True)
+        except FileNotFoundError as exc:
+            raise RuntimeError("未找到 dot 命令，请安装 Graphviz。") from exc
+        except subprocess.CalledProcessError as exc:
+            raise RuntimeError(exc.stderr.decode("utf-8", errors="ignore") or "dot 命令执行失败。") from exc
+
+        return dot_str, png_path
+
+    def _derive_base_name(self, expand_path: Path) -> str:
+        name = expand_path.name
+        if ".c" in name:
+            return name.split(".c", 1)[0]
+        return expand_path.stem
+
+    def _update_labels(self) -> None:
+        c_text = f"C 文件：{self.current_c_path}" if self.current_c_path else "C 文件：<未选择>"
+        expand_text = f"expand 文件：{self.current_expand_path}" if self.current_expand_path else "expand 文件：<未选择>"
+        self.c_label.config(text=c_text)
+        self.expand_label.config(text=expand_text)
+
+    def _clear_canvas(self) -> None:
+        self.canvas.delete("all")
+        self.current_image = None
+        self.canvas_scale = 1.0
+        self.canvas.create_text(
+            0,
+            0,
+            text="生成后的 DAG 图将在此显示",
+            anchor=tk.NW,
+            font=("Microsoft YaHei", 12),
+            fill="#607D8B",
+            tags="placeholder",
+        )
+
+    def _show_image(self, image_path: Path) -> None:
+        self.canvas.delete("all")
+        try:
+            self.current_image = tk.PhotoImage(file=str(image_path))
+        except Exception:
+            # Pillow 回退，兼容部分环境 PhotoImage 不支持 PNG
+            try:
+                from PIL import Image, ImageTk  # type: ignore
+
+                img = Image.open(str(image_path))
+                self.current_image = ImageTk.PhotoImage(img)
+            except Exception as exc:  # 最终失败
+                raise RuntimeError(f"无法加载图片：{exc}")
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.current_image, tags="image")
+        self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
+
+    def _start_pan(self, event) -> None:
+        self.canvas.scan_mark(event.x, event.y)
+
+    def _do_pan(self, event) -> None:
+        self.canvas.scan_dragto(event.x, event.y, gain=1)
+
+    def _on_zoom(self, event) -> None:
+        if self.current_image is None:
+            return
+        if event.type == tk.EventType.ButtonPress and event.num not in (4, 5):
+            return
+
+        if event.type == tk.EventType.MouseWheel:
+            delta = event.delta
+        else:  # Linux scroll (Button-4/5)
+            delta = 120 if event.num == 4 else -120
+
+        scale_factor = 1.1 if delta > 0 else 0.9
+        self.canvas_scale *= scale_factor
+        self.canvas.scale("all", event.x, event.y, scale_factor, scale_factor)
+        self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
+
+
+def main() -> None:
+    try:
+        root = tk.Tk()
+    except tk.TclError as exc:
+        raise RuntimeError(
+            "无法启动图形界面：未检测到可用的显示服务器。"
+            "\n请在支持 GUI 的环境中运行，或设置 DISPLAY 变量。"
+        ) from exc
+    app = MyCallyGUI(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()

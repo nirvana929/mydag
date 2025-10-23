@@ -1,0 +1,44 @@
+strict digraph callgraph {
+"consumer" -> "sem_wait";
+"sem_wait" [style=dashed]
+"consumer" -> "pthread_mutex_lock";
+"pthread_mutex_lock" [style=dashed]
+"consumer" -> "printf";
+"printf" [style=dashed]
+"consumer" -> "pthread_cond_broadcast";
+"pthread_cond_broadcast" [style=dashed]
+"consumer" -> "pthread_mutex_unlock";
+"pthread_mutex_unlock" [style=dashed]
+"consumer" -> "sem_post";
+"sem_post" [style=dashed]
+"main" -> "sem_init";
+"sem_init" [style=dashed]
+"main" -> "pthread_create";
+"pthread_create" [style=dashed]
+"main" -> "pthread_join";
+"pthread_join" [style=dashed]
+"main" -> "sem_destroy";
+"sem_destroy" [style=dashed]
+"main" -> "pthread_mutex_destroy";
+"pthread_mutex_destroy" [style=dashed]
+"main" -> "pthread_cond_destroy";
+"pthread_cond_destroy" [style=dashed]
+"producer" -> "sem_wait";
+"sem_wait" [style=dashed]
+"producer" -> "pthread_mutex_lock";
+"pthread_mutex_lock" [style=dashed]
+"producer" -> "printf";
+"printf" [style=dashed]
+"producer" -> "pthread_mutex_unlock";
+"pthread_mutex_unlock" [style=dashed]
+"producer" -> "sem_post";
+"sem_post" [style=dashed]
+"watcher" -> "pthread_mutex_lock";
+"pthread_mutex_lock" [style=dashed]
+"watcher" -> "pthread_cond_wait";
+"pthread_cond_wait" [style=dashed]
+"watcher" -> "printf";
+"printf" [style=dashed]
+"watcher" -> "pthread_mutex_unlock";
+"pthread_mutex_unlock" [style=dashed]
+}
