@@ -39,7 +39,7 @@ import os
 import re
 import sys
 import time
-
+from pathlib import Path
 #
 # Unit tests for the dump_path() function.
 # Invoke as: cally.py --unit-test dummy
@@ -51,8 +51,7 @@ import time
 #           A        |_ [E]
 #                    |_  F
 #                    |_  G --> B
-#
-# \_  H --> I --> J --> D
+#                    \_  H --> I --> J --> D
 #
 #
 #
@@ -513,9 +512,6 @@ def dump_function_info(functions, function, details):
 #
 # Build full call graph
 #
-
-
-#第一处修改，函数用于打印dot文件，在这里面，我将对if、while、switch进行特殊处理
 def full_call_graph(functions, **kwargs):
     exclude = kwargs.get("exclude", None)
     no_externs = kwargs.get("no_externs", False)
@@ -547,7 +543,7 @@ def full_call_graph(functions, **kwargs):
                 if (not no_externs or caller in functions) and \
                         (exclude is None or
                          re.match(exclude, caller) is None):
-                    join_search = re.search(myjoin, caller)#处理pthread——join节点
+                    join_search = re.search(myjoin, caller)
                     if join_search is not None:
                         myg_thread = functions[func]["myinfo"][caller]
                         myg_task = functions[func]["myinfo"][myg_thread]
@@ -620,7 +616,7 @@ def full_call_graph(functions, **kwargs):
                             count_switch=0
                             prenum=1
                         else:
-                              print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
+                            print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
                     printed_functions += 1
                     pre = caller
             if printed_functions == 0:
@@ -670,6 +666,15 @@ def main():
                         action="store_true")
 
     parser.add_argument("RTLFILE", help="GCCs RTL .expand file", nargs="+")
+    
+    #添加源代码文件进来
+    parser.add_argument(
+        "--file",
+        dest="file",
+        required=True,
+        metavar="FILE",
+        help="要读取的文件路径",
+    )
 
     parser.parse_args()
     config = parser.parse_args()
@@ -715,7 +720,6 @@ def main():
     #
     # Regex to extract functions
     #
-    #第二处修改，这里为读取模块，将读取的信息存入数据结构，便于进行打印
     function = re.compile(
         r"^;; Function (?P<mangle>.*)\s+\((?P<function>\S+)(,.*)?\).*$")
     call = re.compile(
@@ -731,6 +735,9 @@ def main():
     condition_jump = re.compile(r".*\(label_ref\s+(\d+)")
     condition_barrier = re.compile(r"\(barrier")
     condition_code = re.compile(r"\(code_label\s+(\d+)")
+    source_row_str=re.compile(r"^[^:]+:(?P<target>\d+):\d+")
+    thread_create=re.compile(r"^.*pthread_create\s*\(\s*&?\s*(?P<target>\w+)\s*,[^;]*?\)")
+    thread_join=re.compile(r"^.*pthread_join\s*\(\s*(?P<target>\w+)\s*,\s*NULL\s*\)")
     exist = 0  # 是否出现条件标志,初始状态为1
     exist_flag = 0  # 条件标志位为0代表while循环，条件标志位1代表if条件
     jump_flag=0#用来判断上次是不是出现jump了
@@ -741,6 +748,33 @@ def main():
     jump_2=0
     jump_3=0
     jump_4=0
+    #预读源代码结果字典
+    source_code=dict()
+    
+    #预读源代码模块
+    path = Path(config.file).expanduser()
+    with path.open("r", encoding="utf-8") as fp:
+            source_row=0
+            for line in fp:
+              source_row += 1
+              match_create = re.match(thread_create, line)
+              match_join = re.match(thread_join, line)
+              if match_create:
+                  target = match_create.group("target")
+                  source_code[str(source_row)] = target
+              elif match_join:
+                  target = match_join.group("target")
+                  source_code[str(source_row)] = target
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     #
     # Parse each line in each file given
     #
@@ -857,6 +891,9 @@ def main():
     switch_count=0#判断switch分支
     excuted=0#判断是否执行过第一个判断
     state_count=0  #用来计数当前识别到第几个
+    create_flag=0#标志用来辅助create读取下一行源代码行数
+    join_flag=0#标志用来辅助join读取下一行源代码行数
+    thread_target=""#用来储存线程的目标，主要是实现pthread_join和pthread_create的绑定，代表着functions['main']['myinfo']['main/while/pthread_join7']
     for line in next_line_gen:
         #
         # Find function entry point
@@ -1025,15 +1062,18 @@ def main():
                 if origin_target not in functions:
                     target = function_name + "/" + target + str(count)
                 if 'pthread_create' in target:
+                    create_flag = 1
                     functions[function_name]["calls"][mytarget] = True
                     functions[function_name]["mycalls"].append(target)
                     functions[function_name]["mycalls"].append(mytarget)
                     functions[function_name]["myinfo"]["tail"] = mytarget
                     functions[function_name]["myinfo"][thread_num] = mytarget
+                    thread_target=mytarget
                 else:
                     flag = 0
                     if 'pthread_join' in target:
                         flag = 1
+                        join_flag = 1
                     functions[function_name]["calls"][origin_target] = True
                     functions[function_name]["mycalls"].append(target)
                     functions[function_name]["myinfo"]["tail"] = target
@@ -1047,6 +1087,19 @@ def main():
                     target = match.group("target")
                     if target not in functions[function_name]["refs"]:
                         functions[function_name]["refs"][target] = True
+                #在这里添加create和join的读下一行的处理
+                if create_flag==1:
+                  match_create_row = re.match(source_row_str, line)
+                  create_row=match_create_row.group("target")
+                  create_flag=0
+                  thread_num=source_code.get(create_row, "")
+                  functions[function_name]["myinfo"][thread_num] = thread_target
+                if join_flag==1:
+                  match_join_row = re.match(source_row_str, line)
+                  join_row=match_join_row.group("target")
+                  join_flag=0
+                  thread_num=source_code.get(join_row, "")
+                  functions[function_name]["myinfo"][thread_num] = thread_target
 
     if config.debug:
         print_dbg("[PERF] Processing {} RTL files took {:.9f} seconds".format(

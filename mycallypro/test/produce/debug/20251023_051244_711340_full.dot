@@ -47,7 +47,6 @@ strict digraph callgraph {
 "watcher/while/pthread_mutex_lock1" [style=dashed]
 "watcher/while/pthread_mutex_lock1" -> "watcher/while/pthread_cond_wait2";
 "watcher/while/pthread_cond_wait2" [style=dashed]
-"watcher/while/pthread_cond_wait2" -> "watcher /printf3";
-"main/pthread_cond_destroy12" -> "watcher/printf3";
+"watcher/while/pthread_cond_wait2" -> "watcher/printf3";
 "watcher/printf3" -> "watcher/pthread_mutex_unlock4";
 }
