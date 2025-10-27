@@ -43,7 +43,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 from .thread_map import resolve_join_edges, collect_thread_edges
 
@@ -509,6 +509,7 @@ def _derive_debug_base(path: Path) -> str:
 
 
 def _ensure_debug_dir(config) -> Path:
+    """确保debug目录存在（用于中间结果和调试信息）"""
     try:
         first_file = getattr(config, "RTLFILE", [None])[0]
     except Exception:
@@ -526,8 +527,80 @@ def _ensure_debug_dir(config) -> Path:
     return debug_dir
 
 
+def _ensure_output_dirs(config) -> Tuple[Path, Path]:
+    """
+    确保输出目录结构存在
+    返回: (config_dir, intermediate_dir)
+    - config_dir: 配置文件目录（存放给dag_describe使用的所有文件）
+    - intermediate_dir: 中间结果目录（存放调试信息、中间DOT等）
+    
+    配置文件目录结构：
+    config_dir/
+    ├── source/           # 源代码文件
+    ├── expand/           # expand文件
+    ├── dot/              # DOT文件
+    ├── images/           # PNG图片
+    ├── debug/            # debug信息
+    └── circle.txt        # 配置文件
+    """
+    try:
+        first_file = getattr(config, "RTLFILE", [None])[0]
+    except Exception:
+        first_file = None
+    
+    # 获取基础名称（从expand文件名提取）
+    if first_file:
+        first_path = Path(first_file)
+        # 去除.expand后缀，提取基础名
+        base_name = first_path.stem
+        if base_name.endswith('.233r'):
+            base_name = base_name[:-5]
+        elif '.' in base_name:
+            base_name = base_name.split('.')[0]
+        
+        # 基于输入文件所在目录的父目录或当前工作目录
+        if hasattr(config, 'output_base') and config.output_base:
+            root = Path(config.output_base).resolve()
+        else:
+            root = first_path.parent.parent if (first_path.parent.parent / "配置文件").exists() or (first_path.parent.parent / "中间结果").exists() else Path.cwd()
+    else:
+        base_name = "default"
+        root = Path.cwd()
+    
+    # 配置文件目录：root/配置文件/basename/
+    config_dir = root / "配置文件" / base_name
+    config_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 创建子目录
+    (config_dir / "source").mkdir(exist_ok=True)
+    (config_dir / "expand").mkdir(exist_ok=True)
+    (config_dir / "dot").mkdir(exist_ok=True)
+    (config_dir / "images").mkdir(exist_ok=True)
+    (config_dir / "debug").mkdir(exist_ok=True)
+    
+    # 中间结果目录：root/中间结果/basename/
+    intermediate_dir = root / "中间结果" / base_name
+    intermediate_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 在中间结果目录下创建debug子目录
+    debug_dir = intermediate_dir / "debug"
+    debug_dir.mkdir(parents=True, exist_ok=True)
+    
+    return config_dir, intermediate_dir
+
+
 def _write_debug_text(config, tag: str, content: str, suffix: str, *, timestamp: Optional[str] = None) -> None:
-    debug_dir = _ensure_debug_dir(config)
+    """写入调试文本文件到中间结果目录或配置文件的debug目录"""
+    # 优先使用配置文件的debug目录
+    if hasattr(config, '_config_dir'):
+        debug_dir = config._config_dir / "debug"
+        debug_dir.mkdir(parents=True, exist_ok=True)
+    elif hasattr(config, '_intermediate_dir'):
+        debug_dir = config._intermediate_dir / "debug"
+        debug_dir.mkdir(parents=True, exist_ok=True)
+    else:
+        debug_dir = _ensure_debug_dir(config)
+    
     ts = timestamp or datetime.now().strftime("%Y%m%d_%H%M%S_%f")
     path = debug_dir / f"{ts}_{tag}.{suffix}"
     try:
@@ -801,6 +874,15 @@ def main():
     parser.add_argument("--threads-only",
                         help="Render only thread edges without condition nodes",
                         action="store_true")
+    parser.add_argument("--export-txt",
+                        help="Export circle.txt config file to specified path",
+                        type=str, metavar="PATH")
+    parser.add_argument("--source-file",
+                        help="Source code file path for extracting line numbers",
+                        type=str, metavar="PATH")
+    parser.add_argument("--output-base",
+                        help="Base directory for output (配置文件 and 中间结果)",
+                        type=str, metavar="PATH")
 
     parser.add_argument("RTLFILE", help="GCCs RTL .expand file", nargs="+")
 
@@ -1322,6 +1404,98 @@ def main():
     if config.debug:
         print_dbg("[PERF] Generating .dot file took {:.9f} seconds".format(
             time.time() - start_time))
+
+    # ========================================================================
+    # 导出circle.txt配置文件（如果指定）
+    # ========================================================================
+    if hasattr(config, 'export_txt') and config.export_txt:
+        try:
+            from .exporters import export_circle_txt
+            
+            # 确定输出目录结构
+            if hasattr(config, 'output_base') and config.output_base:
+                config_dir, intermediate_dir = _ensure_output_dirs(config)
+                # 在config对象上附加目录信息，供调试函数使用
+                config._config_dir = config_dir
+                config._intermediate_dir = intermediate_dir
+                # 如果使用output_base，circle.txt保存到配置文件目录
+                txt_path = config_dir / "circle.txt"
+            else:
+                config_dir = Path(config.export_txt).parent
+                txt_path = Path(config.export_txt)
+            
+            # 获取expand文件路径
+            expand_file = Path(config.RTLFILE[0])
+            
+            # 获取源文件路径（如果提供）
+            source_file = None
+            if hasattr(config, 'source_file') and config.source_file:
+                source_file = Path(config.source_file)
+            
+            # 导出txt文件
+            if config.debug:
+                print_dbg(f"[INFO] Exporting circle.txt to: {txt_path}")
+            
+            export_circle_txt(
+                functions=functions,
+                expand_file=expand_file,
+                output_path=txt_path,
+                source_file=source_file
+            )
+            
+            if config.debug:
+                print_dbg(f"[INFO] Successfully exported circle.txt")
+                
+        except Exception as e:
+            print_err(f"ERROR: Failed to export circle.txt: {e}")
+            if config.debug:
+                import traceback
+                traceback.print_exc()
+    
+    # ========================================================================
+    # 如果指定了output_base，同时将dot文件保存到配置文件目录，并复制源文件
+    # ========================================================================
+    if hasattr(config, 'output_base') and config.output_base and dot_lines:
+        try:
+            import shutil
+            
+            config_dir, intermediate_dir = _ensure_output_dirs(config)
+            config._config_dir = config_dir
+            config._intermediate_dir = intermediate_dir
+            
+            # 保存DOT文件到配置文件目录的dot子目录
+            dot_filename = "dag.dot"
+            if hasattr(config, 'threads_only') and config.threads_only:
+                dot_filename = "dag_threads.dot"
+            elif hasattr(config, 'conditions_only') and config.conditions_only:
+                dot_filename = "dag_conditions.dot"
+            
+            dot_path = config_dir / "dot" / dot_filename
+            dot_content = '\n'.join(dot_lines)
+            dot_path.write_text(dot_content, encoding='utf-8')
+            
+            if config.debug:
+                print_dbg(f"[INFO] Saved DOT file to: {dot_path}")
+            
+            # 复制expand文件到配置文件目录
+            expand_file = Path(config.RTLFILE[0])
+            if expand_file.exists():
+                expand_dest = config_dir / "expand" / expand_file.name
+                shutil.copy2(expand_file, expand_dest)
+                if config.debug:
+                    print_dbg(f"[INFO] Copied expand file to: {expand_dest}")
+            
+            # 复制源文件到配置文件目录（如果提供）
+            if hasattr(config, 'source_file') and config.source_file:
+                source_file = Path(config.source_file)
+                if source_file.exists():
+                    source_dest = config_dir / "source" / source_file.name
+                    shutil.copy2(source_file, source_dest)
+                    if config.debug:
+                        print_dbg(f"[INFO] Copied source file to: {source_dest}")
+                
+        except Exception as e:
+            print_err(f"ERROR: Failed to save files: {e}")
 
     return 0
 

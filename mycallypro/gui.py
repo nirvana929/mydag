@@ -89,6 +89,7 @@ class MyCallyGUI:
         add_button("读入 expand 文件", self.load_expand_file)
         add_button("生成 dag 图", self.generate_dag)
         add_button("查看条件节点", self.generate_conditions_dag)
+        add_button("生成配置文件", self.generate_config_files)
 
         # 右侧展示区
         content = tk.Frame(main, bg="#FFFFFF")
@@ -218,6 +219,89 @@ class MyCallyGUI:
 
         messagebox.showinfo("完成", f"已生成完整视图 DAG 图：\n{png_path}")
 
+    def generate_config_files(self) -> None:
+        """一键生成所有配置文件：dag图、条件节点图、circle.txt"""
+        if not self.current_expand_path or not self.current_expand_path.exists():
+            messagebox.showwarning("提示", "请先选择 expand 文件。")
+            return
+
+        try:
+            # 确定输出目录
+            base_name = self._derive_base_name(self.current_expand_path)
+            config_base = PROJECT_ROOT / "配置文件" / base_name
+            config_base.mkdir(parents=True, exist_ok=True)
+            
+            intermediate_base = PROJECT_ROOT / "中间结果" / base_name
+            intermediate_base.mkdir(parents=True, exist_ok=True)
+            
+            # 创建子目录
+            (config_base / "source").mkdir(exist_ok=True)
+            (config_base / "expand").mkdir(exist_ok=True)
+            (config_base / "dot").mkdir(exist_ok=True)
+            (config_base / "images").mkdir(exist_ok=True)
+            (config_base / "debug").mkdir(exist_ok=True)
+
+            generated_files = []
+            
+            # 0. 复制源文件和expand文件
+            messagebox.showinfo("进度", "正在复制源文件...")
+            import shutil
+            
+            # 复制expand文件
+            expand_dest = config_base / "expand" / self.current_expand_path.name
+            shutil.copy2(self.current_expand_path, expand_dest)
+            generated_files.append(f"✓ expand/{self.current_expand_path.name}")
+            
+            # 复制源文件（如果存在）
+            if self.current_c_path and self.current_c_path.exists():
+                source_dest = config_base / "source" / self.current_c_path.name
+                shutil.copy2(self.current_c_path, source_dest)
+                generated_files.append(f"✓ source/{self.current_c_path.name}")
+            
+            # 1. 生成dag图（threads-only）
+            messagebox.showinfo("进度", "正在生成 dag 图（线程视图）...")
+            dot_str_threads, png_threads = self._build_dag_to_config(
+                self.current_expand_path, 
+                config_base,
+                threads_only=True
+            )
+            generated_files.append(f"✓ dot/dag.dot")
+            generated_files.append(f"✓ images/dag.png")
+            
+            # 2. 生成条件节点图（完整版）
+            messagebox.showinfo("进度", "正在生成条件节点图（完整视图）...")
+            dot_str_full, png_full = self._build_dag_to_config(
+                self.current_expand_path,
+                config_base,
+                threads_only=False
+            )
+            generated_files.append(f"✓ dot/dag_full.dot")
+            generated_files.append(f"✓ images/dag_full.png")
+            
+            # 3. 生成circle.txt
+            messagebox.showinfo("进度", "正在生成 circle.txt 配置文件...")
+            txt_path = self._generate_circle_txt(self.current_expand_path, config_base)
+            if txt_path.exists():
+                generated_files.append(f"✓ circle.txt")
+            
+            # 显示最后生成的图片（完整视图）
+            try:
+                self._show_image(png_full)
+            except Exception:
+                pass
+            
+            # 显示成功消息
+            files_list = "\n".join(generated_files)
+            messagebox.showinfo(
+                "生成完成", 
+                f"所有配置文件已生成！\n\n配置文件目录：\n{config_base}\n\n生成的文件：\n{files_list}"
+            )
+            
+        except Exception as exc:
+            messagebox.showerror("生成失败", f"生成配置文件时出错：\n{exc}")
+            import traceback
+            traceback.print_exc()
+
     # ------------------------------------------------------------- Internal --
 
     def _compile_to_expand(self, c_path: Path) -> Path:
@@ -318,6 +402,78 @@ class MyCallyGUI:
             raise RuntimeError(exc.stderr.decode("utf-8", errors="ignore") or "dot 命令执行失败。") from exc
 
         return dot_str, png_path
+
+    def _build_dag_to_config(self, expand_path: Path, config_dir: Path, threads_only: bool = False) -> tuple[str, Path]:
+        """生成DAG并保存到配置文件目录"""
+        try:
+            import sys
+            import subprocess
+            cmd = [sys.executable, "-m", "mycallypro"]
+            if threads_only:
+                cmd.append("--threads-only")
+            cmd.append(str(expand_path.resolve()))
+            proc = subprocess.run(
+                cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                cwd=str(PROJECT_ROOT),
+            )
+            dot_str = proc.stdout.decode("utf-8", errors="ignore")
+        except Exception as exc:
+            raise RuntimeError(f"生成 DOT 失败：{exc}")
+
+        # 保存到配置文件目录的dot和images子目录
+        dot_dir = config_dir / "dot"
+        images_dir = config_dir / "images"
+        dot_dir.mkdir(parents=True, exist_ok=True)
+        images_dir.mkdir(parents=True, exist_ok=True)
+        
+        if threads_only:
+            dot_path = dot_dir / "dag.dot"
+            png_path = images_dir / "dag.png"
+        else:
+            dot_path = dot_dir / "dag_full.dot"
+            png_path = images_dir / "dag_full.png"
+        
+        dot_path.write_text(dot_str, encoding="utf-8")
+
+        try:
+            subprocess.run(["dot", "-Tpng", str(dot_path), "-o", str(png_path)], check=True)
+        except FileNotFoundError as exc:
+            raise RuntimeError("未找到 dot 命令，请安装 Graphviz。") from exc
+        except subprocess.CalledProcessError as exc:
+            raise RuntimeError(exc.stderr.decode("utf-8", errors="ignore") or "dot 命令执行失败。") from exc
+
+        return dot_str, png_path
+
+    def _generate_circle_txt(self, expand_path: Path, config_dir: Path) -> Path:
+        """生成circle.txt配置文件"""
+        try:
+            import sys
+            import subprocess
+            
+            txt_path = config_dir / "circle.txt"
+            
+            cmd = [
+                sys.executable, "-m", "mycallypro",
+                str(expand_path.resolve()),
+                "--export-txt", str(txt_path),
+                "--output-base", str(PROJECT_ROOT)
+            ]
+            
+            proc = subprocess.run(
+                cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                cwd=str(PROJECT_ROOT),
+            )
+            
+            return txt_path
+            
+        except Exception as exc:
+            raise RuntimeError(f"生成 circle.txt 失败：{exc}")
 
     def _derive_base_name(self, expand_path: Path) -> str:
         name = expand_path.name

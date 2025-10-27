@@ -1,0 +1,18 @@
+互斥量
+producer/while/pthread_mutex_lock2 mutex mutex1
+producer/while/pthread_mutex_unlock4 mutex mutex1
+consumer/pthread_mutex_lock2 mutex mutex1
+consumer/if/pthread_mutex_unlock5 mutex mutex1
+consumer/pthread_mutex_unlock7 mutex mutex1
+watcher/while/pthread_mutex_lock1 mutex buf_mutex2 78 produce.c
+watcher/pthread_mutex_unlock4 mutex mutex1
+
+
+信号量
+producer/while/sem_wait1 sem sem1 33 produce.c
+producer/while/sem_post5 sem sem1
+consumer/sem_wait1 sem sem1 51 produce.c
+consumer/if/sem_post6 sem sem1
+consumer/sem_post8 sem sem1
+
+
