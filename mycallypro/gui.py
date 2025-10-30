@@ -19,7 +19,8 @@ from typing import Optional
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+# 配置文件目录：mycallypro/配置文件/
+PROJECT_ROOT = Path(__file__).resolve().parent
 
 # 允许包外直接运行（python3 gui.py）时的导入回退
 try:  # 相对导入（推荐：python3 -m mycally.gui）
@@ -226,20 +227,27 @@ class MyCallyGUI:
             return
 
         try:
-            # 确定输出目录
+            # 确定输出目录（三阶段划分）
             base_name = self._derive_base_name(self.current_expand_path)
+            
+            # 阶段3 - 配置文件目录（最终输出，供dag_describe使用）
             config_base = PROJECT_ROOT / "配置文件" / base_name
             config_base.mkdir(parents=True, exist_ok=True)
             
+            # 阶段2 - 中间结果目录（处理过程中的临时文件）
             intermediate_base = PROJECT_ROOT / "中间结果" / base_name
             intermediate_base.mkdir(parents=True, exist_ok=True)
             
-            # 创建子目录
+            # 创建配置文件子目录（仅包含最终输出）
             (config_base / "source").mkdir(exist_ok=True)
             (config_base / "expand").mkdir(exist_ok=True)
             (config_base / "dot").mkdir(exist_ok=True)
             (config_base / "images").mkdir(exist_ok=True)
-            (config_base / "debug").mkdir(exist_ok=True)
+            
+            # 创建中间结果子目录（临时文件）
+            (intermediate_base / "debug").mkdir(exist_ok=True)
+            (intermediate_base / "temp").mkdir(exist_ok=True)
+            (intermediate_base / "logs").mkdir(exist_ok=True)
 
             generated_files = []
             

@@ -529,19 +529,29 @@ def _ensure_debug_dir(config) -> Path:
 
 def _ensure_output_dirs(config) -> Tuple[Path, Path]:
     """
-    确保输出目录结构存在
-    返回: (config_dir, intermediate_dir)
-    - config_dir: 配置文件目录（存放给dag_describe使用的所有文件）
-    - intermediate_dir: 中间结果目录（存放调试信息、中间DOT等）
+    确保输出目录结构存在（三阶段划分）
     
-    配置文件目录结构：
-    config_dir/
-    ├── source/           # 源代码文件
-    ├── expand/           # expand文件
-    ├── dot/              # DOT文件
-    ├── images/           # PNG图片
-    ├── debug/            # debug信息
-    └── circle.txt        # 配置文件
+    阶段1 - 输入：从任意位置读取源文件和expand文件
+    阶段2 - 中间结果：程序执行过程中的所有临时文件
+    阶段3 - 配置文件：为dag_describe提供的最终输出
+    
+    返回: (config_dir, intermediate_dir)
+    - config_dir: 配置文件目录（最终输出，供dag_describe使用）
+    - intermediate_dir: 中间结果目录（处理过程中的临时文件）
+    
+    配置文件目录结构（阶段3 - 最终输出）：
+    mycallypro/配置文件/<basename>/
+    ├── circle.txt        # 主配置文件
+    ├── source/           # 源代码副本
+    ├── expand/           # expand文件副本
+    ├── dot/              # 最终DAG图
+    └── images/           # 最终PNG图片
+    
+    中间结果目录结构（阶段2 - 临时文件）：
+    mycallypro/中间结果/<basename>/
+    ├── debug/            # 调试JSON文件
+    ├── temp/             # 临时DOT文件
+    └── logs/             # 日志文件
     """
     try:
         first_file = getattr(config, "RTLFILE", [None])[0]
@@ -558,44 +568,42 @@ def _ensure_output_dirs(config) -> Tuple[Path, Path]:
         elif '.' in base_name:
             base_name = base_name.split('.')[0]
         
-        # 基于输入文件所在目录的父目录或当前工作目录
+        # 基于mycallypro目录
         if hasattr(config, 'output_base') and config.output_base:
             root = Path(config.output_base).resolve()
         else:
-            root = first_path.parent.parent if (first_path.parent.parent / "配置文件").exists() or (first_path.parent.parent / "中间结果").exists() else Path.cwd()
+            # 默认使用mycallypro目录
+            root = Path(__file__).parent
     else:
         base_name = "default"
-        root = Path.cwd()
+        root = Path(__file__).parent
     
-    # 配置文件目录：root/配置文件/basename/
+    # 配置文件目录：mycallypro/配置文件/basename/（阶段3 - 最终输出）
     config_dir = root / "配置文件" / base_name
     config_dir.mkdir(parents=True, exist_ok=True)
     
-    # 创建子目录
+    # 创建配置文件子目录（仅包含最终输出）
     (config_dir / "source").mkdir(exist_ok=True)
     (config_dir / "expand").mkdir(exist_ok=True)
     (config_dir / "dot").mkdir(exist_ok=True)
     (config_dir / "images").mkdir(exist_ok=True)
-    (config_dir / "debug").mkdir(exist_ok=True)
     
-    # 中间结果目录：root/中间结果/basename/
+    # 中间结果目录：mycallypro/中间结果/basename/（阶段2 - 临时文件）
     intermediate_dir = root / "中间结果" / base_name
     intermediate_dir.mkdir(parents=True, exist_ok=True)
     
-    # 在中间结果目录下创建debug子目录
-    debug_dir = intermediate_dir / "debug"
-    debug_dir.mkdir(parents=True, exist_ok=True)
+    # 创建中间结果子目录
+    (intermediate_dir / "debug").mkdir(parents=True, exist_ok=True)
+    (intermediate_dir / "temp").mkdir(parents=True, exist_ok=True)
+    (intermediate_dir / "logs").mkdir(parents=True, exist_ok=True)
     
     return config_dir, intermediate_dir
 
 
 def _write_debug_text(config, tag: str, content: str, suffix: str, *, timestamp: Optional[str] = None) -> None:
-    """写入调试文本文件到中间结果目录或配置文件的debug目录"""
-    # 优先使用配置文件的debug目录
-    if hasattr(config, '_config_dir'):
-        debug_dir = config._config_dir / "debug"
-        debug_dir.mkdir(parents=True, exist_ok=True)
-    elif hasattr(config, '_intermediate_dir'):
+    """写入调试文本文件到中间结果目录（阶段2 - 临时文件）"""
+    # 所有debug文件都应该存储在中间结果目录
+    if hasattr(config, '_intermediate_dir'):
         debug_dir = config._intermediate_dir / "debug"
         debug_dir.mkdir(parents=True, exist_ok=True)
     else:
@@ -1412,17 +1420,17 @@ def main():
         try:
             from .exporters import export_circle_txt
             
-            # 确定输出目录结构
-            if hasattr(config, 'output_base') and config.output_base:
-                config_dir, intermediate_dir = _ensure_output_dirs(config)
-                # 在config对象上附加目录信息，供调试函数使用
-                config._config_dir = config_dir
-                config._intermediate_dir = intermediate_dir
-                # 如果使用output_base，circle.txt保存到配置文件目录
-                txt_path = config_dir / "circle.txt"
-            else:
-                config_dir = Path(config.export_txt).parent
-                txt_path = Path(config.export_txt)
+            # 始终使用规范的目录结构
+            # 如果没有指定output_base，默认使用mycallypro目录
+            if not hasattr(config, 'output_base') or not config.output_base:
+                config.output_base = str(Path(__file__).parent)
+            
+            config_dir, intermediate_dir = _ensure_output_dirs(config)
+            # 在config对象上附加目录信息，供调试函数使用
+            config._config_dir = config_dir
+            config._intermediate_dir = intermediate_dir
+            # circle.txt保存到配置文件目录
+            txt_path = config_dir / "circle.txt"
             
             # 获取expand文件路径
             expand_file = Path(config.RTLFILE[0])
