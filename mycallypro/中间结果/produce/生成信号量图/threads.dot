@@ -1,0 +1,89 @@
+digraph G {
+  rankdir=TB;
+  node [shape=box, style=filled];
+
+  subgraph cluster_Thread1/1 {
+    label="Thread1/1";
+    style=filled;
+    fillcolor="#FFEBEE";
+    "Thread1/1_2;";
+    "Thread1/1_2";
+    "Thread1/1_4;";
+  }
+
+  subgraph cluster_Thread1/sem {
+    label="Thread1/sem";
+    style=filled;
+    fillcolor="#E8EAF6";
+    "Thread1/sem_wait1_1";
+    "Thread1/sem_post1_3;";
+    "Thread1/sem_post1_3";
+    "Thread1/sem_wait1_1;";
+  }
+
+  subgraph cluster_Thread2/2 {
+    label="Thread2/2";
+    style=filled;
+    fillcolor="#E0F2F1";
+    "Thread2/2_2;";
+    "Thread2/2_2";
+    "Thread2/2_4;";
+  }
+
+  subgraph cluster_Thread2/sem {
+    label="Thread2/sem";
+    style=filled;
+    fillcolor="#FFF3E0";
+    "Thread2/sem_wait2_1";
+    "Thread2/sem_post2_3;";
+    "Thread2/sem_post2_3";
+    "Thread2/sem_wait2_1;";
+  }
+
+  subgraph cluster_Thread3/3 {
+    label="Thread3/3";
+    style=filled;
+    fillcolor="#F3E5F5";
+    "Thread3/3_2;";
+    "Thread3/3_2";
+    "Thread3/3_4;";
+  }
+
+  subgraph cluster_Thread3/sem {
+    label="Thread3/sem";
+    style=filled;
+    fillcolor="#E8F5E9";
+    "Thread3/sem_wait3_1";
+    "Thread3/sem_post3_3;";
+    "Thread3/sem_post3_3";
+    "Thread3/sem_wait3_1;";
+  }
+
+  subgraph cluster_main {
+    label="main";
+    style=filled;
+    fillcolor="#FFF9C4";
+    "node";
+    "Main/Start";
+    "Main/End;";
+    "Main/End";
+  }
+
+  // Edges
+  "Main/Start" -> "Main/End;";
+  "Thread1/sem_wait1_1" -> "Thread1/1_2;";
+  "Thread1/1_2" -> "Thread1/sem_post1_3;";
+  "Thread1/sem_post1_3" -> "Thread1/1_4;";
+  "Thread1/sem_post1_3" -> "Thread2/sem_wait2_1" [style=dashed, color="#FF7043"];
+  "Thread2/sem_wait2_1" -> "Thread2/2_2;";
+  "Thread2/2_2" -> "Thread2/sem_post2_3;";
+  "Thread2/sem_post2_3" -> "Thread2/2_4;";
+  "Thread2/sem_post2_3" -> "Thread3/sem_wait3_1" [style=dashed, color="#FF7043"];
+  "Thread3/sem_wait3_1" -> "Thread3/3_2;";
+  "Thread3/3_2" -> "Thread3/sem_post3_3;";
+  "Thread3/sem_post3_3" -> "Thread3/3_4;";
+  "Thread3/sem_post3_3" -> "Thread1/sem_wait1_1" [style=dashed, color="#FF7043"];
+  "Main/End" -> "Thread1/sem_wait1_1;";
+  "Main/End" -> "Thread2/sem_wait2_1;";
+  "Main/End" -> "Thread3/sem_wait3_1;";
+}

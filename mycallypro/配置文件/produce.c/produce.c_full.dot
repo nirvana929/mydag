@@ -1,0 +1,28 @@
+strict digraph callgraph {
+"consumer" -> "consumer/if/pthread_cond_broadcast4";
+"consumer/if/pthread_cond_broadcast4" [style=dashed]
+"consumer/if/pthread_cond_broadcast4" -> "consumer/if/pthread_mutex_unlock5";
+"consumer/if/pthread_mutex_unlock5" [style=dashed]
+"consumer/if/pthread_mutex_unlock5" -> "consumer/if/sem_post6";
+"consumer/if/sem_post6" [style=dashed]
+"main" -> "main/while/pthread_create5";
+"main/while/pthread_create5" [style=dashed]
+"main/while/pthread_create5" -> "main/while/pthread_join6";
+"main/while/pthread_join6" [style=dashed]
+"main/while/pthread_join6" -> "main/if/__stack_chk_fail13";
+"main/if/__stack_chk_fail13" [style=dashed]
+"producer" -> "producer/while/sem_wait1";
+"producer/while/sem_wait1" [style=dashed]
+"producer/while/sem_wait1" -> "producer/while/pthread_mutex_lock2";
+"producer/while/pthread_mutex_lock2" [style=dashed]
+"producer/while/pthread_mutex_lock2" -> "producer/while/printf3";
+"producer/while/printf3" [style=dashed]
+"producer/while/printf3" -> "producer/while/pthread_mutex_unlock4";
+"producer/while/pthread_mutex_unlock4" [style=dashed]
+"producer/while/pthread_mutex_unlock4" -> "producer/while/sem_post5";
+"producer/while/sem_post5" [style=dashed]
+"watcher" -> "watcher/while/pthread_mutex_lock1";
+"watcher/while/pthread_mutex_lock1" [style=dashed]
+"watcher/while/pthread_mutex_lock1" -> "watcher/while/pthread_cond_wait2";
+"watcher/while/pthread_cond_wait2" [style=dashed]
+}

@@ -1,0 +1,11 @@
+互斥量
+worker/while/pthread_mutex_lock2 mutex lock1
+worker/while/pthread_mutex_unlock4 mutex lock1
+main/while/pthread_mutex_lock4 mutex lock2
+main/pthread_mutex_unlock5 mutex lock2
+
+信号量
+worker/while/sem_post5 sem sem1
+main/while/sem_wait1 sem sem1
+worker/while/sem_post6 sem sem2
+main/while/sem_wait2 sem sem2

@@ -1,0 +1,41 @@
+strict digraph callgraph {
+"main" -> "while/threadtask5";
+"while/threadtask5" [style=dashed]
+"while/threadtask5" -> "main/while/malloc2";
+"main/while/malloc2" [style=dashed]
+"main/while/malloc2" -> "main/while/pthread_create4";
+"main/while/pthread_create4" [style=dashed]
+"main/while/pthread_create4" -> "main/while/pthread_join7";
+"main/while/pthread_join7" [style=dashed]
+"main/while/pthread_join7" -> "main/while/free10";
+"main/while/free10" [style=dashed]
+"main/while/free10" -> "main/while/printf11";
+"main/while/printf11" [style=dashed]
+"task"
+"threadtask1" -> "threadtask1/if/fprintf2";
+"threadtask1/if/fprintf2" [style=dashed]
+"threadtask1/if/fprintf2" -> "threadtask1/if/fprintf6";
+"threadtask1/if/fprintf6" [style=dashed]
+"threadtask1/if/fprintf6" -> "threadtask1/if/free7";
+"threadtask1/if/free7" [style=dashed]
+"threadtask2" -> "threadtask2/if/fprintf6";
+"threadtask2/if/fprintf6" [style=dashed]
+"threadtask2/if/fprintf6" -> "threadtask2/if/free7";
+"threadtask2/if/free7" [style=dashed]
+"threadtask2/if/free7" -> "threadtask2/if/fprintf9";
+"threadtask2/if/fprintf9" [style=dashed]
+"threadtask2/if/fprintf9" -> "threadtask2/if/free10";
+"threadtask2/if/free10" [style=dashed]
+"threadtask3"
+"threadtask4"
+"threadtask5" -> "threadtask5/while/printf1";
+"threadtask5/while/printf1" [style=dashed]
+"threadtask5/while/printf1" -> "threadtask5/while/printf2";
+"threadtask5/while/printf2" [style=dashed]
+"threadtask5/while/printf2" -> "threadtask5/while/printf3";
+"threadtask5/while/printf3" [style=dashed]
+"threadtask5/while/printf3" -> "threadtask5/switch0/printf4";
+"threadtask5/switch0/printf4" [style=dashed]
+"threadtask5/switch0/printf4" -> "threadtask5/while/printf6";
+"threadtask5/while/printf6" [style=dashed]
+}

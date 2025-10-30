@@ -539,20 +539,28 @@ def _ensure_output_dirs(config) -> Tuple[Path, Path]:
     - config_dir: 配置文件目录（最终输出，供dag_describe使用）
     - intermediate_dir: 中间结果目录（处理过程中的临时文件）
     
-    配置文件目录结构（阶段3 - 最终输出）：
+    配置文件目录结构（阶段3 - 扁平化结构，参考test/配置文件/）：
     mycallypro/配置文件/<basename>/
     ├── circle.txt        # 主配置文件
-    ├── source/           # 源代码副本
-    ├── expand/           # expand文件副本
-    ├── dot/              # 最终DAG图
-    └── images/           # 最终PNG图片
+    ├── <basename>.dot    # DAG图文件
+    ├── <basename>.c      # 源代码副本（可选）
+    └── <basename>.c.233r.expand  # expand文件副本（可选）
     
     中间结果目录结构（阶段2 - 临时文件）：
     mycallypro/中间结果/<basename>/
     ├── debug/            # 调试JSON文件
     ├── temp/             # 临时DOT文件
+    ├── images/           # PNG图片
     └── logs/             # 日志文件
+    
+    冗余处理模式（混合模式）：
+    1. 默认模式：直接覆盖已存在的目录和文件
+    2. --smart：智能检测，如果输入文件未修改则跳过重新生成
+    3. --clean：清理重建，删除旧目录后重新创建
+    4. --force：强制重新生成（与--smart配合使用）
     """
+    import shutil
+    
     try:
         first_file = getattr(config, "RTLFILE", [None])[0]
     except Exception:
@@ -578,23 +586,64 @@ def _ensure_output_dirs(config) -> Tuple[Path, Path]:
         base_name = "default"
         root = Path(__file__).parent
     
-    # 配置文件目录：mycallypro/配置文件/basename/（阶段3 - 最终输出）
+    # 配置文件目录：mycallypro/配置文件/basename/（阶段3 - 扁平化结构）
     config_dir = root / "配置文件" / base_name
-    config_dir.mkdir(parents=True, exist_ok=True)
-    
-    # 创建配置文件子目录（仅包含最终输出）
-    (config_dir / "source").mkdir(exist_ok=True)
-    (config_dir / "expand").mkdir(exist_ok=True)
-    (config_dir / "dot").mkdir(exist_ok=True)
-    (config_dir / "images").mkdir(exist_ok=True)
     
     # 中间结果目录：mycallypro/中间结果/basename/（阶段2 - 临时文件）
     intermediate_dir = root / "中间结果" / base_name
-    intermediate_dir.mkdir(parents=True, exist_ok=True)
     
-    # 创建中间结果子目录
+    # ========================================================================
+    # 冗余处理逻辑（混合模式）
+    # ========================================================================
+    smart_mode = getattr(config, 'smart', False)
+    clean_mode = getattr(config, 'clean', False)
+    force_mode = getattr(config, 'force', False)
+    
+    # 模式1：清理重建模式（--clean）- 只在第一次调用时清理
+    if clean_mode and not getattr(config, '_cleaned', False):
+        if config_dir.exists():
+            if hasattr(config, 'debug') and config.debug:
+                print_dbg(f"[CLEAN] Removing existing config directory: {config_dir}")
+            shutil.rmtree(config_dir)
+        if intermediate_dir.exists():
+            if hasattr(config, 'debug') and config.debug:
+                print_dbg(f"[CLEAN] Removing existing intermediate directory: {intermediate_dir}")
+            shutil.rmtree(intermediate_dir)
+        # 标记已清理，避免重复清理
+        config._cleaned = True
+    
+    # 模式2：智能检测模式（--smart）
+    elif smart_mode and not force_mode:
+        if config_dir.exists() and first_file:
+            # 检查输入文件是否被修改
+            input_file = Path(first_file)
+            circle_txt = config_dir / "circle.txt"
+            
+            if circle_txt.exists():
+                input_mtime = input_file.stat().st_mtime
+                output_mtime = circle_txt.stat().st_mtime
+                
+                # 如果输入文件没有新于输出文件，跳过重新生成
+                if input_mtime <= output_mtime:
+                    if hasattr(config, 'debug') and config.debug:
+                        print_dbg(f"[SMART] Skipping regeneration, files are up-to-date")
+                        print_dbg(f"  Input: {input_file} (modified: {input_mtime})")
+                        print_dbg(f"  Output: {circle_txt} (modified: {output_mtime})")
+                    # 设置一个标志，告诉调用者跳过后续生成
+                    config._skip_generation = True
+                    return config_dir, intermediate_dir
+    
+    # 模式3：默认覆盖模式（无额外参数）
+    # 直接创建目录，如果已存在则保持，文件会被后续操作覆盖
+    
+    # 创建配置文件目录
+    config_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 创建中间结果目录及子目录
+    intermediate_dir.mkdir(parents=True, exist_ok=True)
     (intermediate_dir / "debug").mkdir(parents=True, exist_ok=True)
     (intermediate_dir / "temp").mkdir(parents=True, exist_ok=True)
+    (intermediate_dir / "images").mkdir(parents=True, exist_ok=True)
     (intermediate_dir / "logs").mkdir(parents=True, exist_ok=True)
     
     return config_dir, intermediate_dir
@@ -891,6 +940,17 @@ def main():
     parser.add_argument("--output-base",
                         help="Base directory for output (配置文件 and 中间结果)",
                         type=str, metavar="PATH")
+    
+    # 冗余处理模式参数（混合模式）
+    parser.add_argument("--smart",
+                        help="Smart mode: skip regeneration if input files unchanged",
+                        action="store_true")
+    parser.add_argument("--clean",
+                        help="Clean mode: remove existing directories before regeneration",
+                        action="store_true")
+    parser.add_argument("--force",
+                        help="Force mode: force regeneration even in smart mode",
+                        action="store_true")
 
     parser.add_argument("RTLFILE", help="GCCs RTL .expand file", nargs="+")
 
@@ -1426,6 +1486,13 @@ def main():
                 config.output_base = str(Path(__file__).parent)
             
             config_dir, intermediate_dir = _ensure_output_dirs(config)
+            
+            # 检查是否应该跳过生成（智能模式下文件未修改）
+            if getattr(config, '_skip_generation', False):
+                if config.debug:
+                    print_dbg("[INFO] Skipping file generation (smart mode, files up-to-date)")
+                return 0
+            
             # 在config对象上附加目录信息，供调试函数使用
             config._config_dir = config_dir
             config._intermediate_dir = intermediate_dir
@@ -1461,7 +1528,7 @@ def main():
                 traceback.print_exc()
     
     # ========================================================================
-    # 如果指定了output_base，同时将dot文件保存到配置文件目录，并复制源文件
+    # 如果指定了output_base，保存DOT文件和源文件到配置文件目录（扁平结构）
     # ========================================================================
     if hasattr(config, 'output_base') and config.output_base and dot_lines:
         try:
@@ -1471,36 +1538,46 @@ def main():
             config._config_dir = config_dir
             config._intermediate_dir = intermediate_dir
             
-            # 保存DOT文件到配置文件目录的dot子目录
-            dot_filename = "dag.dot"
-            if hasattr(config, 'threads_only') and config.threads_only:
-                dot_filename = "dag_threads.dot"
-            elif hasattr(config, 'conditions_only') and config.conditions_only:
-                dot_filename = "dag_conditions.dot"
+            # 获取基础名称用于文件命名
+            expand_file = Path(config.RTLFILE[0])
+            base_name = expand_file.stem
+            if base_name.endswith('.233r'):
+                base_name = base_name[:-5]
+            elif '.' in base_name:
+                base_name = base_name.split('.')[0]
             
-            dot_path = config_dir / "dot" / dot_filename
+            # 保存DOT文件到配置文件根目录（扁平结构）
+            dot_filename = f"{base_name}.dot"
+            if hasattr(config, 'threads_only') and config.threads_only:
+                dot_filename = f"{base_name}_threads.dot"
+            elif hasattr(config, 'conditions_only') and config.conditions_only:
+                dot_filename = f"{base_name}_full.dot"
+            
+            dot_path = config_dir / dot_filename
             dot_content = '\n'.join(dot_lines)
             dot_path.write_text(dot_content, encoding='utf-8')
             
             if config.debug:
                 print_dbg(f"[INFO] Saved DOT file to: {dot_path}")
             
-            # 复制expand文件到配置文件目录
-            expand_file = Path(config.RTLFILE[0])
+            # 复制expand文件到配置文件根目录
             if expand_file.exists():
-                expand_dest = config_dir / "expand" / expand_file.name
+                expand_dest = config_dir / expand_file.name
                 shutil.copy2(expand_file, expand_dest)
                 if config.debug:
                     print_dbg(f"[INFO] Copied expand file to: {expand_dest}")
             
-            # 复制源文件到配置文件目录（如果提供）
+            # 复制源文件到配置文件根目录（如果提供）
             if hasattr(config, 'source_file') and config.source_file:
                 source_file = Path(config.source_file)
                 if source_file.exists():
-                    source_dest = config_dir / "source" / source_file.name
+                    source_dest = config_dir / source_file.name
                     shutil.copy2(source_file, source_dest)
                     if config.debug:
                         print_dbg(f"[INFO] Copied source file to: {source_dest}")
+            
+            # 如果需要生成PNG，保存到中间结果的images目录
+            # PNG文件不属于dag_describe需要的配置文件
                 
         except Exception as e:
             print_err(f"ERROR: Failed to save files: {e}")
