@@ -1,0 +1,11 @@
+strict digraph callgraph {
+"demo_threads.main" [color=blue, style=filled];
+"__main__.<module>" -> "__main__.main";
+"__main__.compute" -> "__main__.helper_x";
+"__main__.compute" -> "__main__.helper_y";
+"__main__.main" -> "__main__.compute";
+"__main__.work_a" -> "__main__.helper_x";
+"__main__.work_a" -> "__main__.helper_y";
+"__main__.work_b" -> "__main__.helper_x";
+"__main__.work_b" -> "__main__.helper_y";
+}
