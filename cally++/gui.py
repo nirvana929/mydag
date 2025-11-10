@@ -345,7 +345,7 @@ class CallyPlusGUI:
         base = expand.stem
         if base.endswith('.233r'):
             base = base[:-5]
-        cfg_dir = out_base / "配置文件" / base
+        cfg_dir = out_base / "config" / base
         img_dir = out_base / "img"
         suffix = "full" if mode == "full" else "caller"
         png = img_dir / f"{base}_{suffix}.png"
@@ -390,7 +390,7 @@ class CallyPlusGUI:
         base = expand.stem
         if base.endswith('.233r'):
             base = base[:-5]
-        cfg_dir = Path(self.out_var.get()).expanduser() / "配置文件" / base
+        cfg_dir = Path(self.out_var.get()).expanduser() / "config" / base
         self._open_dir(cfg_dir)
 
     def _open_img_dir(self) -> None:

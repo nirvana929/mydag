@@ -6,7 +6,7 @@ strict digraph callgraph {
   "threadtask1" -> "threadtask2" [label="thread", color=green, penwidth=2.0];
   "main" -> "threadtask1" [label="thread", color=green, penwidth=2.0];
   "threadtask2" [color=green, style=filled, fillcolor=lightgreen];
-  "threadtask4" [color=green, style=filled, fillcolor=lightgreen];
   "threadtask1" [color=green, style=filled, fillcolor=lightgreen];
+  "threadtask4" [color=green, style=filled, fillcolor=lightgreen];
   "threadtask3" [color=green, style=filled, fillcolor=lightgreen];
 }

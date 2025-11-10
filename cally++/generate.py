@@ -173,7 +173,7 @@ Examples:
     # 保存 DOT 文件
     print(f"\n=== Step 5: Saving DOT file ===")
     out_root = Path(args.output_base)
-    cfg_dir = out_root / "配置文件" / base
+    cfg_dir = out_root / "config" / base
     img_dir = out_root / "img"
     cfg_dir.mkdir(parents=True, exist_ok=True)
     img_dir.mkdir(parents=True, exist_ok=True)

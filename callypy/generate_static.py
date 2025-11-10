@@ -91,11 +91,16 @@ Examples:
         print("ERROR: Must specify --full, --caller, or --thread-only")
         return 1
     
-    # 准备输出路径
+    # 准备输出路径（符合目录结构规范）
+    # 提取项目名（源文件的 stem）
     base = source_path.stem
     out_root = Path(args.output_base)
+    
+    # 配置文件目录：config/<project_name>/
     config_dir = out_root / "config" / base
-    img_dir = out_root / "img"
+    # 图片目录：img/<project_name>/
+    img_dir = out_root / "img" / base
+    
     config_dir.mkdir(parents=True, exist_ok=True)
     img_dir.mkdir(parents=True, exist_ok=True)
     

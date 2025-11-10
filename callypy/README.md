@@ -11,15 +11,15 @@ cd mydag
 python3 callypy/generate.py
 ```
 
-- 源代码：`callypy/源代码/demo_threads.py`
-- DOT：`callypy/配置文件/demo_threads.py/demo_threads.py.dot`
+- 源代码：`callypy/source/demo_threads.py`
+- DOT：`callypy/config/demo_threads.py/demo_threads.py.dot`
 - PNG：`callypy/img/demo_threads.py_caller.png`
 
 2) 自定义输入脚本
 
 ```bash
 python3 callypy/generate.py \
-  --input callypy/源代码/demo_threads.py \
+  --input callypy/source/demo_threads.py \
   --args "--loops 2" \
   --root demo_threads:main
 ```
@@ -29,7 +29,7 @@ python3 callypy/generate.py \
 
 ## 目录结构
 
-- `源代码/`：示例 Python 脚本（包含多线程与函数间调用）
+- `source/`：示例 Python 脚本（包含多线程与函数间调用）
 - `callgraph.py`：动态采样生成调用图（基于 `sys.setprofile` + `threading.setprofile`）
 - `render_dot.py`：DOT→PNG 渲染（基于 networkx + matplotlib）
 - `generate.py`：一键流程（运行示例→采样→导出 DOT→渲染 PNG）

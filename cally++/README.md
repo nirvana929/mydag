@@ -21,8 +21,8 @@ cally++/
 ├── rtl_parser.py          # RTL 解析器（集成去改编）
 ├── dot_generator.py       # DOT 图生成器
 ├── generate.py            # 主程序
-├── 源代码/                # 输入 expand 文件
-├── 配置文件/              # 输出 DOT 文件
+├── source/                # 输入 expand 文件
+├── config/                # 输出 DOT 文件
 │   └── <basename>/
 │       └── <basename>.dot
 └── img/                   # 输出 PNG 图片
@@ -42,11 +42,11 @@ cd /home/chove/Desktop/mydag/cally++
 
 # 基本用法
 python3 generate.py \
-    --expand 源代码/BatterySimulator/BatterySimulator.cpp.233r.expand \
+    --expand source/BatterySimulator/BatterySimulator.cpp.233r.expand \
     --caller "BatterySimulator::Run()"
 
 # 查看结果
-cat 配置文件/BatterySimulator.cpp/BatterySimulator.cpp.dot
+cat config/BatterySimulator.cpp/BatterySimulator.cpp.dot
 xdg-open img/BatterySimulator.cpp_caller.png
 ```
 
@@ -131,7 +131,7 @@ python3 generate.py --expand file.expand --caller "WrongName" 2>&1 | grep "  -"
 3. **锁语义**：`std::lock_guard` / `std::mutex::lock/unlock` / `__gthread_mutex_*` 折叠为 `pthread_mutex_lock` / `pthread_mutex_unlock`，使用灰色虚线节点。
 4. **链路压缩**：在用户/语义节点之间跳过纯库节点，直接连到下一个“有意义”节点，减少模板展开噪声。
 5. **输出**：
-   - DOT：`配置文件/<base>/<base>_simple.dot`
+    - DOT：`config/<base>/<base>_simple.dot`
    - PNG：`img/<base>_{caller|full}_simple.png`
 
 如需保留完整 STL 调用链，可取消 `--simplify-cxx`，或对 `_simple.dot` 与原 DOT 对比调试。

@@ -1,18 +1,18 @@
 strict digraph callgraph {
   rankdir=LR;
   node [shape=box];
-  "worker" [color=green, style=filled, fillcolor=lightgreen];
   "threading_lock_release" [style=dashed, color=gray];
+  "worker" [color=green, style=filled, fillcolor=lightgreen];
   "threading_lock_acquire" [style=dashed, color=gray];
-  "worker" -> "lock.release";
   "worker" -> "process_data";
-  "worker" -> "save_result";
   "worker" -> "lock.acquire";
+  "worker" -> "lock.release";
+  "worker" -> "save_result";
   "worker" -> "threading_lock_acquire";
   "worker" -> "threading_lock_release";
-  "main" -> "t.start";
-  "main" -> "t.join";
   "main" -> "threads.append";
+  "main" -> "t.start";
   "main" -> "threading.Thread";
+  "main" -> "t.join";
   "main" -> "worker" [label="thread", color=green, penwidth=2.0];
 }

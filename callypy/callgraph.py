@@ -117,7 +117,8 @@ def main() -> int:
     base_dir = script.parent
     out_base = Path(args.output_base)
     base_name = script.name
-    dot_dir = out_base / "配置文件" / base_name
+    # store DOT files under: <output-base>/config/<script_name>/
+    dot_dir = out_base / "config" / base_name
     dot_path = dot_dir / f"{base_name}.dot"
 
     cg = DynamicCallGraph(base_dir)

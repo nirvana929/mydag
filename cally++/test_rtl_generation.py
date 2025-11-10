@@ -9,7 +9,7 @@ def test_rtl_generation():
     """测试 RTL expand 文件生成和去改编流程"""
     
     # 使用 simple_thread.cpp 作为测试源文件
-    source = Path("/home/chove/Desktop/mydag/cally++/源代码/simple_thread/simple_thread.cpp")
+    source = Path("/home/chove/Desktop/mydag/cally++/source/simple_thread/simple_thread.cpp")
     
     if not source.exists():
         print(f"✗ 源文件不存在: {source}")

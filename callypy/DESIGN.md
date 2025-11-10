@@ -1,9 +1,108 @@
 # CallyPy 设计文档（逻辑/交互专用）
 
 > **双文档机制说明**：
-> - 本文档 = **逻辑/交互文档**。用于记录需求、整体实现思路、与 GPT 协作时的指令。编辑时请聚焦“要做什么、为什么这么做、限制条件”。
+> - 本文档 = **逻辑/交互文档**。用于记录需求、整体实现思路、与 GPT 协作时的指令。编辑时请聚焦"要做什么、为什么这么做、限制条件"。
 > - 对应的代码实现现状、功能清单请查看 `README_STATIC.md`（实现文档）。
 > - 每次调整需求或设计，请更新本文件；每次落地代码后，务必同步更新 `README_STATIC.md` 描述实际行为。
+
+## 0. 项目目录结构规范
+
+### 0.1 标准目录结构
+
+```
+callypy/
+├── ast_parser.py           # 核心代码：AST 解析器
+├── call_graph.py           # 核心代码：调用图数据结构
+├── dot_generator.py        # 核心代码：DOT 生成器
+├── generate_static.py      # 核心代码：主程序入口
+├── simplify.py             # 核心代码：简化器
+├── render_dot.py           # 核心代码：PNG 渲染
+├── gui_static.py           # 核心代码：GUI 界面
+├── DESIGN.md               # 本文档：设计逻辑（交互用）
+├── README_STATIC.md        # 实现文档：功能清单（查阅用）
+├── source/                 # 所有源代码（每个项目一个子文件夹）
+│   ├── simple_thread/
+│   │   └── simple_thread.py
+│   ├── producer_consumer/
+│   │   └── producer_consumer.py
+│   └── produce5_threads/
+│       └── produce5_threads.py
+├── config/                 # 生成的 DOT 配置文件（与源文件结构对应）
+│   ├── simple_thread/
+│   │   ├── simple_thread.dot
+│   │   └── simple_thread_simple.dot
+│   ├── producer_consumer/
+│   │   └── producer_consumer.dot
+│   └── produce5_threads/
+│       ├── produce5_threads.dot
+│       └── produce5_threads_simple.dot
+└── img/                    # 生成的 PNG 图片（与源文件结构对应）
+    ├── simple_thread/
+    │   ├── simple_thread_full.png
+    │   └── simple_thread_full_simple.png
+    ├── producer_consumer/
+    │   └── producer_consumer_thread_only.png
+    └── produce5_threads/
+        ├── produce5_threads_full.png
+        └── produce5_threads_full_simple.png
+```
+
+### 0.2 目录组织原则
+
+1. **源文件组织**（`source/`）
+   - 每个 Python 项目/示例在 `source/` 下有独立的子文件夹
+   - 文件夹名 = 项目名（不含 .py 扩展名）
+   - 例如：`source/simple_thread/simple_thread.py`
+
+2. **配置文件组织**（`config/`）
+   - 与源文件保持一致的文件夹结构
+   - 每个项目在 `config/` 下有对应的子文件夹
+   - 存储生成的 DOT 文件（原始 + 简化版）
+   - 例如：`config/simple_thread/simple_thread.dot`
+
+3. **图片文件组织**（`img/`）
+   - 与源文件保持一致的文件夹结构
+   - 每个项目在 `img/` 下有对应的子文件夹
+   - 存储生成的 PNG 图片（各种类型）
+   - 例如：`img/simple_thread/simple_thread_full.png`
+
+4. **文件命名规则**
+   - 基础名称：使用源文件的 stem（不含扩展名）
+   - DOT 文件：`<basename>.dot`（原始），`<basename>_simple.dot`（简化）
+   - PNG 文件：`<basename>_<type>.png`，其中 type 为：
+     - `full`：完整调用图
+     - `caller`：调用者图
+     - `thread_only`：仅线程图
+     - `full_simple`：简化的完整图
+
+5. **测试示例存储**
+   - 测试示例不再使用独立的 `examples/` 目录
+   - 统一存储在 `source/` 对应的子文件夹中
+   - 与用户项目使用相同的组织方式
+
+### 0.3 路径解析逻辑
+
+```python
+# 输入：源文件路径（绝对或相对）
+source_file = "source/simple_thread/simple_thread.py"
+
+# 提取项目名
+project_name = Path(source_file).stem  # "simple_thread"
+
+# 输出路径
+config_dir = Path("config") / project_name / f"{project_name}.dot"
+img_dir = Path("img") / project_name / f"{project_name}_full.png"
+```
+
+### 0.4 与 mycallyplus 的对比
+
+| 维度 | mycallyplus (C) | callypy (Python) |
+|------|----------------|------------------|
+| 源文件目录 | `源文件/` | `source/` |
+| 配置文件目录 | `配置文件/` | `config/` |
+| 图片目录 | `中间结果/`（含 img） | `img/` |
+| 子文件夹结构 | 按项目组织 | 按项目组织 |
+| 文件夹对应关系 | 严格一致 | 严格一致 |
 
 ## 1. 项目概述（需求侧）
 

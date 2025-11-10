@@ -10,16 +10,16 @@
   - 源码：`mydag/其他文件/c++文件/BatterySimulator.cpp`
   - 预处理：`mydag/其他文件/c++文件/BatterySimulator/BatterySimulator_full_expand.i`
 - 中间/输出
-  - RTL：`mydag/cally++/源代码/BatterySimulator/BatterySimulator.cpp.233r.expand`
-  - DOT：`mydag/cally++/配置文件/BatterySimulator.cpp/BatterySimulator.cpp.dot`
+  - RTL：`mydag/cally++/source/BatterySimulator/BatterySimulator.cpp.233r.expand`
+  - DOT：`mydag/cally++/config/BatterySimulator.cpp/BatterySimulator.cpp.dot`
   - PNG：`mydag/cally++/img/BatterySimulator.cpp_caller.png`
 
 说明：所有生成物都归档在 `mydag/cally++` 下，便于集中查看和复用。
 
 ## 2. 目录结构（cally++）
 
-- `源代码/<基名>/`：对应源文件与其派生的 `.i`/`.expand`
-- `配置文件/<基名>/`：mycallyplus 导出的 DOT、expand 副本（便于 describe 查看）
+- `source/<基名>/`：对应源文件与其派生的 `.i`/`.expand`
+- `config/<基名>/`：mycallyplus 导出的 DOT、expand 副本（便于 describe 查看）
 - `中间结果/<基名>/`：mycallyplus 的调试/临时文件（`debug/*.dot|*.json` 等）
 - `img/`：最终渲染的调用图 PNG
 - 工具脚本：
@@ -36,7 +36,7 @@ GCC/G++ 在 RTL 展开阶段可导出 `.expand`。推荐两种方式：
     - 目录：`其他文件/PX4-Autopilot/build/px4_sitl_default`
     - 命令：`/usr/bin/c++ ... -std=gnu++14 -fdump-rtl-expand -o .../BatterySimulator.cpp.expand.o -c /.../BatterySimulator.cpp`
     - 生成：`.../BatterySimulator.cpp.233r.expand`
-  - 然后将 `.expand` 复制到 `cally++/源代码/<基名>/`。
+  - 然后将 `.expand` 复制到 `cally++/source/<基名>/`。
 
 - 方式 B：使用预处理产物 `.i`
   - 先生成 `.i`（`-E`），之后对 `.i` 再编译一次导出 RTL：
@@ -49,7 +49,7 @@ GCC/G++ 在 RTL 展开阶段可导出 `.expand`。推荐两种方式：
 ## 4. 解析与建图（mycallyplus / mycallypro）
 
 - 入口命令：
-  - `python3 -m mycallyplus generate --caller '_ZN16BatterySimulator3RunEv' --output-base cally++ cally++/源代码/BatterySimulator/BatterySimulator.cpp.233r.expand`
+  - `python3 -m mycallyplus generate --caller '_ZN16BatterySimulator3RunEv' --output-base cally++ cally++/source/BatterySimulator/BatterySimulator.cpp.233r.expand`
 - 解析逻辑（关键点）：
   - 函数头匹配：`^;; Function (?P<mangle>.*)\s+\((?P<function>\S+)`。
     - C++ 情况下：`mangle` 捕获“可读名”，`function` 捕获 ABI 符号（`_ZN...`）。
@@ -63,13 +63,13 @@ GCC/G++ 在 RTL 展开阶段可导出 `.expand`。推荐两种方式：
 
 ## 5. 导出 DOT 与中间产物
 
-- mycallyplus 在 `--output-base cally++` 时：
-  - 写入 DOT：`cally++/配置文件/<基名>/<基名>.dot`
-  - 复制 `.expand`：`cally++/配置文件/<基名>/<原始.expand>`
+-- mycallyplus 在 `--output-base cally++` 时：
+  - 写入 DOT：`cally++/config/<基名>/<基名>.dot`
+  - 复制 `.expand`：`cally++/config/<基名>/<原始.expand>`
   - 调试快照：`cally++/中间结果/<基名>/debug/*.dot|*.json`（保留生成时的上下文、选项、函数表）
 
 示例（Run 入口）：
-- `cally++/配置文件/BatterySimulator.cpp/BatterySimulator.cpp.dot`
+`cally++/config/BatterySimulator.cpp/BatterySimulator.cpp.dot`
   - 含有 `"_ZN16BatterySimulator3RunEv" -> "callee"` 的有向边；条件节点用 `[style=dashed]` 标记。
 
 ## 6. 渲染 PNG（两种方式）
@@ -99,12 +99,12 @@ GCC/G++ 在 RTL 展开阶段可导出 `.expand`。推荐两种方式：
 
 - 生成 RTL（工程命令追加 `-fdump-rtl-expand`）：
   - 来源：`其他文件/PX4-Autopilot/build/px4_sitl_default/`
-  - 结果：`.../BatterySimulator.cpp.233r.expand` → 复制至 `cally++/源代码/BatterySimulator/`
+  - 结果：`.../BatterySimulator.cpp.233r.expand` → 复制至 `cally++/source/BatterySimulator/`
 - 生成调用图（Run 作为入口）：
-  - `python3 -m mycallyplus generate --caller '_ZN16BatterySimulator3RunEv' --output-base cally++ cally++/源代码/BatterySimulator/BatterySimulator.cpp.233r.expand`
-  - DOT：`cally++/配置文件/BatterySimulator.cpp/BatterySimulator.cpp.dot`
-- 渲染 PNG（fallback 渲染）：
-  - `python3 cally++/render_dot.py cally++/配置文件/BatterySimulator.cpp/BatterySimulator.cpp.dot -o cally++/img/BatterySimulator.cpp_caller.png --root '_ZN16BatterySimulator3RunEv'`
+  - `python3 -m mycallyplus generate --caller '_ZN16BatterySimulator3RunEv' --output-base cally++ cally++/source/BatterySimulator/BatterySimulator.cpp.233r.expand`
+  - DOT：`cally++/config/BatterySimulator.cpp/BatterySimulator.cpp.dot`
+  - 渲染 PNG（fallback 渲染）：
+  - `python3 cally++/render_dot.py cally++/config/BatterySimulator.cpp/BatterySimulator.cpp.dot -o cally++/img/BatterySimulator.cpp_caller.png --root '_ZN16BatterySimulator3RunEv'`
 
 ## 10. 差异与对账（为何“源码调用数”≠“DOT 出边数”）
 
@@ -212,8 +212,8 @@ sed -n "${start},${end}p" "$file" \
 
 ```bash
 # 以 BatterySimulator::Run 为例，输出三列：计数  目标名  DOT中是否出现
-EXP=mydag/cally++/源代码/BatterySimulator/BatterySimulator.cpp.233r.expand
-DOT=mydag/cally++/配置文件/BatterySimulator.cpp/BatterySimulator.cpp.dot
+EXP=mydag/cally++/source/BatterySimulator/BatterySimulator.cpp.233r.expand
+DOT=mydag/cally++/config/BatterySimulator.cpp/BatterySimulator.cpp.dot
 START=$(rg -n '^;; Function BatterySimulator::Run \(_ZN16BatterySimulator3RunEv' "$EXP" | cut -d: -f1)
 END=$(rg -n '^;; Function ' "$EXP" | awk -v s=$START -F: '$1>s{print $1; exit}')
 SYMS=$(sed -n "${START},${END}p" "$EXP" | rg -o 'symbol_ref:[^\"]+"([^"]+)' | sed 's/.*"//' | sort | uniq -c)

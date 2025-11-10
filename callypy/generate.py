@@ -16,8 +16,9 @@ def run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> int:
 
 
 def ensure_dirs(root: Path, base_name: str) -> tuple[Path, Path, Path]:
-    src_dir = root / "源代码"
-    cfg_dir = root / "配置文件" / base_name
+    # project layout: <root>/source/, <root>/config/<project>/, <root>/img/
+    src_dir = root / "source"
+    cfg_dir = root / "config" / base_name
     img_dir = root / "img"
     for d in (src_dir, cfg_dir, img_dir):
         d.mkdir(parents=True, exist_ok=True)
@@ -60,8 +61,8 @@ def main() -> int:
 
     files = _collect_inputs(repo, args.input, args.inputs, args.dir, args.glob)
     if not files:
-        # fallback to built-in demo
-        files = [ (repo / "callypy" / "源代码" / "demo_threads.py").resolve() ]
+        # fallback to built-in demo under the new source/ layout
+        files = [ (repo / "callypy" / "source" / "demo_threads.py").resolve() ]
 
     for input_path in files:
         base_name = input_path.name

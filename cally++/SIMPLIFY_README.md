@@ -67,15 +67,15 @@ python3 generate.py --expand <file.expand> --full --simplify-cxx --source <sourc
 
 假设输入为 `simple_thread.cpp.233r.expand`：
 
-### 完整调用图（--full）
-- `配置文件/simple_thread.cpp/simple_thread.cpp.dot` - 原始 DOT
-- `配置文件/simple_thread.cpp/simple_thread.cpp_simple.dot` - 简化 DOT
+-### 完整调用图（--full）
+- `config/simple_thread.cpp/simple_thread.cpp.dot` - 原始 DOT
+- `config/simple_thread.cpp/simple_thread.cpp_simple.dot` - 简化 DOT
 - `img/simple_thread.cpp_full.png` - 原始图
 - `img/simple_thread.cpp_full_simple.png` - 简化图
 
-### Caller 图（--caller main）
-- `配置文件/simple_thread.cpp/simple_thread.cpp.dot` - 原始 DOT
-- `配置文件/simple_thread.cpp/simple_thread.cpp_simple.dot` - 简化 DOT
+-### Caller 图（--caller main)
+- `config/simple_thread.cpp/simple_thread.cpp.dot` - 原始 DOT
+- `config/simple_thread.cpp/simple_thread.cpp_simple.dot` - 简化 DOT
 - `img/simple_thread.cpp_caller.png` - 原始图
 - `img/simple_thread.cpp_caller_simple.png` - 简化图
 
