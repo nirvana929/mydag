@@ -13,6 +13,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+from rtl_generator import generate_rtl_from_source
+from rtl_filter import filter_rtl
+
 try:
     from PIL import Image, ImageTk  # type: ignore
 except Exception:  # pragma: no cover
@@ -172,90 +175,63 @@ class CallyPlusGUI:
         ).start()
     
     def _do_generate_rtl(self, source: Path) -> None:
-        """实际执行 RTL 生成和去改编"""
-        workdir = source.parent
-        
-        # 步骤 1: 编译生成 RTL expand 文件
+        """实际执行 RTL 生成和过滤"""
+        # 步骤 1: 生成 RTL expand 文件
         self._append_log("步骤 1/3: 编译生成 RTL expand 文件...")
         
-        # 创建临时目标文件
         try:
-            tmp = tempfile.NamedTemporaryFile(dir=workdir, suffix=".o", delete=False)
-            tmp_name = Path(tmp.name).name
-            tmp.close()
-        except Exception as e:
-            self._append_log(f"✗ 创建临时文件失败: {e}")
-            return
-        
-        # 编译命令
-        cmd = [
-            "g++",
-            "-O0",
-            "-std=c++17",
-            "-fdump-rtl-expand",
-            "-c",
-            source.name,
-            "-o",
-            tmp_name,
-        ]
-        
-        self._append_log(f"  运行: {' '.join(cmd)}")
-        self._append_log(f"  工作目录: {workdir}")
-        
-        try:
-            proc = subprocess.run(
-                cmd,
-                cwd=workdir,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                timeout=60
+            expand_file = generate_rtl_from_source(
+                str(source),
+                compile_flags="-O0 -std=c++17",
+                output_dir=str(source.parent),
+                debug=self.debug_var.get()
             )
             
-            if proc.stdout.strip():
-                self._append_log(f"  编译输出:\n{proc.stdout}")
-            
-            if proc.returncode != 0:
-                self._append_log(f"✗ 编译失败，返回码: {proc.returncode}")
+            if not expand_file:
+                self._append_log("✗ RTL 生成失败")
                 return
             
-            self._append_log("✓ 编译成功")
+            expand_path = Path(expand_file)
+            expand_size = expand_path.stat().st_size / 1024  # KB
+            self._append_log(f"✓ RTL 文件生成成功: {expand_path.name}")
+            self._append_log(f"  文件大小: {expand_size:.1f} KB")
             
-        except subprocess.TimeoutExpired:
-            self._append_log("✗ 编译超时（60秒）")
-            return
         except Exception as e:
-            self._append_log(f"✗ 编译出错: {e}")
-            return
-        finally:
-            # 清理临时目标文件
-            try:
-                (workdir / tmp_name).unlink(missing_ok=True)
-            except Exception:
-                pass
-        
-        # 步骤 2: 查找生成的 expand 文件
-        self._append_log("步骤 2/3: 查找 RTL expand 文件...")
-        
-        # 查找最新的 expand 文件
-        expands = sorted(
-            workdir.glob(f"{source.name}*.expand"),
-            key=lambda p: p.stat().st_mtime,
-            reverse=True
-        )
-        
-        if not expands:
-            self._append_log("✗ 未找到生成的 expand 文件")
-            self._append_log(f"  在目录中查找: {workdir}")
+            self._append_log(f"✗ RTL 生成出错: {e}")
+            if self.debug_var.get():
+                import traceback
+                self._append_log(traceback.format_exc())
             return
         
-        expand_path = expands[0]
-        expand_size = expand_path.stat().st_size / 1024  # KB
-        self._append_log(f"✓ 找到 expand 文件: {expand_path.name}")
-        self._append_log(f"  文件大小: {expand_size:.1f} KB")
+        # 步骤 2: 过滤 RTL 文件
+        self._append_log("步骤 2/3: 过滤 RTL 文件...")
         
-        # 步骤 3: 去改编处理
-        self._append_log("步骤 3/3: 执行去改编处理...")
+        try:
+            filtered_file = filter_rtl(
+                expand_file,
+                debug=self.debug_var.get()
+            )
+            
+            if not filtered_file:
+                self._append_log("⚠ RTL 过滤失败，将使用原始文件")
+                filtered_path = expand_path
+            else:
+                filtered_path = Path(filtered_file)
+                filtered_size = filtered_path.stat().st_size / 1024  # KB
+                reduction = (1 - filtered_size / expand_size) * 100
+                self._append_log(f"✓ RTL 过滤成功: {filtered_path.name}")
+                self._append_log(f"  过滤后大小: {filtered_size:.1f} KB")
+                self._append_log(f"  压缩率: {reduction:.1f}%")
+                
+                # 使用过滤后的文件
+                expand_path = filtered_path
+            
+        except Exception as e:
+            self._append_log(f"⚠ RTL 过滤出错: {e}")
+            self._append_log("  将使用原始 RTL 文件")
+        
+        # 步骤 3: 解析并验证（去改编）
+        self._append_log("步骤 3/3: 解析并验证...")
         
         try:
             # 导入去改编模块
@@ -287,7 +263,7 @@ class CallyPlusGUI:
                                 self._append_log("")
             
             self._append_log("=" * 60)
-            self._append_log("✓ RTL 文件生成并去改编完成！")
+            self._append_log("✓ RTL 文件生成、过滤并验证完成！")
             self._append_log(f"  文件路径: {expand_path}")
             self._append_log(f"  可以点击「生成调用图」继续处理")
             self._append_log("=" * 60)
@@ -298,17 +274,17 @@ class CallyPlusGUI:
             # 弹出成功提示
             messagebox.showinfo(
                 "成功",
-                f"RTL 文件已生成并去改编完成！\n\n"
+                f"RTL 文件已生成、过滤并验证完成！\n\n"
                 f"文件: {expand_path.name}\n"
                 f"函数数量: {total_funcs}\n\n"
                 f"已自动填充到 expand 输入框"
             )
             
         except ImportError as e:
-            self._append_log(f"✗ 导入去改编模块失败: {e}")
+            self._append_log(f"✗ 导入模块失败: {e}")
             self._append_log(f"  请确保 rtl_parser.py 在同一目录")
         except Exception as e:
-            self._append_log(f"✗ 去改编处理失败: {e}")
+            self._append_log(f"✗ 解析验证失败: {e}")
             if self.debug_var.get():
                 import traceback
                 self._append_log(traceback.format_exc())

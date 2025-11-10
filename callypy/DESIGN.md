@@ -1,6 +1,11 @@
-# CallyPy 设计文档 - Python 线程调用图生成器
+# CallyPy 设计文档（逻辑/交互专用）
 
-## 1. 项目概述
+> **双文档机制说明**：
+> - 本文档 = **逻辑/交互文档**。用于记录需求、整体实现思路、与 GPT 协作时的指令。编辑时请聚焦“要做什么、为什么这么做、限制条件”。
+> - 对应的代码实现现状、功能清单请查看 `README_STATIC.md`（实现文档）。
+> - 每次调整需求或设计，请更新本文件；每次落地代码后，务必同步更新 `README_STATIC.md` 描述实际行为。
+
+## 1. 项目概述（需求侧）
 
 ### 1.1 目标
 为 Python 代码生成线程调用图，分析多线程程序中的函数调用关系、线程创建与同步。
@@ -14,7 +19,7 @@
 | 线程库 | std::thread, pthread | threading, multiprocessing |
 | 锁机制 | std::mutex, lock_guard | threading.Lock, RLock, Semaphore |
 
-## 2. 技术方案
+## 2. 技术方案与约束
 
 ### 2.1 Python 特点
 - **动态类型**：无需编译，直接解析源代码
@@ -22,7 +27,7 @@
 - **线程库**：`threading`, `multiprocessing`, `concurrent.futures`
 - **装饰器**：`@threaded` 等可能包装线程函数
 
-### 2.2 解析策略
+### 2.2 解析策略（静态 AST）
 
 #### 静态分析（AST）
 ```python
@@ -77,7 +82,7 @@ tree = ast.parse(source_code)
 2. **Semaphore/Event/Condition**
    类似映射为语义节点
 
-### 2.3 架构设计
+### 2.3 架构设计与输入输出
 
 ```
 callypy/
@@ -94,7 +99,7 @@ callypy/
     └── producer_consumer.py
 ```
 
-## 3. 核心模块
+## 3. 核心模块（待实现/已实现）
 
 ### 3.1 AST Parser
 

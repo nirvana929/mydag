@@ -1,0 +1,10 @@
+strict digraph callgraph {
+"pthread_create" [style=dashed];
+"perror" [style=dashed];
+"main" [color=blue, style=filled];
+"pthread_join" [style=dashed];
+"main" -> "perror";
+"main" -> "pthread_create";
+"main" -> "pthread_join";
+"main" -> "threadTask5()";
+}

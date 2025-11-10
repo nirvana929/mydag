@@ -139,4 +139,4 @@ python3 generate.py --expand file.expand --full
 
 ## 参考
 
-详细设计文档：`CXX_Thread_Callgraph_Simplification.md`
+详细设计与更新请参阅 `README.md` 中的“线程简化逻辑”章节（与 `CXX_to_Callgraph_Pipeline.md` 搭配使用）。

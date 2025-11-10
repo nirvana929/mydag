@@ -1,4 +1,8 @@
-# Cally++ - C++ 调用图生成工具
+# Cally++ - C++ 调用图生成工具（实现文档）
+
+> **文档角色约定**：
+> - `CXX_to_Callgraph_Pipeline.md`：逻辑/交互文档（记录需求、流程、与 GPT 协作的指令）。
+> - `README.md`（本文）：实现/现状文档，描述当前功能、脚本入口、使用方法、线程简化行为。所有代码改动完成后，请同步更新本文件。
 
 基于 RTL 解析的 C++ 调用图生成工具，集成符号去改编（demangle）功能。
 
@@ -8,6 +12,7 @@
 - ✅ **独立实现**：不依赖 mycallyplus/mycallypro
 - ✅ **自动检测**：支持 c++filt 和 llvm-cxxfilt
 - ✅ **高效缓存**：避免重复去改编
+- ✅ **线程简化**：`--simplify-cxx` 通过 `simplify_dot.py` 折叠 STL/pthread 噪声，仅保留用户函数与线程/锁语义
 
 ## 项目结构
 
@@ -115,10 +120,21 @@ dot -V
 python3 generate.py --expand file.expand --caller "WrongName" 2>&1 | grep "  -"
 ```
 
-## 技术细节
+## 线程简化逻辑（`--simplify-cxx`）
 
-- `CXX_to_Callgraph_Pipeline.md`：C++ 到调用图的整体流程与注意事项
-- `CXX_Thread_Callgraph_Simplification.md`：C++ 线程调用图简化方案（将 std::thread/lock_guard 等库细节折叠为简洁语义）
+启用 `--simplify-cxx` 时，`generate.py` 在输出 DOT 后调用 `simplify_dot.py` 进行后处理，生成 `<basename>_simple.dot/png`：
+
+1. **去噪**：隐藏 `std::` / `__gnu_cxx::` / `__gthread*` 等库实现节点，仅保留用户函数与关键语义锚点。
+2. **线程语义**：
+   - `std::thread::thread<...>` → 推断线程入口（优先图内节点，回退源代码解析 `std::thread(worker, ...)`）。
+   - `std::thread::join()` → 统一映射为 `pthread_join`（灰色虚线）。
+3. **锁语义**：`std::lock_guard` / `std::mutex::lock/unlock` / `__gthread_mutex_*` 折叠为 `pthread_mutex_lock` / `pthread_mutex_unlock`，使用灰色虚线节点。
+4. **链路压缩**：在用户/语义节点之间跳过纯库节点，直接连到下一个“有意义”节点，减少模板展开噪声。
+5. **输出**：
+   - DOT：`配置文件/<base>/<base>_simple.dot`
+   - PNG：`img/<base>_{caller|full}_simple.png`
+
+如需保留完整 STL 调用链，可取消 `--simplify-cxx`，或对 `_simple.dot` 与原 DOT 对比调试。
 
 ## 参考
 
