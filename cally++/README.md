@@ -117,7 +117,8 @@ python3 generate.py --expand file.expand --caller "WrongName" 2>&1 | grep "  -"
 
 ## 技术细节
 
-详见 `CXX_to_Callgraph_Pipeline.md`
+- `CXX_to_Callgraph_Pipeline.md`：C++ 到调用图的整体流程与注意事项
+- `CXX_Thread_Callgraph_Simplification.md`：C++ 线程调用图简化方案（将 std::thread/lock_guard 等库细节折叠为简洁语义）
 
 ## 参考
 

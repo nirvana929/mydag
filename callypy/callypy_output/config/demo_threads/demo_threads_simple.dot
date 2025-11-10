@@ -1,0 +1,8 @@
+strict digraph callgraph {
+  rankdir=LR;
+  node [shape=box];
+  "work_b" [color=green, style=filled, fillcolor=lightgreen];
+  "work_a" [color=green, style=filled, fillcolor=lightgreen];
+  "main" -> "work_a" [label="thread", color=green, penwidth=2.0];
+  "main" -> "work_b" [label="thread", color=green, penwidth=2.0];
+}

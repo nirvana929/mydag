@@ -1,0 +1,16 @@
+strict digraph callgraph {
+"pthread_mutex_unlock" [style=dashed];
+"pthread_mutex_lock" [style=dashed];
+"main" [color=blue, style=filled];
+"pthread_join" [style=dashed];
+"ThreadManager::createThreads()" -> "workerThread";
+"ThreadManager::printSummary()" -> "pthread_mutex_lock";
+"ThreadManager::printSummary()" -> "pthread_mutex_unlock";
+"ThreadManager::start()" -> "ThreadManager::createThreads()";
+"ThreadManager::start()" -> "ThreadManager::printSummary()";
+"ThreadManager::start()" -> "ThreadManager::waitForCompletion()";
+"ThreadManager::waitForCompletion()" -> "pthread_join";
+"main" -> "ThreadManager::ThreadManager(int)";
+"main" -> "ThreadManager::start()";
+"main" -> "ThreadManager::~ThreadManager()";
+}

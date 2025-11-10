@@ -1,0 +1,25 @@
+strict digraph callgraph {
+  rankdir=LR;
+  node [shape=box];
+  "worker" [color=green, style=filled, fillcolor=lightgreen];
+  "process_data" -> "print";
+  "process_data" -> "time.sleep";
+  "worker" -> "lock.release";
+  "worker" -> "print";
+  "worker" -> "range";
+  "worker" -> "process_data";
+  "worker" -> "save_result";
+  "worker" -> "lock.acquire";
+  "save_result" -> "print";
+  "main" -> "t.start";
+  "main" -> "t.join";
+  "main" -> "print";
+  "main" -> "range";
+  "main" -> "threads.append";
+  "main" -> "threading.Thread";
+  "main" -> "worker" [label="thread", color=green, penwidth=2.0];
+  "threading_lock_acquire" [style=dashed, color=gray];
+  "worker" -> "threading_lock_acquire";
+  "threading_lock_release" [style=dashed, color=gray];
+  "worker" -> "threading_lock_release";
+}
