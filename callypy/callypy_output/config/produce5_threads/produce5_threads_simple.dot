@@ -1,0 +1,12 @@
+strict digraph callgraph {
+  rankdir=LR;
+  node [shape=box];
+  "threadtask1" [color=green, style=filled, fillcolor=lightgreen];
+  "threadtask3" [color=green, style=filled, fillcolor=lightgreen];
+  "threadtask2" [color=green, style=filled, fillcolor=lightgreen];
+  "threadtask4" [color=green, style=filled, fillcolor=lightgreen];
+  "threadtask1" -> "threadtask2" [label="thread", color=green, penwidth=2.0];
+  "threadtask2" -> "threadtask3" [label="thread", color=green, penwidth=2.0];
+  "threadtask2" -> "threadtask4" [label="thread", color=green, penwidth=2.0];
+  "main" -> "threadtask1" [label="thread", color=green, penwidth=2.0];
+}

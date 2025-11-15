@@ -194,42 +194,6 @@ sed -n "${start},${end}p" "$file" \
 
 4) 解释“源码调用数 ≠ DOT 出边数”的常见原因
 - 内联与优化：被内联的调用在 RTL 中不一定产生 `(call)`；建议 `-O0 -fno-inline` 提高可见性。
-- 模板/重载：会生成多个实例化目标，DOT 中是多节点；源码里可能只看到一个模板调用。
-- 虚函数/函数指针：RTL 常以寄存器加载的间接调用呈现，DOT 无法具名连边。
-- 编译器/框架插桩：`__stack_chk_fail`、`perf_*`、`pthread_*`、日志/时间函数等在源码不一定显式出现。
+此文档已合并归档到 `ARCHIVE_DOCS.md`（历史参考）。
 
-### 11.4 过滤与聚焦（对账时的实操建议）
-
-- 过滤插桩（保留业务调用）
-  - 使用正则排除：`--exclude '(pthread_|perf_|__stack_chk_fail|^mem(set|cpy)$|hrt_absolute_time)'`
-  - 或隐藏外部：`--no-externs`（不显示未在 RTL 中具名定义的外部节点）
-- 只看线程相关：`--threads-only`（抑制 if/while/switch 条件节点，便于对账线程边）
-- 控制规模：`--max-depth N`（如在“callee”方向分析）
-
-注意：如果你要为 `circle.txt` 抽取同步原语（互斥量/信号量），请不要过滤 `pthread_mutex_*` / `sem_*`，它们正是同步对账的依据。`exporters.py` 会读取 `call_sequence` 中的这些调用，并尝试绑定到源码行号与变量名。
-
-### 11.5 快速对账脚本（可拷贝使用）
-
-```bash
-# 以 BatterySimulator::Run 为例，输出三列：计数  目标名  DOT中是否出现
-EXP=mydag/cally++/source/BatterySimulator/BatterySimulator.cpp.233r.expand
-DOT=mydag/cally++/config/BatterySimulator.cpp/BatterySimulator.cpp.dot
-START=$(rg -n '^;; Function BatterySimulator::Run \(_ZN16BatterySimulator3RunEv' "$EXP" | cut -d: -f1)
-END=$(rg -n '^;; Function ' "$EXP" | awk -v s=$START -F: '$1>s{print $1; exit}')
-SYMS=$(sed -n "${START},${END}p" "$EXP" | rg -o 'symbol_ref:[^\"]+"([^"]+)' | sed 's/.*"//' | sort | uniq -c)
-
-while read -r CNT NAME; do
-  IN_DOT=$(rg -q "\"$NAME\"" "$DOT" && echo yes || echo no)
-  printf "%3s  %-60s  %s\n" "$CNT" "$NAME" "$IN_DOT"
-done <<EOF
-$SYMS
-EOF
-```
-
-这能直观展示“RTL 具名调用目标”是否都被 DOT 呈现；若某些为 `no`，通常因为被 `--exclude/--no-externs` 过滤，或属于“间接调用”（无具名目标）。
-
-### 11.6 小结（实务要点）
-
-- 对账以 `.expand` 为准；DOT 是经过筛选/样式化的可视化投影。
-- 插桩不是“噪声”，很多用于并发/安全/诊断；对账时可按需过滤，但做同步/线程分析时要保留。
-- C++ 语义特性（模板/多态/内联）导致“源码直觉”与“编译后事实”存在差异；必要时用 `-O0 -fno-inline`，并结合 ABI 符号名进行精准定位。
+请查看 `ARCHIVE_DOCS.md` 中的 “From: CXX_to_Callgraph_Pipeline.md” 部分以获取完整内容。

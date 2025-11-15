@@ -48,27 +48,9 @@
 ## 4. 流程示例
 ```
 python py_thread_callgraph.py simple_thread.py --output simple_thread_py.dot --root __main__
-```
-输出 DOT：
-```
+此文档已合并归档到 `ARCHIVE_DOCS.md`（历史参考）。
+
+请查看 `ARCHIVE_DOCS.md` 中的 “From: PY_Thread_Callgraph_Plan.md” 部分以获取完整内容。
 "__main__" -> "main";
+
 "main" -> "ThreadManager.start";
-"ThreadManager.start" -> "spawn_worker" [style=dashed, color=blue, label="thread"];
-...
-```
-随后可用 `dot -Tpng simple_thread_py.dot -o simple_thread_py.png` 渲染。
-
-## 5. 限制 & 扩展
-- 静态分析无法捕获动态生成/反射调用。
-- 仅识别标准 `threading.Thread`; 若使用 `multiprocessing`, `concurrent.futures` 需扩展规则。
-- 暂不解析 `asyncio`，后续可单独增加协程关系。
-- 多文件工程需先合并或逐文件生成图再聚合。
-- 可在 GUI 中新增“Python 模式”，调用该脚本并在现有画布中展示结果。
-
-## 6. 下一步
-1. 编写 `py_thread_callgraph.py` 脚本：
-   - AST 解析 + 调用图构建 + DOT 输出。
-   - CLI 参数：`--input`, `--output`, `--root`, `--highlight-thread`。
-2. 将脚本集成到 GUI：选择 .py 源文件 → 生成 DOT/PNG。
-3. 根据实际项目迭代：增加过滤器、识别更多线程 API、导出 JSON 等。
-
