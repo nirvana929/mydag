@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """RTL 生成器
 
 从 C++ 源文件自动生成 GCC RTL expand 文件
@@ -6,9 +7,16 @@
 
 import os
 import subprocess
+import sys
 import glob
 from pathlib import Path
 from typing import Optional
+
+# 确保标准输出使用 UTF-8 编码
+if sys.stdout.encoding != 'utf-8':
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 
 class RTLGenerator:

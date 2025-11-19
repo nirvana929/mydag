@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """RTL 过滤器
 
 过滤 GCC RTL expand 文件，只保留函数定义和调用关系，
@@ -6,8 +7,15 @@
 """
 
 import re
+import sys
 from pathlib import Path
 from typing import List, Optional
+
+# 确保标准输出使用 UTF-8 编码
+if sys.stdout.encoding != 'utf-8':
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 
 class RTLFilter:
@@ -62,9 +70,12 @@ class RTLFilter:
         else:
             output_path = input_path.with_suffix(input_path.suffix + '.filtered')
         
+        print(f"  正在过滤 RTL 文件...")
+        print(f"    输入文件: {input_path.name}")
+        print(f"    输出文件: {output_path.name}")
+        
         if self.debug:
-            print(f"Filtering RTL file: {input_path}")
-            print(f"Output: {output_path}")
+            print(f"    完整路径: {output_path}")
         
         try:
             # 读取原始文件
@@ -82,11 +93,19 @@ class RTLFilter:
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.writelines(filtered_lines)
             
+            # 计算统计信息
+            reduction = (1 - filtered_size / original_size) * 100
+            original_size_kb = input_path.stat().st_size / 1024
+            filtered_size_kb = output_path.stat().st_size / 1024
+            
+            print(f"  ✓ 过滤完成！")
+            print(f"    文件路径: {output_path}")
+            print(f"    文件大小: {filtered_size_kb:.1f} KB")
+            print(f"    压缩比例: {reduction:.1f}% (从 {original_size} 行减少到 {filtered_size} 行)")
+            
             if self.debug:
-                reduction = (1 - filtered_size / original_size) * 100
-                print(f"Original lines: {original_size}")
-                print(f"Filtered lines: {filtered_size}")
-                print(f"Reduction: {reduction:.1f}%")
+                print(f"    原始大小: {original_size_kb:.1f} KB")
+                print(f"    大小减少: -{original_size_kb - filtered_size_kb:.1f} KB")
             
             return str(output_path)
         

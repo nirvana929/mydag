@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Cally++ 主程序"""
 import argparse
 import subprocess
@@ -9,7 +10,14 @@ from rtl_parser import RTLParser
 from dot_generator import DOTGenerator
 from simplify_dot import DotSimplifier
 from rtl_generator import generate_rtl_from_source
+from rtl_demangler import demangle_rtl
 from rtl_filter import filter_rtl
+
+# 确保标准输出使用 UTF-8 编码
+if sys.stdout.encoding != 'utf-8':
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 
 def _guess_source_from_expand(expand_path: Path) -> Optional[Path]:
@@ -95,23 +103,6 @@ Examples:
         
         expand_path = Path(expand_file)
         print(f"Generated: {expand_path}")
-        
-        # 过滤 RTL 文件（除非用户要求保留原始）
-        if not args.keep_raw_rtl:
-            print(f"\n=== Step 2: Filtering RTL ===")
-            filtered_file = filter_rtl(expand_file, debug=args.debug)
-            
-            if not filtered_file:
-                print("WARNING: RTL filtering failed, using raw RTL")
-                filtered_path = expand_path
-            else:
-                filtered_path = Path(filtered_file)
-                print(f"Filtered: {filtered_path}")
-        else:
-            print(f"\n=== Step 2: Skipping RTL filtering (--keep-raw-rtl) ===")
-            filtered_path = expand_path
-        
-        # 记录源文件路径（用于 simplify 推断）
         source_file = Path(args.source)
     
     else:
@@ -121,18 +112,56 @@ Examples:
             print(f"ERROR: File not found: {expand_path}")
             return 1
         
-        filtered_path = expand_path
         source_file = Path(args.source_hint) if args.source_hint else _guess_source_from_expand(expand_path)
-        print(f"Using existing RTL file: {expand_path}")
+        print(f"\n=== 使用已有 RTL 文件 ===")
+        print(f"  文件路径: {expand_path}")
+        expand_size_kb = expand_path.stat().st_size / 1024
+        print(f"  文件大小: {expand_size_kb:.1f} KB")
     
-    # 解析 RTL
-    print(f"\n=== Step 3: Parsing RTL with demangle ===")
-    rtl_parser = RTLParser(enable_demangle=True, debug=args.debug)
+    # Step 2: 去改编 RTL 文件
+    print(f"\n{'='*70}")
+    print(f"步骤 2/5: 去改编 RTL 文件")
+    print(f"{'='*70}")
+    demangled_file = demangle_rtl(str(expand_path), debug=args.debug)
+    
+    if not demangled_file:
+        print("  ⚠ 警告: RTL 去改编失败，使用原始 RTL")
+        demangled_path = expand_path
+    else:
+        demangled_path = Path(demangled_file)
+    
+    # Step 3: 过滤去改编后的 RTL 文件
+    if not args.keep_raw_rtl:
+        print(f"\n{'='*70}")
+        print(f"步骤 3/5: 过滤去改编后的 RTL 文件")
+        print(f"{'='*70}")
+        filtered_file = filter_rtl(str(demangled_path), debug=args.debug)
+        
+        if not filtered_file:
+            print("  ⚠ 警告: RTL 过滤失败，使用去改编的 RTL")
+            filtered_path = demangled_path
+        else:
+            filtered_path = Path(filtered_file)
+    else:
+        print(f"\n{'='*70}")
+        print(f"步骤 3/5: 跳过 RTL 过滤 (--keep-raw-rtl)")
+        print(f"{'='*70}")
+        filtered_path = demangled_path
+    
+    # Step 4: 解析过滤后的 RTL（不再需要去改编，因为已经是可读符号）
+    print(f"\n{'='*70}")
+    print(f"步骤 4/5: 解析过滤后的 RTL 文件")
+    print(f"{'='*70}")
+    print(f"  正在解析 RTL 文件...")
+    rtl_parser = RTLParser(enable_demangle=False, debug=args.debug)  # 关闭去改编
     graph = rtl_parser.parse_file(str(filtered_path))
-    print(f"Parsed {len(graph.functions)} functions")
+    print(f"  ✓ 解析完成！")
+    print(f"    发现函数: {len(graph.functions)} 个")
     
-    # 生成调用图
-    print(f"\n=== Step 4: Generating callgraph ===")
+    # Step 5: 生成调用图
+    print(f"\n{'='*70}")
+    print(f"步骤 5/5: 生成调用图")
+    print(f"{'='*70}")
     generator = DOTGenerator(graph)
     
     if args.full:
@@ -140,12 +169,8 @@ Examples:
         dot_content = generator.generate_full_graph()
         graph_type = "full"
     elif args.caller:
-        # 生成 caller 图
+        # 生成 caller 图（函数名已经是可读形式，不需要去改编）
         func_name = args.caller
-        if func_name not in graph.functions and rtl_parser.demangler:
-            demangled = rtl_parser.demangler.demangle(func_name)
-            if demangled in graph.functions:
-                func_name = demangled
         
         if func_name not in graph.functions:
             print(f"ERROR: Function '{args.caller}' not found")
@@ -171,7 +196,7 @@ Examples:
             base = base[:-5]
     
     # 保存 DOT 文件
-    print(f"\n=== Step 5: Saving DOT file ===")
+    print(f"\n  正在保存 DOT 文件...")
     out_root = Path(args.output_base)
     cfg_dir = out_root / "config" / base
     img_dir = out_root / "img"
@@ -180,11 +205,14 @@ Examples:
     
     dot_path = cfg_dir / f"{base}.dot"
     dot_path.write_text(dot_content, encoding='utf-8')
-    print(f"DOT saved: {dot_path}")
+    print(f"  ✓ DOT 文件已保存")
+    print(f"    文件路径: {dot_path}")
     
     # 简化 C++ 调用图（如果启用）
     if args.simplify_cxx:
-        print(f"\n=== Step 6: Simplifying C++ callgraph ===")
+        print(f"\n{'='*70}")
+        print(f"步骤 6/7: 简化 C++ 调用图")
+        print(f"{'='*70}")
         simplifier = DotSimplifier(debug=args.debug)
         
         # 确定源文件（用于线程函数推断）
@@ -196,27 +224,59 @@ Examples:
             source_for_inference = source_file if source_file and source_file.exists() else None
         
         if args.debug and source_for_inference:
-            print(f"  Using source for inference: {source_for_inference}")
+            print(f"  使用源文件进行推断: {source_for_inference}")
         
+        print(f"  正在简化调用图...")
         simplified = simplifier.simplify(dot_content, source_for_inference)
         
         simple_dot_path = cfg_dir / f"{base}_simple.dot"
         simple_dot_path.write_text(simplified, encoding='utf-8')
-        print(f"Simplified DOT saved: {simple_dot_path}")
+        print(f"  ✓ 简化完成")
+        print(f"    文件路径: {simple_dot_path}")
         
         # 生成简化版的 PNG
-        print(f"\n=== Step 7: Rendering simplified PNG ===")
+        print(f"\n{'='*70}")
+        print(f"步骤 7/7: 渲染简化后的 PNG 图片")
+        print(f"{'='*70}")
         simple_png_path = img_dir / f"{base}_{graph_type}_simple.png"
+        print(f"  正在渲染...")
         subprocess.run(['dot', '-Tpng', str(simple_dot_path), '-o', str(simple_png_path)])
-        print(f"Simplified PNG saved: {simple_png_path}")
+        simple_png_size_kb = simple_png_path.stat().st_size / 1024
+        print(f"  ✓ PNG 图片已保存")
+        print(f"    文件路径: {simple_png_path}")
+        print(f"    文件大小: {simple_png_size_kb:.1f} KB")
     
     # 生成原始 PNG
-    print(f"\n=== Step {7 if args.simplify_cxx else 6}: Rendering PNG ===")
+    step_num = 7 if args.simplify_cxx else 6
+    print(f"\n{'='*70}")
+    print(f"步骤 {step_num}/{step_num}: 渲染原始 PNG 图片")
+    print(f"{'='*70}")
     png_path = img_dir / f"{base}_{graph_type}.png"
+    print(f"  正在渲染...")
     subprocess.run(['dot', '-Tpng', str(dot_path), '-o', str(png_path)])
-    print(f"PNG saved: {png_path}")
+    png_size_kb = png_path.stat().st_size / 1024
+    print(f"  ✓ PNG 图片已保存")
+    print(f"    文件路径: {png_path}")
+    print(f"    文件大小: {png_size_kb:.1f} KB")
     
-    print("\n=== Done! ===")
+    print(f"\n{'='*70}")
+    print(f"✓ 所有步骤完成！")
+    print(f"{'='*70}")
+    
+    # 汇总生成的文件
+    print(f"\n生成的文件列表:")
+    print(f"  1. RTL 文件生成成功: {expand_path}")
+    if demangled_file:
+        print(f"  2. 去改编 RTL 文件已保存: {demangled_path}")
+    if not args.keep_raw_rtl and filtered_file:
+        print(f"  3. 过滤后 RTL 文件已保存: {filtered_path}")
+    print(f"  4. DOT 文件已保存: {dot_path}")
+    print(f"  5. PNG 图片已保存: {png_path}")
+    if args.simplify_cxx:
+        print(f"  6. 简化 DOT 文件已保存: {simple_dot_path}")
+        print(f"  7. 简化 PNG 图片已保存: {simple_png_path}")
+    
+    print(f"\n可以查看图: {png_path}")
     return 0
 
 if __name__ == "__main__":

@@ -1,388 +1,256 @@
-;; Function simulate_work (_ZL13simulate_workPKci, funcdef_no=2729, decl_uid=55915, cgraph_uid=767, symbol_order=773)
+;; Function simulate_work (_ZL13simulate_workPKci, funcdef_no=1823, decl_uid=43380, cgraph_uid=613, symbol_order=1083)
 
-(symbol_ref:DI ("*.LC0"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("*.LC1"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEi") [flags 0x41]  <function_decl 0x7fe9d67ddb00 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f29d62db2d0 *.LC0>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":13:39 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":13:39 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f29d62db3f0 *.LC1>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":13:39 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEi") [flags 0x41]  <function_decl 0x7f29d6953b00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
 
-;; Function Deg2rad (_Z7Deg2radPv, funcdef_no=2730, decl_uid=55986, cgraph_uid=768, symbol_order=774)
+;; Function arg_to_int (_ZL10arg_to_intPv, funcdef_no=1824, decl_uid=43470, cgraph_uid=614, symbol_order=1084)
 
-(symbol_ref:DI ("*.LC2"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function Deg2rad (_Z7Deg2radPv, funcdef_no=1825, decl_uid=43473, cgraph_uid=615, symbol_order=1085)
 
-;; Function rad2deg (_Z7rad2degPv, funcdef_no=2731, decl_uid=55989, cgraph_uid=769, symbol_order=775)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f29d62dbf30 *.LC2>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":27:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC3"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function rad2deg (_Z7rad2degPv, funcdef_no=1826, decl_uid=43476, cgraph_uid=616, symbol_order=1086)
 
-;; Function cover (_Z5coverPv, funcdef_no=2732, decl_uid=55992, cgraph_uid=770, symbol_order=776)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f29d62f21b0 *.LC3>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":28:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC4"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function cover (_Z5coverPv, funcdef_no=1827, decl_uid=43479, cgraph_uid=617, symbol_order=1087)
 
-;; Function duff (_Z4duffPv, funcdef_no=2733, decl_uid=55995, cgraph_uid=771, symbol_order=777)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7f29d62f2510 *.LC4>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":29:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC5"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function duff (_Z4duffPv, funcdef_no=1828, decl_uid=43482, cgraph_uid=618, symbol_order=1088)
 
-;; Function insertsort (_Z10insertsortPv, funcdef_no=2734, decl_uid=55998, cgraph_uid=772, symbol_order=778)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7f29d62f2870 *.LC5>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":30:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC6"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function insertsort (_Z10insertsortPv, funcdef_no=1829, decl_uid=43485, cgraph_uid=619, symbol_order=1089)
 
-;; Function minver (_Z6minverPv, funcdef_no=2735, decl_uid=56001, cgraph_uid=773, symbol_order=779)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7f29d62f2bd0 *.LC6>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":31:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC7"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function minver (_Z6minverPv, funcdef_no=1830, decl_uid=43488, cgraph_uid=620, symbol_order=1090)
 
-;; Function ndes (_Z4ndesPv, funcdef_no=2736, decl_uid=56004, cgraph_uid=774, symbol_order=780)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7f29d62f2f30 *.LC7>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":32:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC8"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function ndes (_Z4ndesPv, funcdef_no=1831, decl_uid=43491, cgraph_uid=621, symbol_order=1091)
 
-;; Function ludcmp (_Z6ludcmpPv, funcdef_no=2737, decl_uid=56007, cgraph_uid=775, symbol_order=781)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC8") [flags 0x2]  <var_decl 0x7f29d62fc2d0 *.LC8>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":33:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC9"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function ludcmp (_Z6ludcmpPv, funcdef_no=1832, decl_uid=43494, cgraph_uid=622, symbol_order=1092)
 
-;; Function prime (_Z5primePv, funcdef_no=2738, decl_uid=56010, cgraph_uid=776, symbol_order=782)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC9") [flags 0x2]  <var_decl 0x7f29d62fc6c0 *.LC9>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":34:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(symbol_ref:DI ("*.LC10"))
-(call_insn 10 9 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7fe9d6140e00 simulate_work>) [0 simulate_work S1 A8])
+;; Function prime (_Z5primePv, funcdef_no=1833, decl_uid=43497, cgraph_uid=623, symbol_order=1093)
 
-;; Function threadTask3 (_Z11threadTask3Pv, funcdef_no=2739, decl_uid=56017, cgraph_uid=779, symbol_order=789)
+        (call (mem:QI (symbol_ref:DI ("_ZL10arg_to_intPv") [flags 0x3]  <function_decl 0x7f29d66e2300 arg_to_int>) [0 arg_to_int S1 A8])
+        (symbol_ref/f:DI ("*.LC10") [flags 0x2]  <var_decl 0x7f29d62fca20 *.LC10>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":35:43 -1
+(call_insn 12 11 0 2 (call (mem:QI (symbol_ref:DI ("_ZL13simulate_workPKci") [flags 0x3]  <function_decl 0x7f29d66dac00 simulate_work>) [0 simulate_work S1 A8])
 
-(call_insn 11 10 12 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEEC1IS1_vEEPi") [flags 0x3]  <function_decl 0x7fe9d5ebe100 __ct_comp >) [0 __ct_comp  S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 17 16 18 2 (call (mem:QI (symbol_ref:DI ("_Z7rad2degPv") [flags 0x3]  <function_decl 0x7fe9d614e600 rad2deg>) [0 rad2deg S1 A8])
-(symbol_ref:DI ("*.LC11"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+;; Function threadTask3 (_Z11threadTask3Pv, funcdef_no=1834, decl_uid=43504, cgraph_uid=624, symbol_order=1098)
+
+(call_insn 10 9 11 2 (call (mem:QI (symbol_ref:DI ("_Z7rad2degPv") [flags 0x3]  <function_decl 0x7f29d66e2700 rad2deg>) [0 rad2deg S1 A8])
+        (symbol_ref/f:DI ("*.LC11") [flags 0x2]  <var_decl 0x7f29d62fcd80 *.LC11>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":50:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":50:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(call_insn 32 31 35 7 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 42 41 43 9 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 45 44 46 9 (call (mem:QI (symbol_ref:DI ("_Unwind_Resume") [flags 0x41]  <function_decl 0x7fe9d87bb600 __builtin_unwind_resume>) [0 __builtin_unwind_resume S1 A8])
-(call_insn 50 57 51 12 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fe9d57eef00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+(call_insn 24 23 25 4 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
 
-;; Function threadTask4 (_Z11threadTask4Pv, funcdef_no=2742, decl_uid=58692, cgraph_uid=780, symbol_order=790)
+;; Function threadTask4 (_Z11threadTask4Pv, funcdef_no=1835, decl_uid=43518, cgraph_uid=625, symbol_order=1099)
 
-(call_insn 11 10 12 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEEC1IS1_vEEPi") [flags 0x3]  <function_decl 0x7fe9d5ebe100 __ct_comp >) [0 __ct_comp  S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 17 16 18 2 (call (mem:QI (symbol_ref:DI ("_Z5primePv") [flags 0x3]  <function_decl 0x7fe9d6167400 prime>) [0 prime S1 A8])
-(symbol_ref:DI ("*.LC12"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+(call_insn 10 9 11 2 (call (mem:QI (symbol_ref:DI ("_Z5primePv") [flags 0x3]  <function_decl 0x7f29d66fc500 prime>) [0 prime S1 A8])
+        (symbol_ref/f:DI ("*.LC12") [flags 0x2]  <var_decl 0x7f29d6308240 *.LC12>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":59:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":59:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(call_insn 32 31 35 7 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 42 41 43 9 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 45 44 46 9 (call (mem:QI (symbol_ref:DI ("_Unwind_Resume") [flags 0x41]  <function_decl 0x7fe9d87bb600 __builtin_unwind_resume>) [0 __builtin_unwind_resume S1 A8])
-(call_insn 50 57 51 12 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fe9d57eef00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+(call_insn 24 23 25 4 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
 
-;; Function threadTask2 (_Z11threadTask2Pv, funcdef_no=2743, decl_uid=58696, cgraph_uid=781, symbol_order=791)
+;; Function threadTask2 (_Z11threadTask2Pv, funcdef_no=1836, decl_uid=43522, cgraph_uid=626, symbol_order=1100)
 
-(call_insn 11 10 12 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEEC1IS1_vEEPi") [flags 0x3]  <function_decl 0x7fe9d5ebe100 __ct_comp >) [0 __ct_comp  S1 A8])
-(call_insn 17 16 18 2 (call (mem:QI (symbol_ref/i:DI ("_ZSt11make_uniqueIiJiEENSt9_MakeUniqIT_E15__single_objectEDpOT0_") [flags 0x3]  <function_decl 0x7fe9d5ebe700 make_unique>) [0 make_unique S1 A8])
-(call_insn 24 23 25 4 (call (mem:QI (symbol_ref/i:DI ("_ZSt11make_uniqueIiJiEENSt9_MakeUniqIT_E15__single_objectEDpOT0_") [flags 0x3]  <function_decl 0x7fe9d5ebe700 make_unique>) [0 make_unique S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 31 30 32 5 (call (mem:QI (symbol_ref:DI ("_Z6minverPv") [flags 0x3]  <function_decl 0x7fe9d614ee00 minver>) [0 minver S1 A8])
-(symbol_ref:DI ("*.LC13"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7f29d8819700 malloc>) [0 __builtin_malloc S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7f29d8819700 malloc>) [0 __builtin_malloc S1 A8])
+(call_insn 32 31 33 7 (call (mem:QI (symbol_ref:DI ("_Z6minverPv") [flags 0x3]  <function_decl 0x7f29d66e2f00 minver>) [0 minver S1 A8])
+        (symbol_ref/f:DI ("*.LC13") [flags 0x2]  <var_decl 0x7f29d63087e0 *.LC13>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":75:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":75:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEE7releaseEv") [flags 0x3]  <function_decl 0x7fe9d5eb7400 release>) [0 release S1 A8])
-(symbol_ref:DI ("_Z11threadTask3Pv"))
-(symbol_ref:DI ("_ZL13g_thread_lvl2"))
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe9d831b100 pthread_create>) [0 pthread_create S1 A8])
-(symbol_ref:DI ("*.LC14"))
-(call_insn 59 58 60 10 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fe9d8373d00 perror>) [0 perror S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEE7releaseEv") [flags 0x3]  <function_decl 0x7fe9d5eb7400 release>) [0 release S1 A8])
-(symbol_ref:DI ("_Z11threadTask4Pv"))
-(symbol_ref:DI ("_ZL13g_thread_lvl3"))
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe9d831b100 pthread_create>) [0 pthread_create S1 A8])
-(symbol_ref:DI ("*.LC15"))
-(call_insn 82 81 83 13 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fe9d8373d00 perror>) [0 perror S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 94 93 95 15 (call (mem:QI (symbol_ref:DI ("_Z4ndesPv") [flags 0x3]  <function_decl 0x7fe9d6167000 ndes>) [0 ndes S1 A8])
-(symbol_ref:DI ("*.LC16"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref:DI ("_Z11threadTask3Pv") [flags 0x3]  <function_decl 0x7f29d66fc700 threadTask3>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":77:23 -1
+        (symbol_ref:DI ("_ZL13g_thread_lvl2") [flags 0x2]  <var_decl 0x7f29d66ddb40 g_thread_lvl2>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":77:23 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f29d8171900 pthread_create>) [0 pthread_create S1 A8])
+        (symbol_ref/f:DI ("*.LC14") [flags 0x2]  <var_decl 0x7f29d6308870 *.LC14>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":78:20 -1
+(call_insn 54 53 55 8 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7f29d81d8a00 perror>) [0 perror S1 A8])
+(call_insn 60 59 61 9 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+(call_insn 68 67 69 11 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+(call_insn 76 75 77 13 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+        (symbol_ref:DI ("_Z11threadTask4Pv") [flags 0x3]  <function_decl 0x7f29d66fca00 threadTask4>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":85:23 -1
+        (symbol_ref:DI ("_ZL13g_thread_lvl3") [flags 0x2]  <var_decl 0x7f29d66ddbd0 g_thread_lvl3>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":85:23 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f29d8171900 pthread_create>) [0 pthread_create S1 A8])
+        (symbol_ref/f:DI ("*.LC15") [flags 0x2]  <var_decl 0x7f29d6308900 *.LC15>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":86:20 -1
+(call_insn 97 96 98 16 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7f29d81d8a00 perror>) [0 perror S1 A8])
+        (mem/c:DI (symbol_ref:DI ("_ZL13g_thread_lvl2") [flags 0x2]  <var_decl 0x7f29d66ddb40 g_thread_lvl2>) [9 g_thread_lvl2+0 S8 A64])) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":88:21 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f29d8171b00 pthread_join>) [0 pthread_join S1 A8])
+(call_insn 107 106 108 17 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+(call_insn 115 114 116 19 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+(call_insn 125 124 126 21 (call (mem:QI (symbol_ref:DI ("_Z4ndesPv") [flags 0x3]  <function_decl 0x7f29d66fc100 ndes>) [0 ndes S1 A8])
+        (symbol_ref/f:DI ("*.LC16") [flags 0x2]  <var_decl 0x7f29d6308990 *.LC16>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":95:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":95:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("_ZL13g_thread_lvl2"))
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe9d831b300 pthread_join>) [0 pthread_join S1 A8])
-(symbol_ref:DI ("_ZL13g_thread_lvl3"))
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe9d831b300 pthread_join>) [0 pthread_join S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 121 120 122 21 (call (mem:QI (symbol_ref:DI ("_Z6ludcmpPv") [flags 0x3]  <function_decl 0x7fe9d6167200 ludcmp>) [0 ludcmp S1 A8])
-(symbol_ref:DI ("*.LC17"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (mem/c:DI (symbol_ref:DI ("_ZL13g_thread_lvl2") [flags 0x2]  <var_decl 0x7f29d66ddb40 g_thread_lvl2>) [9 g_thread_lvl2+0 S8 A64])) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":97:17 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f29d8171b00 pthread_join>) [0 pthread_join S1 A8])
+        (mem/c:DI (symbol_ref:DI ("_ZL13g_thread_lvl3") [flags 0x2]  <var_decl 0x7f29d66ddbd0 g_thread_lvl3>) [9 g_thread_lvl3+0 S8 A64])) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":98:17 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f29d8171b00 pthread_join>) [0 pthread_join S1 A8])
+(call_insn 144 143 145 21 (call (mem:QI (symbol_ref:DI ("_Z6ludcmpPv") [flags 0x3]  <function_decl 0x7f29d66fc300 ludcmp>) [0 ludcmp S1 A8])
+        (symbol_ref/f:DI ("*.LC17") [flags 0x2]  <var_decl 0x7f29d6308a20 *.LC17>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":101:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":101:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(call_insn 138 137 139 26 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 141 140 142 26 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 144 143 147 26 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 154 153 155 28 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 161 160 162 31 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 168 167 169 33 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 171 170 172 33 (call (mem:QI (symbol_ref:DI ("_Unwind_Resume") [flags 0x41]  <function_decl 0x7fe9d87bb600 __builtin_unwind_resume>) [0 __builtin_unwind_resume S1 A8])
-(call_insn 176 185 177 35 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fe9d57eef00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+(call_insn 158 157 159 22 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
 
-;; Function threadTask1 (_Z11threadTask1Pv, funcdef_no=2744, decl_uid=58784, cgraph_uid=782, symbol_order=792)
+;; Function threadTask1 (_Z11threadTask1Pv, funcdef_no=1837, decl_uid=43528, cgraph_uid=627, symbol_order=1101)
 
-(call_insn 11 10 12 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEEC1IS1_vEEPi") [flags 0x3]  <function_decl 0x7fe9d5ebe100 __ct_comp >) [0 __ct_comp  S1 A8])
-(call_insn 17 16 18 2 (call (mem:QI (symbol_ref/i:DI ("_ZSt11make_uniqueIiJiEENSt9_MakeUniqIT_E15__single_objectEDpOT0_") [flags 0x3]  <function_decl 0x7fe9d5ebe700 make_unique>) [0 make_unique S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 24 23 25 4 (call (mem:QI (symbol_ref:DI ("_Z7Deg2radPv") [flags 0x3]  <function_decl 0x7fe9d614e400 Deg2rad>) [0 Deg2rad S1 A8])
-(symbol_ref:DI ("*.LC18"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7f29d8819700 malloc>) [0 __builtin_malloc S1 A8])
+(call_insn 21 20 22 5 (call (mem:QI (symbol_ref:DI ("_Z7Deg2radPv") [flags 0x3]  <function_decl 0x7f29d66e2500 Deg2rad>) [0 Deg2rad S1 A8])
+        (symbol_ref/f:DI ("*.LC18") [flags 0x2]  <var_decl 0x7f29d6315990 *.LC18>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":116:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":116:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEE7releaseEv") [flags 0x3]  <function_decl 0x7fe9d5eb7400 release>) [0 release S1 A8])
-(symbol_ref:DI ("_Z11threadTask2Pv"))
-(symbol_ref:DI ("_ZL13g_thread_lvl1"))
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe9d831b100 pthread_create>) [0 pthread_create S1 A8])
-(symbol_ref:DI ("*.LC19"))
-(call_insn 52 51 53 9 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fe9d8373d00 perror>) [0 perror S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 64 63 65 11 (call (mem:QI (symbol_ref:DI ("_Z5coverPv") [flags 0x3]  <function_decl 0x7fe9d614e800 cover>) [0 cover S1 A8])
-(symbol_ref:DI ("*.LC20"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref:DI ("_Z11threadTask2Pv") [flags 0x3]  <function_decl 0x7f29d66fcc00 threadTask2>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":118:23 -1
+        (symbol_ref:DI ("_ZL13g_thread_lvl1") [flags 0x2]  <var_decl 0x7f29d66ddab0 g_thread_lvl1>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":118:23 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f29d8171900 pthread_create>) [0 pthread_create S1 A8])
+        (symbol_ref/f:DI ("*.LC19") [flags 0x2]  <var_decl 0x7f29d6315a20 *.LC19>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":119:20 -1
+(call_insn 43 42 44 6 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7f29d81d8a00 perror>) [0 perror S1 A8])
+(call_insn 49 48 50 7 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+(call_insn 57 56 58 9 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+(call_insn 67 66 68 11 (call (mem:QI (symbol_ref:DI ("_Z5coverPv") [flags 0x3]  <function_decl 0x7f29d66e2900 cover>) [0 cover S1 A8])
+        (symbol_ref/f:DI ("*.LC20") [flags 0x2]  <var_decl 0x7f29d6315ab0 *.LC20>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":126:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":126:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 81 80 82 15 (call (mem:QI (symbol_ref:DI ("_Z4duffPv") [flags 0x3]  <function_decl 0x7fe9d614ea00 duff>) [0 duff S1 A8])
-(symbol_ref:DI ("*.LC21"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+(call_insn 78 77 79 11 (call (mem:QI (symbol_ref:DI ("_Z4duffPv") [flags 0x3]  <function_decl 0x7f29d66e2b00 duff>) [0 duff S1 A8])
+        (symbol_ref/f:DI ("*.LC21") [flags 0x2]  <var_decl 0x7f29d6315b40 *.LC21>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":129:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":129:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("_ZL13g_thread_lvl1"))
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe9d831b300 pthread_join>) [0 pthread_join S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-(call_insn 103 102 104 20 (call (mem:QI (symbol_ref:DI ("_Z10insertsortPv") [flags 0x3]  <function_decl 0x7fe9d614ec00 insertsort>) [0 insertsort S1 A8])
-(symbol_ref:DI ("*.LC22"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (mem/c:DI (symbol_ref:DI ("_ZL13g_thread_lvl1") [flags 0x2]  <var_decl 0x7f29d66ddab0 g_thread_lvl1>) [9 g_thread_lvl1+0 S8 A64])) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":131:17 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f29d8171b00 pthread_join>) [0 pthread_join S1 A8])
+(call_insn 93 92 94 11 (call (mem:QI (symbol_ref:DI ("_Z10insertsortPv") [flags 0x3]  <function_decl 0x7f29d66e2d00 insertsort>) [0 insertsort S1 A8])
+        (symbol_ref/f:DI ("*.LC22") [flags 0x2]  <var_decl 0x7f29d6315bd0 *.LC22>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":134:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":134:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(call_insn 120 119 121 25 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 123 122 126 25 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 133 132 134 27 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 140 139 141 30 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 143 142 144 30 (call (mem:QI (symbol_ref:DI ("_Unwind_Resume") [flags 0x41]  <function_decl 0x7fe9d87bb600 __builtin_unwind_resume>) [0 __builtin_unwind_resume S1 A8])
-(call_insn 148 158 149 32 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fe9d57eef00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+(call_insn 107 106 108 12 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
 
-;; Function threadTask5 (_Z11threadTask5v, funcdef_no=2745, decl_uid=58791, cgraph_uid=783, symbol_order=793)
+;; Function threadTask5 (_Z11threadTask5v, funcdef_no=1838, decl_uid=43532, cgraph_uid=628, symbol_order=1102)
 
-(symbol_ref:DI ("*.LC23"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEi") [flags 0x41]  <function_decl 0x7fe9d67ddb00 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC23") [flags 0x2]  <var_decl 0x7f29d631e5a0 *.LC23>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":144:22 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":144:22 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEi") [flags 0x41]  <function_decl 0x7f29d6953b00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("*.LC24"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC24") [flags 0x2]  <var_decl 0x7f29d631e630 *.LC24>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":149:22 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":149:22 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("*.LC25"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEi") [flags 0x41]  <function_decl 0x7fe9d67ddb00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC25") [flags 0x2]  <var_decl 0x7f29d631e6c0 *.LC25>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":154:22 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":154:22 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEi") [flags 0x41]  <function_decl 0x7f29d6953b00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("*.LC26"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC26") [flags 0x2]  <var_decl 0x7f29d631e750 *.LC26>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":160:22 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":160:22 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("*.LC27"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC27") [flags 0x2]  <var_decl 0x7f29d631e7e0 *.LC27>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":163:22 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":163:22 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(symbol_ref:DI ("*.LC28"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
+        (symbol_ref/f:DI ("*.LC28") [flags 0x2]  <var_decl 0x7f29d631e870 *.LC28>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":166:22 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":166:22 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
 
-;; Function main (main, funcdef_no=2746, decl_uid=58846, cgraph_uid=784, symbol_order=794)
+;; Function main (main, funcdef_no=1839, decl_uid=43597, cgraph_uid=629, symbol_order=1103)
 
-(call_insn 6 3 7 2 (call (mem:QI (symbol_ref:DI ("_Z11threadTask5v") [flags 0x3]  <function_decl 0x7fe9d5ed9400 threadTask5>) [0 threadTask5 S1 A8])
-(call_insn 12 11 13 2 (call (mem:QI (symbol_ref/i:DI ("_ZSt11make_uniqueIiJiEENSt9_MakeUniqIT_E15__single_objectEDpOT0_") [flags 0x3]  <function_decl 0x7fe9d5ebe700 make_unique>) [0 make_unique S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEE7releaseEv") [flags 0x3]  <function_decl 0x7fe9d5eb7400 release>) [0 release S1 A8])
-(symbol_ref:DI ("_Z11threadTask1Pv"))
-(symbol_ref:DI ("_ZL13g_thread_lvl0"))
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe9d831b100 pthread_create>) [0 pthread_create S1 A8])
-(symbol_ref:DI ("*.LC29"))
-(call_insn 29 28 30 4 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fe9d8373d00 perror>) [0 perror S1 A8])
-(symbol_ref:DI ("_ZL13g_thread_lvl0"))
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe9d831b300 pthread_join>) [0 pthread_join S1 A8])
-(symbol_ref:DI ("*.LC30"))
-(call_insn 48 47 49 9 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fe9d8373d00 perror>) [0 perror S1 A8])
-(symbol_ref:DI ("*.LC31"))
-(symbol_ref:DI ("_ZSt4cout"))
-        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7fe9d67f7b00 operator<<>) [0 operator<< S1 A8])
+(call_insn 5 2 6 2 (call (mem:QI (symbol_ref:DI ("_Z11threadTask5v") [flags 0x3]  <function_decl 0x7f29d66fcf00 threadTask5>) [0 threadTask5 S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7f29d8819700 malloc>) [0 __builtin_malloc S1 A8])
+        (symbol_ref:DI ("_Z11threadTask1Pv") [flags 0x3]  <function_decl 0x7f29d6bd9600 threadTask1>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":178:23 -1
+        (symbol_ref:DI ("_ZL13g_thread_lvl0") [flags 0x2]  <var_decl 0x7f29d66dda20 g_thread_lvl0>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":178:23 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f29d8171900 pthread_create>) [0 pthread_create S1 A8])
+        (symbol_ref/f:DI ("*.LC29") [flags 0x2]  <var_decl 0x7f29d6327510 *.LC29>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":179:20 -1
+(call_insn 30 29 31 6 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7f29d81d8a00 perror>) [0 perror S1 A8])
+(call_insn 36 35 37 7 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7f29d8812700 free>) [0 __builtin_free S1 A8])
+        (mem/c:DI (symbol_ref:DI ("_ZL13g_thread_lvl0") [flags 0x2]  <var_decl 0x7f29d66dda20 g_thread_lvl0>) [9 g_thread_lvl0+0 S8 A64])) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":184:21 -1
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f29d8171b00 pthread_join>) [0 pthread_join S1 A8])
+        (symbol_ref/f:DI ("*.LC30") [flags 0x2]  <var_decl 0x7f29d63275a0 *.LC30>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":185:20 -1
+(call_insn 55 54 56 10 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7f29d81d8a00 perror>) [0 perror S1 A8])
+        (symbol_ref/f:DI ("*.LC31") [flags 0x2]  <var_decl 0x7f29d6327630 *.LC31>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":189:18 -1
+        (symbol_ref:DI ("_ZSt4cout") [flags 0x40]  <var_decl 0x7f29d668f900 cout>)) "/home/chove/Desktop/mydag/cally++/source/produce5_cpp/produce5.cpp":189:18 -1
+        (call (mem:QI (symbol_ref:DI ("_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc") [flags 0x41]  <function_decl 0x7f29d6970c00 operator<<>) [0 operator<< S1 A8])
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
 (symbol_ref:DI ("_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_"))
-        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7fe9d67dd300 operator<<>) [0 operator<< S1 A8])
-(call_insn 70 69 73 15 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 80 79 81 17 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEED1Ev") [flags 0x3]  <function_decl 0x7fe9d5ebbd00 __dt_comp >) [0 __dt_comp  S1 A8])
-(call_insn 83 82 84 17 (call (mem:QI (symbol_ref:DI ("_Unwind_Resume") [flags 0x41]  <function_decl 0x7fe9d87bb600 __builtin_unwind_resume>) [0 __builtin_unwind_resume S1 A8])
-(call_insn 88 96 89 20 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7fe9d57eef00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (call (mem:QI (symbol_ref:DI ("_ZNSolsEPFRSoS_E") [flags 0x41]  <function_decl 0x7f29d6953300 operator<<>) [0 operator<< S1 A8])
 
-;; Function std::unique_ptr<int>::unique_ptr<> (_ZNSt10unique_ptrIiSt14default_deleteIiEEC2IS1_vEEPi, funcdef_no=3023, decl_uid=58680, cgraph_uid=1061, symbol_order=1071)
-
-(call_insn 11 10 0 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEEC1EPi") [flags 0x3]  <function_decl 0x7fe9d5e8ad00 __ct_comp >) [0 __ct_comp  S1 A8])
-
-;; Function std::unique_ptr<int>::~unique_ptr (_ZNSt10unique_ptrIiSt14default_deleteIiEED2Ev, funcdef_no=3026, decl_uid=58669, cgraph_uid=1064, symbol_order=1074)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEE6_M_ptrEv") [flags 0x3]  <function_decl 0x7fe9d617a000 _M_ptr>) [0 _M_ptr S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEE11get_deleterEv") [flags 0x3]  <function_decl 0x7fe9d5eb7100 get_deleter>) [0 get_deleter S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt4moveIRPiEONSt16remove_referenceIT_E4typeEOS3_") [flags 0x3]  <function_decl 0x7fe9d5d0cd00 move>) [0 move S1 A8])
-(call_insn 27 26 28 4 (call (mem:QI (symbol_ref/i:DI ("_ZNKSt14default_deleteIiEclEPi") [flags 0x3]  <function_decl 0x7fe9d6167c00 operator()>) [0 operator() S1 A8])
-
-;; Function std::unique_ptr<int>::get (_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv, funcdef_no=3028, decl_uid=58564, cgraph_uid=1066, symbol_order=1076)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt15__uniq_ptr_implIiSt14default_deleteIiEE6_M_ptrEv") [flags 0x3]  <function_decl 0x7fe9d617a100 _M_ptr>) [0 _M_ptr S1 A8])
-
-;; Function std::make_unique<int, int> (_ZSt11make_uniqueIiJiEENSt9_MakeUniqIT_E15__single_objectEDpOT0_, funcdef_no=3029, decl_uid=58705, cgraph_uid=1067, symbol_order=1077)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt7forwardIiEOT_RNSt16remove_referenceIS0_E4typeE") [flags 0x3]  <function_decl 0x7fe9d5d1f300 forward>) [0 forward S1 A8])
-        (call (mem:QI (symbol_ref:DI ("_Znwm") [flags 0x41]  <function_decl 0x7fe9d87bd400 operator new>) [0 operator new S1 A8])
-(call_insn 20 19 26 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10unique_ptrIiSt14default_deleteIiEEC1IS1_vEEPi") [flags 0x3]  <function_decl 0x7fe9d5ebe100 __ct_comp >) [0 __ct_comp  S1 A8])
-
-;; Function std::unique_ptr<int>::release (_ZNSt10unique_ptrIiSt14default_deleteIiEE7releaseEv, funcdef_no=3033, decl_uid=58572, cgraph_uid=1071, symbol_order=1081)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNKSt10unique_ptrIiSt14default_deleteIiEE3getEv") [flags 0x3]  <function_decl 0x7fe9d5eb7000 get>) [0 get S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEE6_M_ptrEv") [flags 0x3]  <function_decl 0x7fe9d617a000 _M_ptr>) [0 _M_ptr S1 A8])
-
-;; Function std::__uniq_ptr_impl<int, std::default_delete<int> >::__uniq_ptr_impl (_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEEC2EPi, funcdef_no=3157, decl_uid=58356, cgraph_uid=1195, symbol_order=1205)
-
-(call_insn 9 8 10 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt5tupleIJPiSt14default_deleteIiEEEC1IS0_S2_Lb1EEEv") [flags 0x3]  <function_decl 0x7fe9d5e8a500 __ct_comp >) [0 __ct_comp  S1 A8])
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEE6_M_ptrEv") [flags 0x3]  <function_decl 0x7fe9d617a000 _M_ptr>) [0 _M_ptr S1 A8])
-
-;; Function std::__uniq_ptr_impl<int, std::default_delete<int> >::_M_ptr (_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEE6_M_ptrEv, funcdef_no=3159, decl_uid=56154, cgraph_uid=1197, symbol_order=1207)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt3getILm0EJPiSt14default_deleteIiEEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS7_") [flags 0x3]  <function_decl 0x7fe9d59ac400 get>) [0 get S1 A8])
-
-;; Function std::unique_ptr<int>::get_deleter (_ZNSt10unique_ptrIiSt14default_deleteIiEE11get_deleterEv, funcdef_no=3160, decl_uid=58566, cgraph_uid=1198, symbol_order=1208)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEE10_M_deleterEv") [flags 0x3]  <function_decl 0x7fe9d617a200 _M_deleter>) [0 _M_deleter S1 A8])
-
-;; Function std::move<int*&> (_ZSt4moveIRPiEONSt16remove_referenceIT_E4typeEOS3_, funcdef_no=3161, decl_uid=61123, cgraph_uid=1199, symbol_order=1209)
-
-;; Function std::default_delete<int>::operator() (_ZNKSt14default_deleteIiEclEPi, funcdef_no=3162, decl_uid=56074, cgraph_uid=1200, symbol_order=1210)
-
-(call_insn 13 12 16 4 (call (mem:QI (symbol_ref:DI ("_ZdlPvm") [flags 0x41]  <function_decl 0x7fe9d87bd800 operator delete>) [0 operator delete S1 A8])
-
-;; Function std::__uniq_ptr_impl<int, std::default_delete<int> >::_M_ptr (_ZNKSt15__uniq_ptr_implIiSt14default_deleteIiEE6_M_ptrEv, funcdef_no=3163, decl_uid=56156, cgraph_uid=1201, symbol_order=1211)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt3getILm0EJPiSt14default_deleteIiEEERKNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERKS7_") [flags 0x3]  <function_decl 0x7fe9d59ac300 get>) [0 get S1 A8])
-
-;; Function std::forward<int> (_ZSt7forwardIiEOT_RNSt16remove_referenceIS0_E4typeE, funcdef_no=3164, decl_uid=61139, cgraph_uid=1202, symbol_order=1212)
-
-;; Function std::tuple<int*, std::default_delete<int> >::tuple<> (_ZNSt5tupleIJPiSt14default_deleteIiEEEC2IS0_S2_Lb1EEEv, funcdef_no=3209, decl_uid=58316, cgraph_uid=1247, symbol_order=1257)
-
-(call_insn 8 7 0 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt11_Tuple_implILm0EJPiSt14default_deleteIiEEEC2Ev") [flags 0x3]  <function_decl 0x7fe9d5df5700 __ct_base >) [0 __ct_base  S1 A8])
-
-;; Function std::get<0, int*, std::default_delete<int> > (_ZSt3getILm0EJPiSt14default_deleteIiEEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS7_, funcdef_no=3211, decl_uid=61628, cgraph_uid=1249, symbol_order=1259)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt12__get_helperILm0EPiJSt14default_deleteIiEEERT0_RSt11_Tuple_implIXT_EJS3_DpT1_EE") [flags 0x3]  <function_decl 0x7fe9d5a2a100 __get_helper>) [0 __get_helper S1 A8])
-
-;; Function std::__uniq_ptr_impl<int, std::default_delete<int> >::_M_deleter (_ZNSt15__uniq_ptr_implIiSt14default_deleteIiEE10_M_deleterEv, funcdef_no=3212, decl_uid=56158, cgraph_uid=1250, symbol_order=1260)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt3getILm1EJPiSt14default_deleteIiEEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS7_") [flags 0x3]  <function_decl 0x7fe9d5a2a600 get>) [0 get S1 A8])
-
-;; Function std::get<0, int*, std::default_delete<int> > (_ZSt3getILm0EJPiSt14default_deleteIiEEERKNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERKS7_, funcdef_no=3213, decl_uid=61626, cgraph_uid=1251, symbol_order=1261)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt12__get_helperILm0EPiJSt14default_deleteIiEEERKT0_RKSt11_Tuple_implIXT_EJS3_DpT1_EE") [flags 0x3]  <function_decl 0x7fe9d5a2a000 __get_helper>) [0 __get_helper S1 A8])
-
-;; Function std::_Tuple_impl<0, int*, std::default_delete<int> >::_Tuple_impl (_ZNSt11_Tuple_implILm0EJPiSt14default_deleteIiEEEC2Ev, funcdef_no=3252, decl_uid=57332, cgraph_uid=1290, symbol_order=1300)
-
-(call_insn 8 7 9 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt11_Tuple_implILm1EJSt14default_deleteIiEEEC2Ev") [flags 0x3]  <function_decl 0x7fe9d5db9f00 __ct_base >) [0 __ct_base  S1 A8])
-(call_insn 11 10 0 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10_Head_baseILm0EPiLb0EEC2Ev") [flags 0x3]  <function_decl 0x7fe9d5dc9000 __ct_base >) [0 __ct_base  S1 A8])
-
-;; Function std::__get_helper<0, int*, std::default_delete<int> > (_ZSt12__get_helperILm0EPiJSt14default_deleteIiEEERT0_RSt11_Tuple_implIXT_EJS3_DpT1_EE, funcdef_no=3254, decl_uid=62164, cgraph_uid=1292, symbol_order=1302)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt11_Tuple_implILm0EJPiSt14default_deleteIiEEE7_M_headERS3_") [flags 0x3]  <function_decl 0x7fe9d5dc9100 _M_head>) [0 _M_head S1 A8])
-
-;; Function std::get<1, int*, std::default_delete<int> > (_ZSt3getILm1EJPiSt14default_deleteIiEEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS7_, funcdef_no=3255, decl_uid=62186, cgraph_uid=1293, symbol_order=1303)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZSt12__get_helperILm1ESt14default_deleteIiEJEERT0_RSt11_Tuple_implIXT_EJS2_DpT1_EE") [flags 0x3]  <function_decl 0x7fe9d5aa9e00 __get_helper>) [0 __get_helper S1 A8])
-
-;; Function std::__get_helper<0, int*, std::default_delete<int> > (_ZSt12__get_helperILm0EPiJSt14default_deleteIiEEERKT0_RKSt11_Tuple_implIXT_EJS3_DpT1_EE, funcdef_no=3256, decl_uid=62162, cgraph_uid=1294, symbol_order=1304)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt11_Tuple_implILm0EJPiSt14default_deleteIiEEE7_M_headERKS3_") [flags 0x3]  <function_decl 0x7fe9d5dc9200 _M_head>) [0 _M_head S1 A8])
-
-;; Function std::_Tuple_impl<1, std::default_delete<int> >::_Tuple_impl (_ZNSt11_Tuple_implILm1EJSt14default_deleteIiEEEC2Ev, funcdef_no=3291, decl_uid=56768, cgraph_uid=1329, symbol_order=1339)
-
-(call_insn 8 7 0 2 (call (mem:QI (symbol_ref/i:DI ("_ZNSt10_Head_baseILm1ESt14default_deleteIiELb1EEC2Ev") [flags 0x3]  <function_decl 0x7fe9d5d9d100 __ct_base >) [0 __ct_base  S1 A8])
-
-;; Function std::_Head_base<0, int*, false>::_Head_base (_ZNSt10_Head_baseILm0EPiLb0EEC2Ev, funcdef_no=3294, decl_uid=56958, cgraph_uid=1332, symbol_order=1342)
-
-;; Function std::_Tuple_impl<0, int*, std::default_delete<int> >::_M_head (_ZNSt11_Tuple_implILm0EJPiSt14default_deleteIiEEE7_M_headERS3_, funcdef_no=3296, decl_uid=56965, cgraph_uid=1334, symbol_order=1344)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10_Head_baseILm0EPiLb0EE7_M_headERS1_") [flags 0x3]  <function_decl 0x7fe9d5dc3700 _M_head>) [0 _M_head S1 A8])
-
-;; Function std::__get_helper<1, std::default_delete<int> > (_ZSt12__get_helperILm1ESt14default_deleteIiEJEERT0_RSt11_Tuple_implIXT_EJS2_DpT1_EE, funcdef_no=3297, decl_uid=63027, cgraph_uid=1335, symbol_order=1345)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt11_Tuple_implILm1EJSt14default_deleteIiEEE7_M_headERS2_") [flags 0x3]  <function_decl 0x7fe9d5d9d200 _M_head>) [0 _M_head S1 A8])
-
-;; Function std::_Tuple_impl<0, int*, std::default_delete<int> >::_M_head (_ZNSt11_Tuple_implILm0EJPiSt14default_deleteIiEEE7_M_headERKS3_, funcdef_no=3298, decl_uid=56967, cgraph_uid=1336, symbol_order=1346)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10_Head_baseILm0EPiLb0EE7_M_headERKS1_") [flags 0x3]  <function_decl 0x7fe9d5dc3800 _M_head>) [0 _M_head S1 A8])
-
-;; Function std::_Head_base<1, std::default_delete<int>, true>::_Head_base (_ZNSt10_Head_baseILm1ESt14default_deleteIiELb1EEC2Ev, funcdef_no=3333, decl_uid=56439, cgraph_uid=1371, symbol_order=1381)
-
-;; Function std::_Head_base<0, int*, false>::_M_head (_ZNSt10_Head_baseILm0EPiLb0EE7_M_headERS1_, funcdef_no=3335, decl_uid=56861, cgraph_uid=1373, symbol_order=1383)
-
-;; Function std::_Tuple_impl<1, std::default_delete<int> >::_M_head (_ZNSt11_Tuple_implILm1EJSt14default_deleteIiEEE7_M_headERS2_, funcdef_no=3336, decl_uid=56444, cgraph_uid=1374, symbol_order=1384)
-
-        (call (mem:QI (symbol_ref/i:DI ("_ZNSt10_Head_baseILm1ESt14default_deleteIiELb1EE7_M_headERS2_") [flags 0x3]  <function_decl 0x7fe9d6188c00 _M_head>) [0 _M_head S1 A8])
-
-;; Function std::_Head_base<0, int*, false>::_M_head (_ZNSt10_Head_baseILm0EPiLb0EE7_M_headERKS1_, funcdef_no=3337, decl_uid=56863, cgraph_uid=1375, symbol_order=1385)
-
-;; Function std::_Head_base<1, std::default_delete<int>, true>::_M_head (_ZNSt10_Head_baseILm1ESt14default_deleteIiELb1EE7_M_headERS2_, funcdef_no=3351, decl_uid=56278, cgraph_uid=1389, symbol_order=1399)
-
-;; Function __static_initialization_and_destruction_0 (_Z41__static_initialization_and_destruction_0ii, funcdef_no=3370, decl_uid=63399, cgraph_uid=1408, symbol_order=1467)
+;; Function __static_initialization_and_destruction_0 (_Z41__static_initialization_and_destruction_0ii, funcdef_no=2333, decl_uid=47621, cgraph_uid=1123, symbol_order=1621)
 
 (symbol_ref:DI ("_ZStL8__ioinit"))
-(call_insn 14 13 15 5 (call (mem:QI (symbol_ref:DI ("_ZNSt8ios_base4InitC1Ev") [flags 0x41]  <function_decl 0x7fe9d6cc6c00 __ct_comp >) [0 __ct_comp  S1 A8])
+(call_insn 14 13 15 5 (call (mem:QI (symbol_ref:DI ("_ZNSt8ios_base4InitC1Ev") [flags 0x41]  <function_decl 0x7f29d6df5000 __ct_comp >) [0 __ct_comp  S1 A8])
 (symbol_ref:DI ("__dso_handle"))
 (symbol_ref:DI ("_ZStL8__ioinit"))
 (symbol_ref:DI ("_ZNSt8ios_base4InitD1Ev"))
 (symbol_ref:DI ("_ZNSt8ios_base4InitD1Ev"))
-        (call (mem:QI (symbol_ref:DI ("__cxa_atexit") [flags 0x41]  <function_decl 0x7fe9d5b15a00 __cxa_atexit>) [0 __cxa_atexit S1 A8])
+        (call (mem:QI (symbol_ref:DI ("__cxa_atexit") [flags 0x41]  <function_decl 0x7f29d6277f00 __cxa_atexit>) [0 __cxa_atexit S1 A8])
 
-;; Function _GLOBAL__sub_I__Z7Deg2radPv (_GLOBAL__sub_I__Z7Deg2radPv, funcdef_no=3371, decl_uid=63407, cgraph_uid=1409, symbol_order=2182)
+;; Function _GLOBAL__sub_I__Z7Deg2radPv (_GLOBAL__sub_I__Z7Deg2radPv, funcdef_no=2334, decl_uid=47627, cgraph_uid=1124, symbol_order=1740)
 
-(call_insn 7 6 0 2 (call (mem:QI (symbol_ref:DI ("_Z41__static_initialization_and_destruction_0ii") [flags 0x3]  <function_decl 0x7fe9d5b15800 __static_initialization_and_destruction_0>) [0 __static_initialization_and_destruction_0 S1 A8])
+(call_insn 7 6 0 2 (call (mem:QI (symbol_ref:DI ("_Z41__static_initialization_and_destruction_0ii") [flags 0x3]  <function_decl 0x7f29d6277d00 __static_initialization_and_destruction_0>) [0 __static_initialization_and_destruction_0 S1 A8])
