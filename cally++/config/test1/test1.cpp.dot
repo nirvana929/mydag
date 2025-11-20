@@ -1,0 +1,20 @@
+strict digraph callgraph {
+"main" [color=blue, style=filled];
+"main" -> "malloc";
+"malloc" [style=dashed];
+"main" -> "free";
+"free" [style=dashed];
+"main" -> "pthread_join";
+"pthread_join" [style=dashed];
+"main" -> "pthread_create";
+"pthread_create" [style=dashed];
+"main" -> "threadTask5()";
+"threadTask5()" -> "printf";
+"printf" [style=dashed];
+"threadTask5()" -> "puts";
+"puts" [style=dashed];
+"main" -> "puts";
+"puts" [style=dashed];
+"main" -> "perror";
+"perror" [style=dashed];
+}

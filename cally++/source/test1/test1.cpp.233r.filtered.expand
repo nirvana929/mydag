@@ -1,0 +1,152 @@
+;; Function Deg2rad (Deg2rad(void*), funcdef_no=22, decl_uid=4349, cgraph_uid=23, symbol_order=22)
+
+(symbol_ref:DI ("*.LC0"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function rad2deg (rad2deg(void*), funcdef_no=23, decl_uid=4357, cgraph_uid=24, symbol_order=23)
+
+(symbol_ref:DI ("*.LC1"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function cover (cover(void*), funcdef_no=24, decl_uid=4365, cgraph_uid=25, symbol_order=24)
+
+(symbol_ref:DI ("*.LC2"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function duff (duff(void*), funcdef_no=25, decl_uid=4373, cgraph_uid=26, symbol_order=25)
+
+(symbol_ref:DI ("*.LC3"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function insertsort (insertsort(void*), funcdef_no=26, decl_uid=4381, cgraph_uid=27, symbol_order=26)
+
+(symbol_ref:DI ("*.LC4"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function minver (minver(void*), funcdef_no=27, decl_uid=4389, cgraph_uid=28, symbol_order=27)
+
+(symbol_ref:DI ("*.LC5"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function ndes (ndes(void*), funcdef_no=28, decl_uid=4397, cgraph_uid=29, symbol_order=28)
+
+(symbol_ref:DI ("*.LC6"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function ludcmp (ludcmp(void*), funcdef_no=29, decl_uid=4405, cgraph_uid=30, symbol_order=29)
+
+(symbol_ref:DI ("*.LC7"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function prime (prime(void*), funcdef_no=30, decl_uid=4413, cgraph_uid=31, symbol_order=30)
+
+(symbol_ref:DI ("*.LC8"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function threadTask3 (threadTask3(void*), funcdef_no=31, decl_uid=4425, cgraph_uid=32, symbol_order=35)
+
+(call_insn 10 9 11 2 (call (mem:QI (symbol_ref:DI ("rad2deg(void*)") [flags 0x3]  <function_decl 0x7fb22a21d300 rad2deg>) [0 rad2deg S1 A8])
+(symbol_ref:DI ("*.LC9"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(call_insn 18 17 19 4 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+
+;; Function threadTask4 (threadTask4(void*), funcdef_no=32, decl_uid=4429, cgraph_uid=33, symbol_order=36)
+
+(call_insn 10 9 11 2 (call (mem:QI (symbol_ref:DI ("prime(void*)") [flags 0x3]  <function_decl 0x7fb22a227100 prime>) [0 prime S1 A8])
+(symbol_ref:DI ("*.LC10"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(call_insn 18 17 19 4 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+
+;; Function threadTask2 (threadTask2(void*), funcdef_no=33, decl_uid=4433, cgraph_uid=34, symbol_order=37)
+
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fb22a4fb700 malloc>) [0 __builtin_malloc S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fb22a4fb700 malloc>) [0 __builtin_malloc S1 A8])
+(call_insn 32 31 33 7 (call (mem:QI (symbol_ref:DI ("minver(void*)") [flags 0x3]  <function_decl 0x7fb22a21df00 minver>) [0 minver S1 A8])
+(symbol_ref:DI ("*.LC11"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(symbol_ref:DI ("threadTask3(void*)"))
+(symbol_ref:DI ("g_thread_lvl2"))
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fb22a5e9a00 pthread_create>) [0 pthread_create S1 A8])
+(symbol_ref:DI ("*.LC12"))
+(call_insn 48 47 49 8 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fb22a1a9b00 perror>) [0 perror S1 A8])
+(call_insn 54 53 55 9 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(call_insn 62 61 63 11 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(call_insn 70 69 71 13 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(symbol_ref:DI ("threadTask4(void*)"))
+(symbol_ref:DI ("g_thread_lvl3"))
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fb22a5e9a00 pthread_create>) [0 pthread_create S1 A8])
+(symbol_ref:DI ("*.LC13"))
+(call_insn 91 90 92 16 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fb22a1a9b00 perror>) [0 perror S1 A8])
+(symbol_ref:DI ("g_thread_lvl2"))
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fb22a5e9c00 pthread_join>) [0 pthread_join S1 A8])
+(call_insn 101 100 102 17 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(call_insn 109 108 110 19 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(call_insn 119 118 120 21 (call (mem:QI (symbol_ref:DI ("ndes(void*)") [flags 0x3]  <function_decl 0x7fb22a21d500 ndes>) [0 ndes S1 A8])
+(symbol_ref:DI ("*.LC14"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(symbol_ref:DI ("g_thread_lvl2"))
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fb22a5e9c00 pthread_join>) [0 pthread_join S1 A8])
+(symbol_ref:DI ("g_thread_lvl3"))
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fb22a5e9c00 pthread_join>) [0 pthread_join S1 A8])
+(call_insn 132 131 133 21 (call (mem:QI (symbol_ref:DI ("ludcmp(void*)") [flags 0x3]  <function_decl 0x7fb22a21db00 ludcmp>) [0 ludcmp S1 A8])
+(symbol_ref:DI ("*.LC15"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(call_insn 140 139 141 22 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+
+;; Function threadTask1 (threadTask1(void*), funcdef_no=34, decl_uid=4439, cgraph_uid=35, symbol_order=38)
+
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fb22a4fb700 malloc>) [0 __builtin_malloc S1 A8])
+(call_insn 21 20 22 5 (call (mem:QI (symbol_ref:DI ("Deg2rad(void*)") [flags 0x3]  <function_decl 0x7fb22a21d000 Deg2rad>) [0 Deg2rad S1 A8])
+(symbol_ref:DI ("*.LC16"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(symbol_ref:DI ("threadTask2(void*)"))
+(symbol_ref:DI ("g_thread_lvl1"))
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fb22a5e9a00 pthread_create>) [0 pthread_create S1 A8])
+(symbol_ref:DI ("*.LC17"))
+(call_insn 37 36 38 6 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fb22a1a9b00 perror>) [0 perror S1 A8])
+(call_insn 43 42 44 7 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(call_insn 51 50 52 9 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(call_insn 61 60 62 11 (call (mem:QI (symbol_ref:DI ("cover(void*)") [flags 0x3]  <function_decl 0x7fb22a21d600 cover>) [0 cover S1 A8])
+(symbol_ref:DI ("*.LC18"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(call_insn 66 65 67 11 (call (mem:QI (symbol_ref:DI ("duff(void*)") [flags 0x3]  <function_decl 0x7fb22a21d900 duff>) [0 duff S1 A8])
+(symbol_ref:DI ("*.LC19"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(symbol_ref:DI ("g_thread_lvl1"))
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fb22a5e9c00 pthread_join>) [0 pthread_join S1 A8])
+(call_insn 75 74 76 11 (call (mem:QI (symbol_ref:DI ("insertsort(void*)") [flags 0x3]  <function_decl 0x7fb22a21dc00 insertsort>) [0 insertsort S1 A8])
+(symbol_ref:DI ("*.LC20"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(call_insn 83 82 84 12 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+
+;; Function threadTask5 (threadTask5(), funcdef_no=35, decl_uid=4443, cgraph_uid=36, symbol_order=39)
+
+(symbol_ref:DI ("*.LC21"))
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fb22a4da300 printf>) [0 __builtin_printf S1 A8])
+(symbol_ref:DI ("*.LC22"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(symbol_ref:DI ("*.LC23"))
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7fb22a4da300 printf>) [0 __builtin_printf S1 A8])
+(symbol_ref:DI ("*.LC24"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(symbol_ref:DI ("*.LC25"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+(symbol_ref:DI ("*.LC26"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
+
+;; Function main (main, funcdef_no=36, decl_uid=4458, cgraph_uid=37, symbol_order=40)
+
+(call_insn 5 2 6 2 (call (mem:QI (symbol_ref:DI ("threadTask5()") [flags 0x3]  <function_decl 0x7fb22a227e00 threadTask5>) [0 threadTask5 S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fb22a4fb700 malloc>) [0 __builtin_malloc S1 A8])
+(symbol_ref:DI ("threadTask1(void*)"))
+(symbol_ref:DI ("g_thread_lvl0"))
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fb22a5e9a00 pthread_create>) [0 pthread_create S1 A8])
+(symbol_ref:DI ("*.LC27"))
+(call_insn 30 29 31 6 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fb22a1a9b00 perror>) [0 perror S1 A8])
+(call_insn 36 35 37 7 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fb22a4f4700 free>) [0 __builtin_free S1 A8])
+(symbol_ref:DI ("g_thread_lvl0"))
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fb22a5e9c00 pthread_join>) [0 pthread_join S1 A8])
+(symbol_ref:DI ("*.LC28"))
+(call_insn 55 54 56 10 (call (mem:QI (symbol_ref:DI ("perror") [flags 0x41]  <function_decl 0x7fb22a1a9b00 perror>) [0 perror S1 A8])
+(symbol_ref:DI ("*.LC29"))
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fb22a4daa00 __builtin_puts>) [0 __builtin_puts S1 A8])
