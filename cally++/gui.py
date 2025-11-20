@@ -15,6 +15,7 @@ from typing import Optional
 
 from rtl_generator import generate_rtl_from_source
 from rtl_filter import filter_rtl
+from rtl_rewriter import rewrite_rtl
 
 try:
     from PIL import Image, ImageTk  # type: ignore
@@ -85,7 +86,8 @@ class CallyPlusGUI:
         tk.Checkbutton(row2, text="Debug", variable=self.debug_var).pack(side=tk.LEFT)
 
         tk.Label(row2, text="  输出目录:").pack(side=tk.LEFT)
-        self.out_var = tk.StringVar(value=str(Path("cally++").resolve()))
+        default_output = Path(__file__).resolve().parent
+        self.out_var = tk.StringVar(value=str(default_output))
         tk.Entry(row2, textvariable=self.out_var, width=36).pack(side=tk.LEFT, padx=5)
         tk.Button(row2, text="选择…", command=self._choose_output).pack(side=tk.LEFT)
 
@@ -156,8 +158,19 @@ class CallyPlusGUI:
         source_input = self.source_var.get().strip()
         if not source_input:
             messagebox.showerror("错误", "请先选择源文件")
-            return
-        
+        return
+
+    @staticmethod
+    def _source_subdir(path: Path) -> Optional[Path]:
+        """查找路径在 source/ 下的子目录（用于配置输出结构）"""
+        for parent in path.parents:
+            if parent.name == "source":
+                try:
+                    rel = path.parent.relative_to(parent)
+                    return None if rel == Path(".") else rel
+                except ValueError:
+                    continue
+        return None
         source = Path(source_input).expanduser()
         if not source.exists():
             messagebox.showerror("错误", f"源文件不存在: {source}")
@@ -177,7 +190,7 @@ class CallyPlusGUI:
     def _do_generate_rtl(self, source: Path) -> None:
         """实际执行 RTL 生成和过滤"""
         # 步骤 1: 生成 RTL expand 文件
-        self._append_log("步骤 1/3: 编译生成 RTL expand 文件...")
+        self._append_log("步骤 1/4: 编译生成 RTL expand 文件...")
         
         try:
             expand_file = generate_rtl_from_source(
@@ -202,15 +215,24 @@ class CallyPlusGUI:
                 import traceback
                 self._append_log(traceback.format_exc())
             return
+
+        # 步骤 2: 改编 RTL（符号去改编）
+        self._append_log("步骤 2/4: 改编 RTL（符号去改编）...")
+        rewrite_result = rewrite_rtl(str(expand_path), debug=self.debug_var.get())
+        if rewrite_result:
+            expand_path = rewrite_result.final_path
+            expand_size = expand_path.stat().st_size / 1024  # 更新为改编后的大小
+            self._append_log(f"✓ 改编完成: {expand_path.name}")
+            if self.debug_var.get():
+                self._append_log(f"  改编详情: {rewrite_result.summary()}")
+        else:
+            self._append_log("⚠ 改编失败，继续使用原始 RTL")
         
-        # 步骤 2: 过滤 RTL 文件
-        self._append_log("步骤 2/3: 过滤 RTL 文件...")
+        # 步骤 3: 过滤 RTL 文件
+        self._append_log("步骤 3/4: 过滤 RTL 文件...")
         
         try:
-            filtered_file = filter_rtl(
-                expand_file,
-                debug=self.debug_var.get()
-            )
+            filtered_file = filter_rtl(str(expand_path), debug=self.debug_var.get())
             
             if not filtered_file:
                 self._append_log("⚠ RTL 过滤失败，将使用原始文件")
@@ -230,15 +252,15 @@ class CallyPlusGUI:
             self._append_log(f"⚠ RTL 过滤出错: {e}")
             self._append_log("  将使用原始 RTL 文件")
         
-        # 步骤 3: 解析并验证（去改编）
-        self._append_log("步骤 3/3: 解析并验证...")
+        # 步骤 4: 解析并验证
+        self._append_log("步骤 4/4: 解析并验证...")
         
         try:
             # 导入去改编模块
             from rtl_parser import RTLParser
             
-            # 创建解析器（启用去改编）
-            parser = RTLParser(enable_demangle=True, debug=self.debug_var.get())
+            # 创建解析器（改编后符号可读，无需再启用去改编）
+            parser = RTLParser(enable_demangle=False, debug=self.debug_var.get())
             
             # 解析文件
             self._append_log(f"  解析 RTL 文件...")
@@ -246,21 +268,6 @@ class CallyPlusGUI:
             
             total_funcs = len(graph.functions)
             self._append_log(f"✓ 解析完成，共 {total_funcs} 个函数")
-            
-            # 统计去改编信息
-            if hasattr(parser, 'demangler') and parser.demangler:
-                cache_size = len(parser.demangler._cache) if hasattr(parser.demangler, '_cache') else 0
-                self._append_log(f"  去改编缓存: {cache_size} 个符号")
-                
-                # 显示前几个去改编示例
-                if cache_size > 0 and hasattr(parser.demangler, '_cache'):
-                    self._append_log("  去改编示例:")
-                    for i, (mangled, demangled) in enumerate(list(parser.demangler._cache.items())[:3]):
-                        if mangled != demangled:
-                            self._append_log(f"    {mangled}")
-                            self._append_log(f"    → {demangled}")
-                            if i < 2:
-                                self._append_log("")
             
             self._append_log("=" * 60)
             self._append_log("✓ RTL 文件生成、过滤并验证完成！")
@@ -322,7 +329,7 @@ class CallyPlusGUI:
         if simplify:
             cmd.append("--simplify-cxx")
             if source and source.exists():
-                cmd += ["--source", str(source)]
+                cmd += ["--source-hint", str(source)]
         if debug:
             cmd.append("--debug")
 
@@ -345,8 +352,13 @@ class CallyPlusGUI:
         base = expand.stem
         if base.endswith('.233r'):
             base = base[:-5]
-        cfg_dir = out_base / "config" / base
+        subdir = self._source_subdir(expand)
+        cfg_dir = out_base / "config"
         img_dir = out_base / "img"
+        if subdir:
+            cfg_dir = cfg_dir / subdir
+            img_dir = img_dir / subdir
+        cfg_dir = cfg_dir / base
         suffix = "full" if mode == "full" else "caller"
         png = img_dir / f"{base}_{suffix}.png"
         if simplify:
@@ -390,11 +402,19 @@ class CallyPlusGUI:
         base = expand.stem
         if base.endswith('.233r'):
             base = base[:-5]
-        cfg_dir = Path(self.out_var.get()).expanduser() / "config" / base
+        subdir = self._source_subdir(expand)
+        cfg_dir = Path(self.out_var.get()).expanduser() / "config"
+        if subdir:
+            cfg_dir = cfg_dir / subdir
+        cfg_dir = cfg_dir / base
         self._open_dir(cfg_dir)
 
     def _open_img_dir(self) -> None:
+        expand = Path(self.expand_var.get()).expanduser()
+        subdir = self._source_subdir(expand) if expand.exists() else None
         img_dir = Path(self.out_var.get()).expanduser() / "img"
+        if subdir:
+            img_dir = img_dir / subdir
         self._open_dir(img_dir)
 
     def _open_dir(self, path: Path) -> None:

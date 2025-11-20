@@ -12,6 +12,7 @@
 ## 关键模块
 
 - `rtl_generator.py`：通过在源文件目录或指定工作目录中执行 g++（带 `-fdump-rtl-expand`）生成 `.expand` 文件；处理编译参数与错误信息。
+- `rtl_rewriter.py`：统一管理改编步骤（默认包含符号去改编），产出可读的 `.expand.demangled`，后续过滤/解析均基于该结果，日后可扩展其它 rewrite 规则。
 - `rtl_filter.py`：对 `.expand` 做轻量过滤，抽取函数头（`;; Function ...`）与 `symbol_ref`/`call` 行，输出 `.expand.filtered` 以显著减小待解析数据量。
 - `rtl_parser.py` / `dot_generator.py`：负责从 `.expand` 或 `.expand.filtered` 提取函数与调用边，构建内部 `CallGraph` 并输出 DOT。
 - `simplify_dot.py`：C++ 专用简化器，把 STL/ABI 噪声折叠为语义节点（线程/锁），输出 `_simple.dot`。

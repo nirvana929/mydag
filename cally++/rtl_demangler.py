@@ -74,7 +74,13 @@ class RTLDemangler:
         if output_file:
             output_path = Path(output_file)
         else:
-            output_path = input_path.with_suffix(input_path.suffix + '.demangled')
+            # 将 .expand 替换为 .demangled.expand
+            # 例如: produce5.cpp.233r.expand → produce5.cpp.233r.demangled.expand
+            base_name = str(input_path)
+            if base_name.endswith('.expand'):
+                output_path = Path(base_name.replace('.expand', '.demangled.expand'))
+            else:
+                output_path = input_path.with_suffix(input_path.suffix + '.demangled.expand')
         
         print(f"  正在去改编 RTL 文件...")
         print(f"    输入文件: {input_path.name}")

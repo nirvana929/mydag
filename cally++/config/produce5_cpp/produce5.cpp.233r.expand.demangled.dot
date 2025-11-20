@@ -1,0 +1,24 @@
+strict digraph callgraph {
+"main" [color=blue, style=filled];
+"main" -> "malloc";
+"malloc" [style=dashed];
+"main" -> "threadTask5()";
+"threadTask5()" -> "std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)";
+"std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)" [style=dashed];
+"threadTask5()" -> "std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))";
+"std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))" [style=dashed];
+"threadTask5()" -> "std::basic_ostream<char, std::char_traits<char> >::operator<<(int)";
+"std::basic_ostream<char, std::char_traits<char> >::operator<<(int)" [style=dashed];
+"main" -> "perror";
+"perror" [style=dashed];
+"main" -> "std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)";
+"std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)" [style=dashed];
+"main" -> "pthread_join";
+"pthread_join" [style=dashed];
+"main" -> "std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))";
+"std::basic_ostream<char, std::char_traits<char> >::operator<<(std::basic_ostream<char, std::char_traits<char> >& (*)(std::basic_ostream<char, std::char_traits<char> >&))" [style=dashed];
+"main" -> "free";
+"free" [style=dashed];
+"main" -> "pthread_create";
+"pthread_create" [style=dashed];
+}

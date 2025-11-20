@@ -68,7 +68,17 @@ class RTLFilter:
         if output_file:
             output_path = Path(output_file)
         else:
-            output_path = input_path.with_suffix(input_path.suffix + '.filtered')
+            # 将 .expand 替换为 .filtered.expand
+            # 支持多种格式：
+            # - produce5.cpp.233r.expand → produce5.cpp.233r.filtered.expand
+            # - produce5.cpp.233r.demangled.expand → produce5.cpp.233r.filtered.expand
+            base_name = str(input_path)
+            if base_name.endswith('.demangled.expand'):
+                output_path = Path(base_name.replace('.demangled.expand', '.filtered.expand'))
+            elif base_name.endswith('.expand'):
+                output_path = Path(base_name.replace('.expand', '.filtered.expand'))
+            else:
+                output_path = input_path.with_suffix(input_path.suffix + '.filtered.expand')
         
         print(f"  正在过滤 RTL 文件...")
         print(f"    输入文件: {input_path.name}")

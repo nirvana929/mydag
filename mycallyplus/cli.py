@@ -18,11 +18,8 @@ from typing import List, Optional
 
 
 def _import_legacy_module():
-    """Import legacy generator, fallback to mycallypro when packaged module missing."""
-    try:
-        from .generation import legacy  # type: ignore
-    except Exception:
-        from mycallypro import legacy  # type: ignore
+    """Import legacy generator implemented inside mycallyplus."""
+    from .generation import legacy  # type: ignore
     return legacy
 
 

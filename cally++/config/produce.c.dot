@@ -1,0 +1,17 @@
+strict digraph callgraph {
+"main" [color=blue, style=filled];
+"main" -> "sem_init";
+"sem_init" [style=dashed];
+"main" -> "pthread_join";
+"pthread_join" [style=dashed];
+"main" -> "__stack_chk_fail";
+"__stack_chk_fail" [style=dashed];
+"main" -> "pthread_create";
+"pthread_create" [style=dashed];
+"main" -> "pthread_mutex_destroy";
+"pthread_mutex_destroy" [style=dashed];
+"main" -> "pthread_cond_destroy";
+"pthread_cond_destroy" [style=dashed];
+"main" -> "sem_destroy";
+"sem_destroy" [style=dashed];
+}
