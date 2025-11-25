@@ -6,7 +6,7 @@
 - 已完成一次正常的 PX4 配置/编译，确保生成了 `compile_commands.json`（例如在 `build/px4_sitl_default`）。
 - 使用 GCC/Clang 的 `c++` 前端（示例中为 `/usr/bin/c++`）。
 
-## 步骤
+## 步骤 
 1. **定位编译命令**
    - 进入构建目录，搜索目标源文件的编译条目：
    ```
