@@ -738,6 +738,8 @@ def main():
     source_row_str=re.compile(r"^[^:]+:(?P<target>\d+):\d+")
     thread_create=re.compile(r"^.*pthread_create\s*\(\s*&?\s*(?P<target>\w+)\s*,[^;]*?\)")
     thread_join=re.compile(r"^.*pthread_join\s*\(\s*(?P<target>\w+)\s*,\s*NULL\s*\)")
+    # 识别 const_int 行里的源位置信息
+    const_loc = re.compile(r'"\s*(?P<file>[^"]+)"\s*:(?P<line>\d+):(?P<col>\d+)')
     exist = 0  # 是否出现条件标志,初始状态为1
     exist_flag = 0  # 条件标志位为0代表while循环，条件标志位1代表if条件
     jump_flag=0#用来判断上次是不是出现jump了
@@ -894,6 +896,9 @@ def main():
     create_flag=0#标志用来辅助create读取下一行源代码行数
     join_flag=0#标志用来辅助join读取下一行源代码行数
     thread_target=""#用来储存线程的目标，主要是实现pthread_join和pthread_create的绑定，代表着functions['main']['myinfo']['main/while/pthread_join7']
+    current_func=""#记录读到当前行，上一个出现的函数调用是什么
+    function_source=0#标记，用来记录上一行是不是读到了函数，读到了函数，那么就将记录函数源文件
+    
     for line in next_line_gen:
         #
         # Find function entry point
@@ -919,8 +924,8 @@ def main():
                 functions[function_name]["callee_calls"] = dict()
                 functions[function_name]["callee_refs"] = dict()
                 functions[function_name]["mycalls"] = list()
-                functions[function_name]["mycalls_meta"] = list()
                 functions[function_name]["myinfo"] = dict()
+                functions[function_name]["mycalls_meta"] = [] 
                 state_count=0
 
             functions[function_name]["files"].append(fileinput.filename())
@@ -1036,6 +1041,8 @@ def main():
                     match_mytask = re.match(mytask, next_line)
                     if match_mytask is not None:
                         mytarget = match_mytask.group("target")
+                        current_func=mytarget
+                        function_source=1
                 except StopIteration:
                     next_line = None  # 文件结束，没有下一行
             match = re.match(call, line)
@@ -1066,12 +1073,14 @@ def main():
                     create_flag = 1
                     functions[function_name]["calls"][mytarget] = True
                     functions[function_name]["mycalls"].append(target)
-                    functions[function_name]["mycalls_meta"].append({"name": target})
                     functions[function_name]["mycalls"].append(mytarget)
-                    functions[function_name]["mycalls_meta"].append({"name": mytarget})
                     functions[function_name]["myinfo"]["tail"] = mytarget
                     functions[function_name]["myinfo"][thread_num] = mytarget
                     thread_target=mytarget
+                    functions[function_name]["mycalls_meta"].append({"name": target, "file": None, "line": None, "col": None, "extern": 0})
+                    current_func=target
+                    function_source=1
+                    
                 else:
                     flag = 0
                     if 'pthread_join' in target:
@@ -1079,10 +1088,13 @@ def main():
                         join_flag = 1
                     functions[function_name]["calls"][origin_target] = True
                     functions[function_name]["mycalls"].append(target)
-                    functions[function_name]["mycalls_meta"].append({"name": target})
                     functions[function_name]["myinfo"]["tail"] = target
+                    functions[function_name]["mycalls_meta"].append({"name": target, "file": None, "line": None, "col": None, "extern": 0})
+                    current_func=target
+                    function_source=1
                     if flag:
                         functions[function_name]["myinfo"][target] = thread_num
+                    
 
 
             else:
@@ -1104,7 +1116,15 @@ def main():
                   join_flag=0
                   thread_num=source_code.get(join_row, "")
                   functions[function_name]["myinfo"][thread_num] = thread_target
-
+    
+            #新增识别规则，当读到const函数源文件时候，将当前函数和源文件名绑定
+            if function_source==1:
+              match_const_loc = re.search(const_loc, line)
+              if match_const_loc is not None:
+                    functions[function_name]["mycalls_meta"]["file"] = match_const_loc.group("file")
+                    functions[function_name]["mycalls_meta"]["line"] = int(match_const_loc.group("line"))
+                    functions[function_name]["mycalls_meta"]["col"] = int(match_const_loc.group("col"))
+                    function_source=0 
     if config.debug:
         print_dbg("[PERF] Processing {} RTL files took {:.9f} seconds".format(
             len(config.RTLFILE), time.time() - start_time))

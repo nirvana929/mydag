@@ -1,3 +1,14 @@
 我的思路是
 1、在解析expand文件时，存储每个节点的源路径
 2、
+
+
+
+
+
+             (const_int 0 [0]))) "main.c":100:9 -1
+            (const_int 0 [0]))) "main.c":106:9 -1
+        (const_int 0 [0])) "main.c":129:9 -1
+            (const_int 0 [0]))) "../../platforms/common/uORB/Publication.hpp":57:55 -1
+            (const_int 0 [0]))) "../../platforms/common/uORB/Publication.hpp":57:55 -1
+观察上面几个式子，我希望读取到“”里面的部分，

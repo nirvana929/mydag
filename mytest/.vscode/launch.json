@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: mycally.py (mytest)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/mytest/mycally.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--file",
+                "${workspaceFolder}/mycallyplus/源文件/produce5/main.c",
+                "${workspaceFolder}/mycallyplus/配置文件/main.c/main.c.233r.expand"
+            ],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

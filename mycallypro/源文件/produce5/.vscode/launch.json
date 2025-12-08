@@ -1,31 +1,45 @@
 {
-    "version": "0.2.0",
-    "configurations": [
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "(gdb) Launch",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/main",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
         {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/main",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "LD_LIBRARY_PATH",
-                    "value": "${workspaceFolder}"
-                }
-            ],
-            "externalConsole": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": false
-                }
-            ],
-            "preLaunchTask": "Compile"
-        },
-    ]
+          "name": "LD_LIBRARY_PATH",
+          "value": "${workspaceFolder}"
+        }
+      ],
+      "externalConsole": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": false
+        }
+      ],
+      "preLaunchTask": "Compile"
+    },
+    {
+      "name": "Python: mycally.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/../../测试示例/mycally.py",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "args": [
+        "--file",
+        "${workspaceFolder}/main.c",
+        "${workspaceFolder}/../../mycallyplus/配置文件/main.c/main.c.233r.expand"
+      ],
+      "cwd": "${workspaceFolder}/../.."
+    }
+  ]
 }

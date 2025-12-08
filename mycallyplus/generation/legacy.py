@@ -38,6 +38,7 @@ import copy
 import fileinput
 import json
 import os
+from pathlib import Path
 import re
 import sys
 import time
@@ -45,7 +46,12 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple
 
-from .thread_map import resolve_join_edges, collect_thread_edges
+# 兼容直接运行：尝试相对导入失败时调整 sys.path 后再导入
+try:
+    from .thread_map import resolve_join_edges, collect_thread_edges
+except ImportError:
+    sys.path.append(str(Path(__file__).resolve().parent.parent))
+    from generation.thread_map import resolve_join_edges, collect_thread_edges
 
 #
 # Unit tests for the dump_path() function.
@@ -77,6 +83,25 @@ unit_test_full_dump_output = [
     '"main" -> "A";',
     '}'
 ]
+
+
+def _serialize_functions_for_dump(functions: dict) -> dict:
+    """将 functions 结构转换为可 JSON 序列化的形式。"""
+    out = {}
+    for fn, data in functions.items():
+        out[fn] = {
+            "files": list(data.get("files", [])),
+            "calls": list(data.get("calls", {}).keys()),
+            "refs": list(data.get("refs", {}).keys()),
+            "callee_calls": list(data.get("callee_calls", {}).keys()),
+            "callee_refs": list(data.get("callee_refs", {}).keys()),
+            "mycalls": list(data.get("mycalls", [])),
+            "myinfo": data.get("myinfo", {}),
+            "mycalls_meta": data.get("mycalls_meta", {}),
+            "call_src": data.get("call_src", {}),
+            "call_src_full": data.get("call_src_full", {}),
+        }
+    return out
 unit_test_full_caller_output = [
     '"A" -> "A";',
     '"A" -> "B" -> "H" -> "I" -> "J" -> "D";',
@@ -725,10 +750,12 @@ def full_call_graph(functions, **kwargs):
     no_externs = kwargs.get("no_externs", False)
     std_buf = kwargs.get("stdio_buffer", None)
     threads_only = kwargs.get("threads_only", False)
+    extern_only = kwargs.get("extern_only", False)
     print_buf(std_buf, "strict digraph callgraph {")
     myjoin = re.compile(r"pthread_join")
     switch_re = re.compile(r"switch+(\d+)")
     tail = ""
+
     #
     # Simply walk all nodes and print the callers
     #
@@ -744,6 +771,7 @@ def full_call_graph(functions, **kwargs):
         switchlist = dict()
         preswtich = ""
         prenum = 1
+        meta_map = functions[func].get("mycalls_meta", {})
 
         printed_functions = 1
         pre = func
@@ -751,6 +779,11 @@ def full_call_graph(functions, **kwargs):
                 re.match(exclude, func) is None:
 
             for caller in functions[func]["mycalls"]:
+                # extern_only 模式下，基于 mycalls_meta 筛掉 extern!=1 的调用
+                if extern_only:
+                    meta = meta_map.get(caller, {})
+                    if not isinstance(meta, dict) or meta.get("extern") != 1:
+                        continue
                 if (not no_externs or caller in functions) and \
                         (exclude is None or
                          re.match(exclude, caller) is None):
@@ -884,6 +917,40 @@ def conditions_call_graph(functions, **kwargs):
     print_buf(std_buf, "}")
 
 
+def mark_extern_by_selected(functions, selected_file=None, workspace_root=None):
+    """标记 mycalls_meta 中的 extern 字段。
+    
+    逻辑：
+    - 如果提供了 selected_file：仅按文件名匹配选中文件的调用置 extern=1（内部），不匹配置 extern=0（外部）
+    - 如果没有提供 selected_file：所有调用默认 extern=0
+
+    Args:
+        functions: 主数据结构，包含 mycalls_meta 字典。
+        selected_file: 选中的源文件路径（内部源文件），字符串，可选。
+        workspace_root: 可选工作区根，用于归一化相对路径。
+    """
+    # 仅比对文件名，忽略目录
+    sel_name = Path(selected_file).name if selected_file else None
+
+    for finfo in functions.values():
+        if "mycalls_meta" not in finfo:
+            continue
+        # mycalls_meta 现在是字典：{target_name: {file, line, col, extern}}
+        for target_name, meta in finfo["mycalls_meta"].items():
+            file_path = meta.get("file")
+            if not file_path:
+                meta["extern"] = 0
+                continue
+            
+            if sel_name is None:
+                # 没有指定选中文件，默认都是外部调用
+                meta["extern"] = 0
+            else:
+                cur_name = Path(file_path).name
+                # 仅按文件名匹配：匹配 = 内部调用(1)，不匹配 = 外部调用(0)
+                meta["extern"] = 1 if cur_name == sel_name else 0
+
+
 #
 # Main()
 #
@@ -952,6 +1019,9 @@ def main():
     parser.add_argument("--force",
                         help="Force mode: force regeneration even in smart mode",
                         action="store_true")
+    parser.add_argument("--extern-only",
+                        help="生成源码调用图时仅输出 extern==1 的节点/边",
+                        action="store_true")
 
     parser.add_argument("RTLFILE", help="GCCs RTL .expand file", nargs="+")
 
@@ -1004,12 +1074,13 @@ def main():
         r"^;; Function (?P<mangle>.*)\s+\((?P<function>\S+)(,.*)?\).*$")
     call = re.compile(
         r"^.*\(call.*\"(?P<target>.*)\".*$")
-    symbol_ref = re.compile(r"^.*\(symbol_ref.*\"(?P<target>.*)\".*$")
-    mytaskset = re.compile(r".*\(set\s+\(reg:DI\s+1\s+dx\)")
-    mytask = re.compile(r".*\(symbol_ref:DI \(\"(?P<target>.*?)\"[^\"]*\)")
-    mythreadset = re.compile(r".*\(set\s+\(reg:DI\s+5\s+di\)")
-    mythread = re.compile(r".*\(symbol_ref:DI \(\"(?P<target>.*?)\"\)")
-    myjointhread = re.compile(r".*\(reg:DI \d+ \[ (thread\d*).*\]")
+    symbol_ref = re.compile(r"^.*\(symbol_ref.*\"(?P<target>.*)\".*$")  #识别函数调用
+    src_re = re.compile(r'\"(?P<file>[^\"]+)\":(?P<line>\d+):(?P<col>\d+)')    #识别源代码位置
+    mytaskset = re.compile(r".*\(set\s+\(reg:DI\s+1\s+dx\)")      #识别线程名寄存器
+    mytask = re.compile(r".*\(symbol_ref:DI \(\"(?P<target>.*?)\"[^\"]*\)")   #识别线程创建函数
+    mythreadset = re.compile(r".*\(set\s+\(reg:DI\s+5\s+di\)")     #识别线程地址名寄存器
+    mythread = re.compile(r".*\(symbol_ref:DI \(\"(?P<target>.*?)\"\)")  #识别线程地址名
+    myjointhread = re.compile(r".*\(reg:DI \d+ \[ (thread\d*).*\]")  #识别线程join对应的名字
     condition_myjump = re.compile(r"\(jump_insn\s+(\d+)")
     condition_if = re.compile(r".*\(if_then_else")
     condition_jump = re.compile(r".*\(label_ref\s+(\d+)")
@@ -1158,7 +1229,8 @@ def main():
     
     # 根据threads_only参数设置是否添加条件前缀
     add_condition_prefix = not getattr(config, "threads_only", False)
-    
+    current_func=""#记录读到当前行，上一个出现的函数调用是什么
+    function_source=0#标记，用来记录上一行是不是读到了函数，读到了函数，那么就将记录函数源文件
     for line in next_line_gen:
         #
         # Find function entry point
@@ -1180,11 +1252,14 @@ def main():
                 functions[function_name] = dict()
                 functions[function_name]["files"] = list()
                 functions[function_name]["calls"] = dict()
+                functions[function_name]["call_src"] = dict()       # 原始目标名 -> 源文件
+                functions[function_name]["call_src_full"] = dict()  # 编号后目标名 -> 源文件
                 functions[function_name]["refs"] = dict()
                 functions[function_name]["callee_calls"] = dict()
                 functions[function_name]["callee_refs"] = dict()
                 functions[function_name]["mycalls"] = list()
                 functions[function_name]["myinfo"] = dict()
+                functions[function_name]["mycalls_meta"] = dict()  # 函数调用元信息：target -> {file, line, col, extern}
                 state_count=0
 
             functions[function_name]["files"].append(fileinput.filename())
@@ -1293,6 +1368,7 @@ def main():
                         flag += 1
 
             # Find direct function calls
+            #找线程名
             match_mytaskset = re.match(mytaskset, line)
             if match_mytaskset is not None:
                 try:
@@ -1300,6 +1376,7 @@ def main():
                     match_mytask = re.match(mytask, next_line)
                     if match_mytask is not None:
                         mytarget = match_mytask.group("target")
+                        function_source=1
                 except StopIteration:
                     next_line = None  # 文件结束，没有下一行
             match = re.match(call, line)
@@ -1307,6 +1384,8 @@ def main():
                 if not function_name:
                     continue
                 count += 1
+                src_match = src_re.search(line)
+                src_file = Path(src_match.group("file")).name if src_match else None
                 target = match.group("target")
                 if target=="puts":
                     target="printf"
@@ -1337,13 +1416,26 @@ def main():
                     functions[function_name]["myinfo"][thread_num] = mytarget
                     queue = functions[function_name]["myinfo"].setdefault("__create_queue__", [])
                     queue.append(mytarget)
+                    # 添加 mycalls_meta 记录
+                    functions[function_name]["mycalls_meta"][target] = {"file": None, "line": None, "col": None, "extern": 0}
+                    current_func = target
+                    function_source = 1
                 else:
                     flag = 0
                     if 'pthread_join' in target:
                         flag = 1
+                    # 记录调用及其源文件（使用最终 target 名，包含编号/前缀）
                     functions[function_name]["calls"][origin_target] = True
+                    # 只在能解析到源位时记录源文件
+                    if src_file:
+                        functions[function_name]["call_src"][origin_target] = src_file
+                        functions[function_name]["call_src_full"][target] = src_file
                     functions[function_name]["mycalls"].append(target)
                     functions[function_name]["myinfo"]["tail"] = target
+                    # 添加 mycalls_meta 记录
+                    functions[function_name]["mycalls_meta"][target] = {"file": None, "line": None, "col": None, "extern": 0}
+                    current_func = target
+                    function_source = 1
                     if flag:
                         functions[function_name]["myinfo"][target] = thread_num
 
@@ -1358,6 +1450,17 @@ def main():
                         continue
                     if target not in functions[function_name]["refs"]:
                         functions[function_name]["refs"][target] = True
+            
+            # 新增识别规则：当读到源位置信息时，将当前函数调用和源文件位置绑定
+            if function_source == 1:
+                const_loc = re.compile(r'"\s*(?P<file>[^"]+)"\s*:(?P<line>\d+):(?P<col>\d+)')
+                match_const_loc = re.search(const_loc, line)
+                if match_const_loc is not None:
+                    if current_func in functions[function_name]["mycalls_meta"]:
+                        functions[function_name]["mycalls_meta"][current_func]["file"] = match_const_loc.group("file")
+                        functions[function_name]["mycalls_meta"][current_func]["line"] = int(match_const_loc.group("line"))
+                        functions[function_name]["mycalls_meta"][current_func]["col"] = int(match_const_loc.group("col"))
+                    function_source = 0
 
     try:
         thread_edges_preview = collect_thread_edges(copy.deepcopy(functions))
@@ -1389,6 +1492,12 @@ def main():
         print_dbg("[PERF] Building callee info took {:.9f} seconds".format(
             time.time() - start_time))
 
+    # 每次解析都执行：标记 mycalls_meta 中的 extern 字段
+    # 如果提供了 source_file，匹配该文件的调用为内部(extern=1)，否则为外部(extern=0)
+    workspace_root = os.getcwd()
+    selected_file = getattr(config, "source_file", None)
+    mark_extern_by_selected(functions, selected_file, workspace_root=workspace_root)
+
     _dump_debug_snapshot(
         config,
         "post_callee_info",
@@ -1398,6 +1507,39 @@ def main():
             "thread_edges_preview": thread_edges_preview,
         },
     )
+
+    # 导出 functions 完整数据结构（便于调试观察）
+    try:
+        base_dir = Path(config.output_base) if getattr(config, "output_base", None) else Path.cwd()
+        first_rtl = Path(config.RTLFILE[0])
+        base_name = first_rtl.stem
+        if base_name.endswith(".233r"):
+            base_name = base_name[:-5]
+        if "." in base_name:
+            base_name = base_name.split(".")[0]
+        out_dir = base_dir / "中间结果" / base_name / "生成dag图"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        functions_path = out_dir / "functions_full.json"
+        with functions_path.open("w", encoding="utf-8") as f:
+            json.dump(_serialize_functions_for_dump(functions), f, ensure_ascii=False, indent=2)
+        if not config.no_warnings:
+            print_dbg(f"[INFO] functions_full exported to {functions_path}")
+
+        # 额外的 debug 输出：完整 functions 和 mycalls_meta
+        debug_dir = out_dir / "debug"
+        debug_dir.mkdir(parents=True, exist_ok=True)
+        debug_functions_path = debug_dir / "functions_debug.json"
+        with debug_functions_path.open("w", encoding="utf-8") as f:
+            json.dump(_serialize_functions_for_dump(functions), f, ensure_ascii=False, indent=2)
+        mycalls_meta_path = debug_dir / "mycalls_meta.json"
+        mycalls_meta_data = {fn: data.get("mycalls_meta", {}) for fn, data in functions.items()}
+        with mycalls_meta_path.open("w", encoding="utf-8") as f:
+            json.dump(mycalls_meta_data, f, ensure_ascii=False, indent=2)
+        if not config.no_warnings:
+            print_dbg(f"[INFO] debug artifacts exported to {debug_dir}")
+    except Exception as e:
+        if not config.no_warnings:
+            print_err(f"WARNING: failed to export functions_full: {e}")
 
     #
     # Dump functions if requested
@@ -1418,6 +1560,28 @@ def main():
         return 0
 
     start_time = time.time()
+
+    # 额外导出 call_src_full 映射表（带编号的目标名 -> 源文件）
+    try:
+        base_dir = Path(config.output_base) if getattr(config, "output_base", None) else Path.cwd()
+        # 取第一个 RTL 文件推断基名
+        first_rtl = Path(config.RTLFILE[0])
+        base_name = first_rtl.stem
+        if base_name.endswith(".233r"):
+            base_name = base_name[:-5]
+        if "." in base_name:
+            base_name = base_name.split(".")[0]
+        out_dir = base_dir / "中间结果" / base_name / "生成dag图"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        call_src_full_path = out_dir / "call_src_full.json"
+        call_src_full_data = {fn: data.get("call_src_full", {}) for fn, data in functions.items()}
+        with call_src_full_path.open("w", encoding="utf-8") as f:
+            json.dump(call_src_full_data, f, ensure_ascii=False, indent=2)
+        if not config.no_warnings:
+            print_dbg(f"[INFO] call_src_full exported to {call_src_full_path}")
+    except Exception as e:
+        if not config.no_warnings:
+            print_err(f"WARNING: failed to export call_src_full: {e}")
     #
     # Dump full call graph
     #
@@ -1435,6 +1599,7 @@ def main():
                             exclude=config.exclude,
                             no_externs=config.no_externs,
                             threads_only=threads_only,
+                            extern_only=getattr(config, "extern_only", False),
                             stdio_buffer=dot_lines)
             _dump_debug_artifacts(functions, dot_lines, config, "threads" if threads_only else "full")
 
@@ -1490,7 +1655,11 @@ def main():
     # ========================================================================
     if hasattr(config, 'export_txt') and config.export_txt:
         try:
-            from .exporters import export_circle_txt
+            try:
+                from .exporters import export_circle_txt
+            except ImportError:
+                sys.path.append(str(Path(__file__).resolve().parent.parent))
+                from generation.exporters import export_circle_txt
             
             # 始终使用规范的目录结构
             # 如果没有指定output_base，默认使用mycallypro目录
