@@ -919,6 +919,7 @@ def main():
                 functions[function_name]["callee_calls"] = dict()
                 functions[function_name]["callee_refs"] = dict()
                 functions[function_name]["mycalls"] = list()
+                functions[function_name]["mycalls_meta"] = list()
                 functions[function_name]["myinfo"] = dict()
                 state_count=0
 
@@ -1065,7 +1066,9 @@ def main():
                     create_flag = 1
                     functions[function_name]["calls"][mytarget] = True
                     functions[function_name]["mycalls"].append(target)
+                    functions[function_name]["mycalls_meta"].append({"name": target})
                     functions[function_name]["mycalls"].append(mytarget)
+                    functions[function_name]["mycalls_meta"].append({"name": mytarget})
                     functions[function_name]["myinfo"]["tail"] = mytarget
                     functions[function_name]["myinfo"][thread_num] = mytarget
                     thread_target=mytarget
@@ -1076,6 +1079,7 @@ def main():
                         join_flag = 1
                     functions[function_name]["calls"][origin_target] = True
                     functions[function_name]["mycalls"].append(target)
+                    functions[function_name]["mycalls_meta"].append({"name": target})
                     functions[function_name]["myinfo"]["tail"] = target
                     if flag:
                         functions[function_name]["myinfo"][target] = thread_num
