@@ -1376,7 +1376,7 @@ def main():
                     match_mytask = re.match(mytask, next_line)
                     if match_mytask is not None:
                         mytarget = match_mytask.group("target")
-                        function_source=1
+                        #function_source = 1
                 except StopIteration:
                     next_line = None  # 文件结束，没有下一行
             match = re.match(call, line)

@@ -4,16 +4,7 @@
 #include "include/task.h"
 
 pthread_t thread, thread1, thread2, thread3;
-// 任务函数
-void* task(void* arg) {
-    int* num = (int*)arg;
-    printf("线程正在处理任务, 参数值为: %d\n", *num);
-    int i = 0;
-    while (i < 100000) {
-        i++;
-    }
-    return NULL;
-}
+
 void* threadtask3(void* arg) {
     rad2deg(arg);
     printf("task8结束\n");

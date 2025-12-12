@@ -167,25 +167,46 @@ def _sanitize_var_name(basename: str, line: int, seq: int) -> str:
     return f"__ta_t0_{safe_base}_{line}_{seq}"
 
 
-def _already_instrumented(lines: List[str], start_idx: int) -> bool:
-    window = []
-    for i in range(max(0, start_idx - 2), min(len(lines), start_idx + 3)):
-        window.append(lines[i])
-    joined = "\n".join(window)
-    return "TA_BEGIN" in joined or "TA_END" in joined
+def _find_call_span(text: str, func: str) -> Optional[Tuple[int, int]]:
+    """在文本中找到 func(...) 的起止位置，返回 (start, end)。"""
+    pattern = re.compile(rf"\b{re.escape(func)}\s*\(")
+    m = pattern.search(text)
+    if not m:
+        return None
+    start = m.start()
+    depth = 0
+    for idx in range(m.end(), len(text)):
+        ch = text[idx]
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            if depth == 0:
+                return start, idx + 1
+            depth -= 1
+    return None
+
+
+def _already_instrumented(lines: List[str], start_idx: int, file_name: str, line_no: int, func: str) -> bool:
+    """判断该行是否已针对同一调用点插桩过（包含函数名）。"""
+    token = f"TA_BEGIN: {file_name}:{line_no} {func}"
+    for i in range(max(0, start_idx - 3), min(len(lines), start_idx + 4)):
+        if token in lines[i]:
+            return True
+    return False
 
 
 def instrument_file(
     file_path: Path,
     sites: List[CallSite],
     log: List[str],
-) -> Tuple[List[str], List[str]]:
-    """对单个文件插桩，返回修改后的行、警告列表。"""
+) -> Tuple[List[str], List[str], List[str]]:
+    """对单个文件插桩，返回修改后的行、警告列表、成功插桩的key列表。"""
     lines = file_path.read_text(encoding="utf-8").splitlines(keepends=True)
     lines, added_include, include_added = _ensure_include(lines)
     if added_include:
         log.append(f"[include] {file_path} 插入 time_stat.h")
     warnings: List[str] = []
+    instrumented_keys: List[str] = []
 
     # 按行号降序，避免前面插入影响后续定位
     seq = 1
@@ -195,7 +216,8 @@ def instrument_file(
         if start_idx < 0 or start_idx >= len(lines):
             warnings.append(f"[miss] {file_path}:{site.line} 越界，跳过 {site.func}")
             continue
-        if _already_instrumented(lines, start_idx):
+        key_str = site.raw_key
+        if _already_instrumented(lines, start_idx, file_path.name, site.line, site.func):
             log.append(f"[skip] {file_path}:{site.line} 已有 TA 标记，跳过")
             continue
 
@@ -204,23 +226,37 @@ def instrument_file(
             warnings.append(f"[warn] {file_path}:{site.line} 未找到语句结束，跳过 {site.func}")
             continue
 
+        var_name = _sanitize_var_name(site.raw_key, site.line, seq)
+        seq += 1
         snippet = "".join(lines[start_idx : stmt_end + 1])
-        if _is_control_statement(snippet) or _has_assignment(snippet) or _has_question(snippet):
-            warnings.append(f"[warn] {file_path}:{site.line} 复杂语句（if/赋值/?:），跳过 {site.func}")
+        stripped = snippet.lstrip()
+        if stripped.startswith(("if", "while", "for")):
+            span = _find_call_span(snippet, site.func)
+            if not span:
+                warnings.append(f"[warn] {file_path}:{site.line} 条件中未找到调用 {site.func}")
+                continue
+            call_text = snippet[span[0] : span[1]]
+            wrapped = (
+                f"(__extension__({{ uint64_t {var_name} = now_ns(); "
+                f"__auto_type __ta_ret = {call_text}; "
+                f'time_account("{key_str}", now_ns() - {var_name}); __ta_ret; }}))'
+            )
+            new_snippet = snippet[: span[0]] + wrapped + snippet[span[1] :]
+            new_lines = new_snippet.splitlines(keepends=True)
+            lines[start_idx : stmt_end + 1] = new_lines
+            log.append(f"[ok] {file_path}:{site.line} {site.func} (cond)")
+            instrumented_keys.append(key_str)
+            base_offset += len(new_lines) - (stmt_end + 1 - start_idx)
             continue
 
-        var_name = _sanitize_var_name(file_path.name.replace(".", "_"), site.line, seq)
-        seq += 1
-        key_str = f'{site.func}@{file_path.name}:{site.line}'
         begin_lines = [
             f"// TA_BEGIN: {file_path.name}:{site.line} {site.func}\n",
-            "do {\n",
+            "; /* TA_PAD */\n",
             f"uint64_t {var_name} = now_ns();\n",
         ]
         end_lines = [
             f"// TA_END: {file_path.name}:{site.line} {site.func}\n",
             f'time_account("{key_str}", now_ns() - {var_name});\n',
-            "} while (0);\n",
         ]
 
         # 插入：先 BEGIN，再 END（END 位置需 +2 偏移）
@@ -229,8 +265,9 @@ def instrument_file(
         end_insert_at = stmt_end + 1
         lines[end_insert_at:end_insert_at] = end_lines
         log.append(f"[ok] {file_path}:{site.line} {site.func}")
+        instrumented_keys.append(key_str)
 
-    return lines, warnings
+    return lines, warnings, instrumented_keys
 
 
 def _write_time_stat(dest_dir: Path) -> None:
@@ -368,6 +405,95 @@ def _copy_project(src_root: Path, dest_root: Path) -> Path:
     return dest_root
 
 
+def _inject_metrics(
+    meta_path: Path,
+    result_map: Dict[str, Dict],
+    log: List[str],
+    warnings: List[str],
+    instrumented_keys: set,
+) -> Dict[str, Dict[str, int]]:
+    """将统计结果写回原始 mycalls_meta_internal.json，并返回线程汇总。"""
+    try:
+        data = json.loads(meta_path.read_text(encoding="utf-8"))
+    except Exception as e:
+        raise RuntimeError(f"无法读取 meta_json: {e}") from e
+
+    thread_summary: Dict[str, Dict[str, int]] = {}
+
+    def update_obj(obj: Dict, thread_name: Optional[str] = None):
+        for k, v in obj.items():
+            if not isinstance(v, dict):
+                continue
+            if {"file", "line"} <= set(v.keys()):
+                # 优先使用原始键名（与 time_account 标签一致），兼容旧格式则回退到 func@file:line
+                file_name = Path(str(v.get("file"))).name
+                line_no = v.get("line")
+                func = _infer_func_from_key(k, v)
+                key_str = k
+                metrics = result_map.get(key_str)
+                if metrics is None:
+                    key_str = f"{func}@{file_name}:{line_no}"
+                    metrics = result_map.get(key_str)
+                if metrics:
+                    total = int(metrics.get("total_ns", 0))
+                    count = int(metrics.get("count", 0))
+                    v.update(
+                        {
+                            "total_ns": total,
+                            "count": count,
+                            "avg_ns": int(metrics.get("avg_ns", 0)),
+                            "max_ns": int(metrics.get("max_ns", 0)),
+                            "min_ns": int(metrics.get("min_ns", 0)),
+                            "miss": False,
+                            "executed": True,
+                            "skip_reason": "",
+                        }
+                    )
+                    # 顶层线程名累加
+                    th = thread_name or k
+                    thread_summary.setdefault(th, {"total_ns": 0, "count": 0})
+                    thread_summary[th]["total_ns"] += total
+                    thread_summary[th]["count"] += count
+                else:
+                    if key_str in instrumented_keys:
+                        # 已插桩但未执行
+                        v.update(
+                            {
+                                "total_ns": 0,
+                                "count": 0,
+                                "avg_ns": 0,
+                                "max_ns": 0,
+                                "min_ns": 0,
+                                "miss": True,
+                                "executed": False,
+                                "skip_reason": "",
+                            }
+                        )
+                    else:
+                        # 未插桩（如文件缺失或非C文件）
+                        v.update(
+                            {
+                                "total_ns": 0,
+                                "count": 0,
+                                "avg_ns": 0,
+                                "max_ns": 0,
+                                "min_ns": 0,
+                                "miss": True,
+                                "executed": False,
+                                "skip_reason": v.get("skip_reason", "not_instrumented"),
+                            }
+                        )
+                    # 汇总仅统计 miss=False 的条目，因此这里不累加
+            else:
+                next_thread = thread_name if thread_name is not None else k
+                update_obj(v, thread_name=next_thread)
+
+    update_obj(data, thread_name=None)
+    meta_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    log.append(f"[meta] 回写 {meta_path}")
+    return thread_summary
+
+
 def _compile_project(dest_root: Path, log: List[str]) -> Path:
     """编译 instrumented 项目，返回可执行文件路径。"""
     sources = sorted(str(p) for p in dest_root.rglob("*.c"))
@@ -430,6 +556,8 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
         by_file.setdefault(s.file, []).append(s)
 
     instrumented_files: List[Path] = []
+    instrumented_keys_all: List[str] = []
+
     for rel_path, file_sites in by_file.items():
         target_file = dest_project / rel_path
         if not target_file.exists():
@@ -438,8 +566,9 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
         if target_file.suffix.lower() != ".c":
             skipped.append(f"[skip] 非 C 文件 {rel_path}")
             continue
-        new_lines, w = instrument_file(target_file, file_sites, log)
+        new_lines, w, inst_keys = instrument_file(target_file, file_sites, log)
         warnings.extend(w)
+        instrumented_keys_all.extend(inst_keys)
         target_file.write_text("".join(new_lines), encoding="utf-8")
         instrumented_files.append(target_file)
 
@@ -453,6 +582,19 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
     result_json = dest_project / "time_result.json"
     if not result_json.exists():
         raise RuntimeError("未找到 time_result.json（程序未正常输出）")
+
+    # 将统计结果回写到原始 meta_json
+    try:
+        result_map = json.loads(result_json.read_text(encoding="utf-8"))
+        summary = _inject_metrics(meta_json, result_map, log, warnings, set(instrumented_keys_all))
+        # 写线程汇总
+        if summary:
+            summary_path = meta_json.parent / "thread_time_summary.json"
+            summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+            log.append(f"[summary] 线程耗时汇总 -> {summary_path}")
+        log.append(f"[update] 已回写统计到 {meta_json}")
+    except Exception as e:  # pragma: no cover - 保底
+        warnings.append(f"[warn] 回写统计失败: {e}")
 
     # 写日志
     log_content = "\n".join(log + warnings + skipped)

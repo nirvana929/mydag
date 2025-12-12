@@ -1,0 +1,116 @@
+{
+  "now_ns": {
+    "now_ns/clock_gettime1": {
+      "file": "schedule_demo.c",
+      "line": 31,
+      "col": 5,
+      "extern": 0
+    },
+    "now_ns/if/__stack_chk_fail2": {
+      "file": "schedule_demo.c",
+      "line": 33,
+      "col": 1,
+      "extern": 0
+    }
+  },
+  "bind_core": {
+    "bind_core/pthread_self1": {
+      "file": "schedule_demo.c",
+      "line": 41,
+      "col": 5,
+      "extern": 0
+    },
+    "bind_core/pthread_setaffinity_np2": {
+      "file": "schedule_demo.c",
+      "line": 41,
+      "col": 5,
+      "extern": 0
+    },
+    "bind_core/__stack_chk_fail3": {
+      "file": "schedule_demo.c",
+      "line": 42,
+      "col": 1,
+      "extern": 0
+    }
+  },
+  "busy_work": {
+    "busy_work/printf1": {
+      "file": "schedule_demo.c",
+      "line": 52,
+      "col": 9,
+      "extern": 0
+    }
+  },
+  "worker": {
+    "bind_core": {
+      "file": "schedule_demo.c",
+      "line": 58,
+      "col": 5,
+      "extern": 0
+    },
+    "now_ns": {
+      "file": "schedule_demo.c",
+      "line": 62,
+      "col": 19,
+      "extern": 0
+    },
+    "busy_work": {
+      "file": "schedule_demo.c",
+      "line": 61,
+      "col": 5,
+      "extern": 0
+    }
+  },
+  "pick_core": {
+    "pick_core/if/sysconf1": {
+      "file": "schedule_demo.c",
+      "line": 69,
+      "col": 40,
+      "extern": 0
+    }
+  },
+  "main": {
+    "while/pick_core": {
+      "file": "schedule_demo.c",
+      "line": 80,
+      "col": 24,
+      "extern": 0
+    },
+    "main/while/pthread_create2": {
+      "file": "schedule_demo.c",
+      "line": 82,
+      "col": 13,
+      "extern": 0
+    },
+    "main/perror3": {
+      "file": "schedule_demo.c",
+      "line": 83,
+      "col": 13,
+      "extern": 0
+    },
+    "main/pthread_join4": {
+      "file": "schedule_demo.c",
+      "line": 89,
+      "col": 9,
+      "extern": 0
+    },
+    "main/printf5": {
+      "file": "schedule_demo.c",
+      "line": 92,
+      "col": 5,
+      "extern": 0
+    },
+    "main/printf6": {
+      "file": "schedule_demo.c",
+      "line": 94,
+      "col": 9,
+      "extern": 0
+    },
+    "main/if/__stack_chk_fail7": {
+      "file": "schedule_demo.c",
+      "line": 98,
+      "col": 1,
+      "extern": 0
+    }
+  }
+}

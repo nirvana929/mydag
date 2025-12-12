@@ -5,15 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: mytest/mycally.py",
+      "name": "Python: mycallyplus/generation/legacy.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/mytest/mycally.py",
+      "program": "${workspaceFolder}/mycallyplus/generation/legacy.py",
       "console": "integratedTerminal",
       "justMyCode": false,
       "args": [
-        "--file",
+        "--source-file",
         "${workspaceFolder}/mytest/produce5/main.c",
+        "--output-base",
+        "${workspaceFolder}/mycallyplus/中间结果/main1/生成dag图",
         "${workspaceFolder}/mytest/main.c.233r.expand"
       ],
       "cwd": "${workspaceFolder}"

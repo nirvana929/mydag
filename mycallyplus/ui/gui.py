@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Optional, Dict, List, Tuple
 from dataclasses import dataclass
 import subprocess
+import shutil
 import random
 import re
 from PIL import Image, ImageTk
@@ -167,8 +168,9 @@ class MycallyplusGUIv3:
         buttons = [
             ("1. 选择源文件", self.select_source_file),
             ("1.5 选择expand文件", self.select_expand_file),
-            ("1.6 选择dot文件", self.select_dot_file),
-            ("1.7 过滤DOT文件", self.filter_dot_file),
+            ("1.6 生成expand文件", self.generate_expand_from_source),
+            ("1.7 选择dot文件", self.select_dot_file),
+            ("1.8 过滤DOT文件", self.filter_dot_file),
             ("2. 生成dag图", self.generate_dag),
             ("2.1 生成源码调用图", self.generate_source_only_dag),
             ("3. 查看条件节点", self.view_conditions),
@@ -502,6 +504,86 @@ class MycallyplusGUIv3:
         self.state.expand_file = expand_src
         self.state.work_dir = expand_src.parent
         self._update_status_display()
+
+    def generate_expand_from_source(self):
+        """按钮1.6: 根据当前源文件生成expand文件并存入配置文件目录。"""
+        if not self.state.source_file:
+            self._show_message("错误", "请先选择源文件", is_error=True)
+            return
+        source_file = self.state.source_file
+        src_dir = source_file.parent
+        base_name = source_file.stem
+        config_dir = self.base_dir / "配置文件" / base_name
+        config_dir.mkdir(parents=True, exist_ok=True)
+
+        # 智能检测 include 目录
+        include_dirs = []
+        seen_paths = set()
+        potential_include_paths = [
+            src_dir / "include",
+            src_dir / "includes",
+            src_dir / "../include",
+            src_dir / "../includes",
+            src_dir / "inc",
+        ]
+        for inc_path in potential_include_paths:
+            if inc_path.exists() and inc_path.is_dir():
+                resolved_path = str(inc_path.resolve())
+                if resolved_path not in seen_paths:
+                    seen_paths.add(resolved_path)
+                    include_dirs.extend(["-I", resolved_path])
+
+        try:
+            # 临时 .o
+            import tempfile
+            with tempfile.NamedTemporaryFile(dir=src_dir, suffix=".o", delete=False) as tmp:
+                obj_name = Path(tmp.name).name
+
+            cmd = ["gcc", "-fdump-rtl-expand", *include_dirs, "-c", source_file.name, "-o", obj_name]
+            result = subprocess.run(
+                cmd,
+                cwd=str(src_dir),
+                capture_output=True,
+                text=True,
+            )
+
+            # 清理临时 .o
+            try:
+                obj_path = src_dir / obj_name
+                if obj_path.exists():
+                    obj_path.unlink()
+            except Exception:
+                pass
+
+            if result.returncode != 0:
+                self._show_message("错误", f"生成expand失败:\n{result.stderr}", is_error=True)
+                return
+
+            # 找到最新 expand
+            expand_files = sorted(
+                src_dir.glob(f"{source_file.name}.*.expand"),
+                key=lambda p: p.stat().st_mtime,
+                reverse=True,
+            )
+            if not expand_files:
+                self._show_message("错误", "未找到生成的expand文件", is_error=True)
+                return
+
+            expand_src = expand_files[0]
+            dst = config_dir / expand_src.name
+            if dst.exists():
+                dst.unlink()
+            shutil.move(str(expand_src), str(dst))
+
+            # 更新状态
+            self.state.expand_file = dst
+            self.state.work_dir = config_dir
+            self._update_status_display()
+            self._show_message("成功", f"已生成expand文件：\n{dst}")
+        except Exception as e:
+            self._show_message("错误", f"生成expand失败:\n{e}", is_error=True)
+            import traceback
+            traceback.print_exc()
 
     # ===================== 按钮1.6: 选择dot文件 =====================
 

@@ -1042,7 +1042,7 @@ def main():
                     if match_mytask is not None:
                         mytarget = match_mytask.group("target")
                         current_func=mytarget
-                        function_source=1
+                        #function_source=1
                 except StopIteration:
                     next_line = None  # 文件结束，没有下一行
             match = re.match(call, line)
