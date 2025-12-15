@@ -951,6 +951,115 @@ def mark_extern_by_selected(functions, selected_file=None, workspace_root=None):
                 meta["extern"] = 0 if cur_name == sel_name else 1
 
 
+def preparse_pthread_join_bindings(rtl_files, *, max_backtrack_lines: int = 300):
+    """预读 RTL 文件，按出现顺序提取 pthread_join 的线程变量名列表。
+
+    返回:
+        list[str]: join_bindings
+            join_bindings[i] 对应第 i+1 个 pthread_join 的变量名；解析失败则为空字符串。
+    """
+    join_bindings = []
+    try:
+        lines = []
+        for rtl in rtl_files:
+            lines.extend(Path(rtl).read_text(encoding="utf-8", errors="replace").splitlines(keepends=True))
+
+        join_call_re = re.compile(r'.*\(call\s+\(mem:QI\s+\(symbol_ref:DI\s+\("pthread_join"\)')
+        set_di_re = re.compile(r".*\(set\s+\(reg:DI\s+5\s+di\).*")
+        symbol_ref_name_re = re.compile(r'\(symbol_ref:[A-Z]+\s+\("(?P<name>[^"]+)"\)')
+        dbg_reg_re = re.compile(r"\(reg:DI\s+(?P<regno>\d+)\s+\[\s+(?P<dbg>[^\]]+)\s+\]\)")
+        plain_reg_re = re.compile(r"\(reg:DI\s+(?P<regno>\d+)\b(?!\s+\[)")
+
+        def base_name(raw: str) -> str:
+            token = raw.strip().split()[0]
+            if "." in token:
+                token = token.split(".", 1)[0]
+            return token
+
+        def gather_chunk(start: int, max_lines: int = 12) -> str:
+            buf = []
+            for k in range(start, min(len(lines), start + max_lines)):
+                buf.append(lines[k])
+                if "))" in lines[k]:
+                    break
+            return "".join(buf)
+
+        def name_from_chunk(chunk: str):
+            sym = symbol_ref_name_re.search(chunk)
+            if sym is not None:
+                name = sym.group("name")
+                if not name.startswith("*.LC"):
+                    return name
+            dbg = dbg_reg_re.search(chunk)
+            if dbg is not None:
+                return base_name(dbg.group("dbg"))
+            return None
+
+        def rhs_regno(chunk: str):
+            dbg = dbg_reg_re.search(chunk)
+            if dbg is not None:
+                return int(dbg.group("regno"))
+            plain = plain_reg_re.search(chunk)
+            if plain is not None:
+                return int(plain.group("regno"))
+            return None
+
+        def find_prev_set_reg(start: int, regno: int):
+            needle = f"(set (reg:DI {regno}"
+            for j in range(start, max(-1, start - max_backtrack_lines), -1):
+                if needle in lines[j]:
+                    return j
+            return None
+
+        def resolve_join_var(call_idx: int) -> str:
+            set_di_idx = None
+            for j in range(call_idx, max(-1, call_idx - max_backtrack_lines), -1):
+                if set_di_re.match(lines[j]):
+                    set_di_idx = j
+                    break
+            if set_di_idx is None:
+                return ""
+
+            chunk = gather_chunk(set_di_idx)
+            name = name_from_chunk(chunk)
+            if name:
+                return name
+
+            regno = rhs_regno(chunk)
+            if regno is None:
+                return ""
+
+            visited = set()
+            cur_regno = regno
+            cur_start = set_di_idx - 1
+            for _ in range(20):
+                if cur_regno in visited:
+                    return ""
+                visited.add(cur_regno)
+                prev_set = find_prev_set_reg(cur_start, cur_regno)
+                if prev_set is None:
+                    return ""
+                prev_chunk = gather_chunk(prev_set)
+                name = name_from_chunk(prev_chunk)
+                if name:
+                    return name
+                next_regno = rhs_regno(prev_chunk)
+                if next_regno is None or next_regno == cur_regno:
+                    return ""
+                cur_regno = next_regno
+                cur_start = prev_set - 1
+            return ""
+
+        for i, line in enumerate(lines):
+            if join_call_re.match(line) is None:
+                continue
+            join_bindings.append(resolve_join_var(i))
+    except Exception:
+        return []
+
+    return join_bindings
+
+
 #
 # Main()
 #
@@ -1101,6 +1210,7 @@ def main():
     #
     functions_pre=dict()
     function_name = None
+    join_bindings = []#存储pthread_join的绑定信息，按顺序记录绑定的thread
     #预读模块
     for line in fileinput.input(config.RTLFILE):
         match = re.match(function, line)
@@ -1150,6 +1260,10 @@ def main():
             if condition_code_flag is not None:
                     num=condition_code_flag.group(1)
                     current_pre.append(("code",num))
+    #解析pthread_join的预读模块
+    #在这里生成代码
+    join_bindings = preparse_pthread_join_bindings(config.RTLFILE)
+    #这里截至代码生成
     #对预读模块进行处理
     #对jump1进行处理
     jump_flag=0
@@ -1211,7 +1325,10 @@ def main():
 
     function_name = ""
     mytarget = ""
-    thread_num = ""
+    thread_num = ""#读取到的函数，可能是create_num，也可能是join_num
+    create_num = ""#用来绑定create和num
+    join_num = ""#用来绑定join和num
+    join_index = 0  # 第几个 pthread_join（0-based），用于访问 join_bindings[join_index]
     start_time = time.time()
     flag = 0
     state_1=1
@@ -1231,6 +1348,7 @@ def main():
     add_condition_prefix = not getattr(config, "threads_only", False)
     current_func=""#记录读到当前行，上一个出现的函数调用是什么
     function_source=0#标记，用来记录上一行是不是读到了函数，读到了函数，那么就将记录函数源文件
+    create_flag = 0
     for line in next_line_gen:
         #
         # Find function entry point
@@ -1350,22 +1468,25 @@ def main():
                                 state_count = state_count + 1
                                 state_7=0
                                 state_6=1
-            if flag == 0:
-                match_mythreadset = re.match(mythreadset, line)
-                if match_mythreadset is not None:
-                    flag = 1;
+            #create有触发机制，先读到寄存器，然后可以知道寄存器的后面一个就是
+            match_mythreadset = re.match(mythreadset, line)
+            if match_mythreadset is not None:
+                create_flag = 1;#标记，说明下一个读到的线程名是create的
             else:
                 match_mythread = re.match(mythread, line)
                 if match_mythread is not None:
                     thread_num = match_mythread.group("target")
-                    flag = 0;
-                else:
-                    match_mythread = re.match(myjointhread, line)
-                    if match_mythread is not None:
-                        thread_num = match_mythread.group(1)
-                        flag = 0;
-                    else:
-                        flag += 1
+                    if create_flag == 1:
+                        create_num = thread_num#用来绑定create和num
+                        create_flag = 0;
+                    # join 绑定不再依赖这里的 symbol_ref 预读：统一使用 join_bindings + join_index
+                # else:
+                #     match_mythread = re.match(myjointhread, line)
+                #     if match_mythread is not None:
+                #         thread_num = match_mythread.group(1)
+                #         flag = 0;
+                #     else:
+                #         flag += 1
 
             # Find direct function calls
             #找线程名
@@ -1413,7 +1534,7 @@ def main():
                     functions[function_name]["mycalls"].append(target)
                     functions[function_name]["mycalls"].append(mytarget)
                     functions[function_name]["myinfo"]["tail"] = mytarget
-                    functions[function_name]["myinfo"][thread_num] = mytarget
+                    functions[function_name]["myinfo"][create_num] = mytarget
                     queue = functions[function_name]["myinfo"].setdefault("__create_queue__", [])
                     queue.append(mytarget)
                     # 添加 mycalls_meta 记录
@@ -1421,9 +1542,13 @@ def main():
                     current_func = target
                     function_source = 1
                 else:
-                    flag = 0
-                    if 'pthread_join' in target:
-                        flag = 1
+                    is_join = ('pthread_join' in target)
+                    if is_join:
+                        if join_index < len(join_bindings):
+                            join_num = join_bindings[join_index]
+                        else:
+                            join_num = ""
+                        join_index += 1
                     # 记录调用及其源文件（使用最终 target 名，包含编号/前缀）
                     functions[function_name]["calls"][origin_target] = True
                     # 只在能解析到源位时记录源文件
@@ -1436,8 +1561,8 @@ def main():
                     functions[function_name]["mycalls_meta"][target] = {"file": None, "line": None, "col": None, "extern": 0}
                     current_func = target
                     function_source = 1
-                    if flag:
-                        functions[function_name]["myinfo"][target] = thread_num
+                    if is_join:
+                        functions[function_name]["myinfo"][target] = join_num
 
 
             else:

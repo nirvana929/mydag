@@ -148,9 +148,13 @@ def _ensure_include(lines: List[str]) -> Tuple[List[str], bool, int]:
         return lines, False, 0
     # 找到首个非空且非纯注释的行前插入
     insert_at = 0
+    feature_def_re = re.compile(r"^\s*#\s*define\s+_(GNU|DEFAULT|POSIX|XOPEN|BSD|SVID)_SOURCE\b")
     for i, ln in enumerate(lines):
         stripped = ln.strip()
         if not stripped or stripped.startswith(("//", "/*", "*", "#!")):
+            continue
+        # 头部的特性宏应保留在所有 include 之前
+        if feature_def_re.match(ln):
             continue
         insert_at = i
         break
@@ -212,6 +216,14 @@ def instrument_file(
     seq = 1
     base_offset = include_added  # include 插入行数，统一偏移
     for site in sorted(sites, key=lambda s: (s.line, s.col or 0), reverse=True):
+        # 跳过编译器插入/不应插桩的内部符号，避免跨函数边界破坏源码
+        if (
+            site.func.startswith("__stack_chk")
+            or "__stack_chk" in site.raw_key
+            or site.func.startswith("__builtin_")
+        ):
+            warnings.append(f"[skipgen] {file_path}:{site.line} 跳过编译器内部调用 {site.raw_key}")
+            continue
         start_idx = site.line - 1 + base_offset
         if start_idx < 0 or start_idx >= len(lines):
             warnings.append(f"[miss] {file_path}:{site.line} 越界，跳过 {site.func}")
@@ -233,9 +245,66 @@ def instrument_file(
         if stripped.startswith(("if", "while", "for")):
             span = _find_call_span(snippet, site.func)
             if not span:
-                warnings.append(f"[warn] {file_path}:{site.line} 条件中未找到调用 {site.func}")
+                warnings.append(f"[warn] {file_path}:{site.line} 控制语句中未找到调用 {site.func}")
                 continue
+
+            # 解析控制语句条件括号范围，仅当调用位于条件内才按表达式包裹
+            kw_m = re.match(r"\s*(if|while|for)\b", snippet)
+            cond_span: Optional[Tuple[int, int]] = None
+            if kw_m:
+                kw_end = kw_m.end()
+                open_idx = snippet.find("(", kw_end)
+                if open_idx != -1:
+                    depth = 0
+                    for j in range(open_idx + 1, len(snippet)):
+                        ch = snippet[j]
+                        if ch == "(":
+                            depth += 1
+                        elif ch == ")":
+                            if depth == 0:
+                                cond_span = (open_idx, j + 1)
+                                break
+                            depth -= 1
+
             call_text = snippet[span[0] : span[1]]
+            in_cond = cond_span is not None and span[0] >= cond_span[0] and span[1] <= cond_span[1]
+
+            if in_cond:
+                wrapped = (
+                    f"(__extension__({{ uint64_t {var_name} = now_ns(); "
+                    f"__auto_type __ta_ret = {call_text}; "
+                    f'time_account("{key_str}", now_ns() - {var_name}); __ta_ret; }}))'
+                )
+                new_snippet = snippet[: span[0]] + wrapped + snippet[span[1] :]
+                new_lines = new_snippet.splitlines(keepends=True)
+                lines[start_idx : stmt_end + 1] = new_lines
+                log.append(f"[ok] {file_path}:{site.line} {site.func} (cond-expr)")
+                instrumented_keys.append(key_str)
+                base_offset += len(new_lines) - (stmt_end + 1 - start_idx)
+                continue
+
+            # 条件外的调用：若为独立语句则用 do-while 包裹（支持 void），否则按表达式包裹
+            after = snippet[span[1] :]
+            m_after = re.match(r"\s*;", after)
+            before = snippet[: span[0]]
+            prev_non_ws = before.rstrip()[-1:] if before.rstrip() else ""
+            is_standalone = bool(m_after) and (prev_non_ws in ("", "{", ";", "}", "\n"))
+
+            if is_standalone:
+                # 替换含分号的完整语句
+                end_span = span[1] + m_after.end() if m_after else span[1]
+                stmt_wrapped = (
+                    f"do {{ uint64_t {var_name} = now_ns(); {call_text}; "
+                    f'time_account("{key_str}", now_ns() - {var_name}); }} while (0);'
+                )
+                new_snippet = snippet[: span[0]] + stmt_wrapped + snippet[end_span :]
+                new_lines = new_snippet.splitlines(keepends=True)
+                lines[start_idx : stmt_end + 1] = new_lines
+                log.append(f"[ok] {file_path}:{site.line} {site.func} (ctrl-stmt)")
+                instrumented_keys.append(key_str)
+                base_offset += len(new_lines) - (stmt_end + 1 - start_idx)
+                continue
+
             wrapped = (
                 f"(__extension__({{ uint64_t {var_name} = now_ns(); "
                 f"__auto_type __ta_ret = {call_text}; "
@@ -244,7 +313,7 @@ def instrument_file(
             new_snippet = snippet[: span[0]] + wrapped + snippet[span[1] :]
             new_lines = new_snippet.splitlines(keepends=True)
             lines[start_idx : stmt_end + 1] = new_lines
-            log.append(f"[ok] {file_path}:{site.line} {site.func} (cond)")
+            log.append(f"[ok] {file_path}:{site.line} {site.func} (ctrl-expr)")
             instrumented_keys.append(key_str)
             base_offset += len(new_lines) - (stmt_end + 1 - start_idx)
             continue

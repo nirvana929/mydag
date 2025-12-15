@@ -1073,7 +1073,7 @@ def main():
                     create_flag = 1
                     functions[function_name]["calls"][mytarget] = True
                     functions[function_name]["mycalls"].append(target)
-                    functions[function_name]["mycalls"].append(mytarget)
+                    functions[function_name]["mycalls"].append(mytarget)#mytarget代表绑定的中间结果名，也就是thread
                     functions[function_name]["myinfo"]["tail"] = mytarget
                     functions[function_name]["myinfo"][thread_num] = mytarget
                     thread_target=mytarget
@@ -1104,7 +1104,7 @@ def main():
                     if target not in functions[function_name]["refs"]:
                         functions[function_name]["refs"][target] = True
                 #在这里添加create和join的读下一行的处理
-                if create_flag==1:
+                if create_flag==1:#对于create，
                   match_create_row = re.match(source_row_str, line)
                   create_row=match_create_row.group("target")
                   create_flag=0

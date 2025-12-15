@@ -13,12 +13,34 @@
       "justMyCode": false,
       "args": [
         "--source-file",
-        "${workspaceFolder}/mytest/produce5/main.c",
+        "${workspaceFolder}/mycallyplus/源文件/schedule_demo/schedule_demo.c",
         "--output-base",
-        "${workspaceFolder}/mycallyplus/中间结果/main1/生成dag图",
-        "${workspaceFolder}/mytest/main.c.233r.expand"
+        "${workspaceFolder}/mycallyplus/中间结果/schedule_demo/生成dag图",
+        "${workspaceFolder}/mycallyplus/配置文件/schedule_demo/schedule_demo.c.233r.expand"
       ],
       "cwd": "${workspaceFolder}"
     }
   ]
 }
+// {
+//   // 使用 IntelliSense 了解相关属性。 
+//   // 悬停以查看现有属性的描述。
+//   // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+//   "version": "0.2.0",
+//   "configurations": [
+//     {
+//       "name": "Python: mycallyplus/generation/legacy.py",
+//       "type": "python",
+//       "request": "launch",
+//       "program": "${workspaceFolder}/mytest/mycally.py",
+//       "console": "integratedTerminal",
+//       "justMyCode": false,
+//       "args": [
+//         "--file",
+//         "${workspaceFolder}/mycallyplus/源文件/schedule_demo/schedule_demo.c",
+//         "${workspaceFolder}/mycallyplus/配置文件/schedule_demo/schedule_demo.c.233r.expand"
+//       ],
+//       "cwd": "${workspaceFolder}"
+//     }
+//   ]
+// }
