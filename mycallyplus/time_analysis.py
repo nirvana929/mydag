@@ -38,6 +38,20 @@ class InstrumentResult:
     skipped: List[str]
 
 
+def _infer_base_name_from_meta(meta_json: Path, base_dir: Path) -> Optional[str]:
+    """若 meta_json 位于 <base_dir>/中间结果/<basename>/... 下，返回 <basename>。"""
+    try:
+        meta_json = meta_json.resolve()
+        base_dir = base_dir.resolve()
+        rel = meta_json.relative_to(base_dir)
+    except Exception:
+        return None
+    parts = rel.parts
+    if len(parts) >= 2 and parts[0] == "中间结果":
+        return parts[1]
+    return None
+
+
 def _flatten_meta(obj: Dict) -> List[Tuple[str, Dict]]:
     """展开 mycalls_meta_internal 的层级结构，返回 (key, meta) 列表。"""
     out: List[Tuple[str, Dict]] = []
@@ -283,39 +297,10 @@ def instrument_file(
                 base_offset += len(new_lines) - (stmt_end + 1 - start_idx)
                 continue
 
-            # 条件外的调用：若为独立语句则用 do-while 包裹（支持 void），否则按表达式包裹
-            after = snippet[span[1] :]
-            m_after = re.match(r"\s*;", after)
-            before = snippet[: span[0]]
-            prev_non_ws = before.rstrip()[-1:] if before.rstrip() else ""
-            is_standalone = bool(m_after) and (prev_non_ws in ("", "{", ";", "}", "\n"))
-
-            if is_standalone:
-                # 替换含分号的完整语句
-                end_span = span[1] + m_after.end() if m_after else span[1]
-                stmt_wrapped = (
-                    f"do {{ uint64_t {var_name} = now_ns(); {call_text}; "
-                    f'time_account("{key_str}", now_ns() - {var_name}); }} while (0);'
-                )
-                new_snippet = snippet[: span[0]] + stmt_wrapped + snippet[end_span :]
-                new_lines = new_snippet.splitlines(keepends=True)
-                lines[start_idx : stmt_end + 1] = new_lines
-                log.append(f"[ok] {file_path}:{site.line} {site.func} (ctrl-stmt)")
-                instrumented_keys.append(key_str)
-                base_offset += len(new_lines) - (stmt_end + 1 - start_idx)
-                continue
-
-            wrapped = (
-                f"(__extension__({{ uint64_t {var_name} = now_ns(); "
-                f"__auto_type __ta_ret = {call_text}; "
-                f'time_account("{key_str}", now_ns() - {var_name}); __ta_ret; }}))'
+            # 条件外的调用：当前版本不做该类“同一行控制语句内”的特殊识别与改写
+            warnings.append(
+                f"[skip] {file_path}:{site.line} 控制语句非条件内调用暂不插桩: {site.raw_key}"
             )
-            new_snippet = snippet[: span[0]] + wrapped + snippet[span[1] :]
-            new_lines = new_snippet.splitlines(keepends=True)
-            lines[start_idx : stmt_end + 1] = new_lines
-            log.append(f"[ok] {file_path}:{site.line} {site.func} (ctrl-expr)")
-            instrumented_keys.append(key_str)
-            base_offset += len(new_lines) - (stmt_end + 1 - start_idx)
             continue
 
         begin_lines = [
@@ -597,7 +582,7 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
 
     base_dir = base_dir.resolve()
     src_root = source_file.resolve().parent
-    base_name = source_file.stem
+    base_name = _infer_base_name_from_meta(meta_json, base_dir) or source_file.stem
     output_root = base_dir / "中间结果" / base_name / "时间分析"
     log_path = base_dir / "中间结果" / base_name / "生成dag图" / "debug" / "time_analysis.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -605,76 +590,94 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
     log: List[str] = []
     warnings: List[str] = []
     skipped: List[str] = []
+    analysis_error: Optional[str] = None
 
-    # 1) 复制项目
-    dest_project = output_root / src_root.name
-    _copy_project(src_root, dest_project)
-    log.append(f"[copy] {src_root} -> {dest_project}")
-
-    # 2) 拷贝 runtime
-    _write_time_stat(dest_project)
-    log.append("[runtime] 写入 time_stat.c/h")
-
-    # 3) 读取 JSON
-    sites = load_call_sites(meta_json)
-    if not sites:
-        raise RuntimeError("JSON 中未找到有效调用点")
-    # 按文件分组
-    by_file: Dict[Path, List[CallSite]] = {}
-    for s in sites:
-        by_file.setdefault(s.file, []).append(s)
-
+    dest_project: Optional[Path] = None
+    app_path: Optional[Path] = None
+    result_json: Optional[Path] = None
     instrumented_files: List[Path] = []
-    instrumented_keys_all: List[str] = []
 
-    for rel_path, file_sites in by_file.items():
-        target_file = dest_project / rel_path
-        if not target_file.exists():
-            warnings.append(f"[warn] 未找到文件 {rel_path}，跳过 {len(file_sites)} 个调用点")
-            continue
-        if target_file.suffix.lower() != ".c":
-            skipped.append(f"[skip] 非 C 文件 {rel_path}")
-            continue
-        new_lines, w, inst_keys = instrument_file(target_file, file_sites, log)
-        warnings.extend(w)
-        instrumented_keys_all.extend(inst_keys)
-        target_file.write_text("".join(new_lines), encoding="utf-8")
-        instrumented_files.append(target_file)
-
-    if not instrumented_files:
-        raise RuntimeError("未对任何文件完成插桩，请检查 JSON 与源代码路径")
-
-    # 4) 编译 & 运行
-    app_path = _compile_project(dest_project, log)
-    _run_app(app_path, log)
-
-    result_json = dest_project / "time_result.json"
-    if not result_json.exists():
-        raise RuntimeError("未找到 time_result.json（程序未正常输出）")
-
-    # 将统计结果回写到原始 meta_json
     try:
-        result_map = json.loads(result_json.read_text(encoding="utf-8"))
-        summary = _inject_metrics(meta_json, result_map, log, warnings, set(instrumented_keys_all))
-        # 写线程汇总
-        if summary:
-            summary_path = meta_json.parent / "thread_time_summary.json"
-            summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
-            log.append(f"[summary] 线程耗时汇总 -> {summary_path}")
-        log.append(f"[update] 已回写统计到 {meta_json}")
-    except Exception as e:  # pragma: no cover - 保底
-        warnings.append(f"[warn] 回写统计失败: {e}")
+        # 1) 复制项目
+        dest_project = output_root / src_root.name
+        _copy_project(src_root, dest_project)
+        log.append(f"[copy] {src_root} -> {dest_project}")
 
-    # 写日志
-    log_content = "\n".join(log + warnings + skipped)
-    log_path.write_text(log_content, encoding="utf-8")
+        # 2) 拷贝 runtime
+        _write_time_stat(dest_project)
+        log.append("[runtime] 写入 time_stat.c/h")
 
-    return InstrumentResult(
-        instrumented_dir=output_root,
-        app_path=app_path,
-        result_json=result_json,
-        log_path=log_path,
-        instrumented_files=instrumented_files,
-        warnings=warnings,
-        skipped=skipped,
-    )
+        # 3) 读取 JSON
+        sites = load_call_sites(meta_json)
+        if not sites:
+            raise RuntimeError("JSON 中未找到有效调用点")
+        # 按文件分组
+        by_file: Dict[Path, List[CallSite]] = {}
+        for s in sites:
+            by_file.setdefault(s.file, []).append(s)
+
+        instrumented_keys_all: List[str] = []
+        supported_suffixes = {".c"}  # 当前仅支持 C；C++ 需另行实现
+
+        for rel_path, file_sites in by_file.items():
+            # meta 中的 file 可能是绝对路径（例如 PX4 工程），此处做最小映射：
+            # 优先按 basename 映射到复制后的项目目录内同名文件。
+            if rel_path.is_absolute():
+                candidate = dest_project / rel_path.name
+                target_file = candidate if candidate.exists() else (dest_project / rel_path)
+            else:
+                target_file = dest_project / rel_path
+
+            if not target_file.exists():
+                warnings.append(f"[warn] 未找到文件 {rel_path}，跳过 {len(file_sites)} 个调用点")
+                continue
+            if target_file.suffix.lower() not in supported_suffixes:
+                skipped.append(f"[skip] 非 C 文件 {target_file} (from {rel_path})")
+                continue
+
+            new_lines, w, inst_keys = instrument_file(target_file, file_sites, log)
+            warnings.extend(w)
+            instrumented_keys_all.extend(inst_keys)
+            target_file.write_text("".join(new_lines), encoding="utf-8")
+            instrumented_files.append(target_file)
+
+        if not instrumented_files:
+            raise RuntimeError("未对任何文件完成插桩：当前仅支持 .c，且 meta_json 的 file 需能映射到项目内源码。")
+
+        # 4) 编译 & 运行
+        app_path = _compile_project(dest_project, log)
+        _run_app(app_path, log)
+
+        result_json = dest_project / "time_result.json"
+        if not result_json.exists():
+            raise RuntimeError("未找到 time_result.json（程序未正常输出）")
+
+        # 将统计结果回写到原始 meta_json
+        try:
+            result_map = json.loads(result_json.read_text(encoding="utf-8"))
+            summary = _inject_metrics(meta_json, result_map, log, warnings, set(instrumented_keys_all))
+            # 写线程汇总
+            if summary:
+                summary_path = meta_json.parent / "thread_time_summary.json"
+                summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+                log.append(f"[summary] 线程耗时汇总 -> {summary_path}")
+            log.append(f"[update] 已回写统计到 {meta_json}")
+        except Exception as e:  # pragma: no cover - 保底
+            warnings.append(f"[warn] 回写统计失败: {e}")
+
+        return InstrumentResult(
+            instrumented_dir=output_root,
+            app_path=app_path,
+            result_json=result_json,
+            log_path=log_path,
+            instrumented_files=instrumented_files,
+            warnings=warnings,
+            skipped=skipped,
+        )
+    except Exception as e:
+        analysis_error = str(e)
+        raise
+    finally:
+        # 写日志（无论成功失败都落盘）
+        log_content = "\n".join(log + warnings + skipped + ([f"[error] {analysis_error}"] if analysis_error else []))
+        log_path.write_text(log_content, encoding="utf-8")

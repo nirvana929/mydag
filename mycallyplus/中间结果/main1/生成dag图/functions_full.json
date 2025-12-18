@@ -1,7 +1,7 @@
 {
   "threadtask3": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/源文件/main1/main1.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus/配置文件/main1/main1.c.233r.expand"
     ],
     "calls": [
       "rad2deg",
@@ -40,7 +40,7 @@
   },
   "threadtask4": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/源文件/main1/main1.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus/配置文件/main1/main1.c.233r.expand"
     ],
     "calls": [
       "prime",
@@ -79,7 +79,7 @@
   },
   "threadtask2": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/源文件/main1/main1.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus/配置文件/main1/main1.c.233r.expand"
     ],
     "calls": [
       "malloc",
@@ -248,7 +248,7 @@
   },
   "threadtask1": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/源文件/main1/main1.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus/配置文件/main1/main1.c.233r.expand"
     ],
     "calls": [
       "malloc",
@@ -392,7 +392,7 @@
   },
   "threadtask5": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/源文件/main1/main1.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus/配置文件/main1/main1.c.233r.expand"
     ],
     "calls": [
       "printf"
@@ -456,7 +456,7 @@
   },
   "main": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/源文件/main1/main1.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus/配置文件/main1/main1.c.233r.expand"
     ],
     "calls": [
       "malloc",

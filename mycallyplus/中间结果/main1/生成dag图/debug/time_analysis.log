@@ -5,10 +5,10 @@
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:130 free
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:126 free
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:125 fprintf
-[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:124 pthread_join (cond)
+[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:124 pthread_join (cond-expr)
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:120 free
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:119 fprintf
-[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:118 pthread_create (cond)
+[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:118 pthread_create (cond-expr)
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:112 fprintf
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:110 malloc
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:103 printf
@@ -27,7 +27,7 @@
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:66 cover
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:62 free
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:61 fprintf
-[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:60 pthread_create (cond)
+[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:60 pthread_create (cond-expr)
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:58 printf
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:57 Deg2rad
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:52 fprintf
@@ -42,10 +42,10 @@
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:38 ndes
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:35 free
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:34 fprintf
-[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:33 pthread_create (cond)
+[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:33 pthread_create (cond-expr)
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:29 free
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:28 fprintf
-[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:27 pthread_create (cond)
+[ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:27 pthread_create (cond-expr)
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:25 printf
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:24 minver
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/时间分析/main1/main1.c:20 malloc
@@ -61,13 +61,13 @@ task1结束
 task2结束
 task3结束
 task5结束
-task8结束
 task6结束
+task8结束
 task9结束
 task7结束
 task4结束
 主线程已完成
 
-[meta] 回写 mycallyplus/中间结果/main1/生成dag图/debug/mycalls_meta_internal.json
-[summary] 线程耗时汇总 -> mycallyplus/中间结果/main1/生成dag图/debug/thread_time_summary.json
-[update] 已回写统计到 mycallyplus/中间结果/main1/生成dag图/debug/mycalls_meta_internal.json
+[meta] 回写 /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/生成dag图/debug/mycalls_meta_internal.json
+[summary] 线程耗时汇总 -> /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/生成dag图/debug/thread_time_summary.json
+[update] 已回写统计到 /home/chove/Desktop/mydag/mycallyplus/中间结果/main1/生成dag图/debug/mycalls_meta_internal.json

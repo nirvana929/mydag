@@ -164,20 +164,20 @@ class MycallyplusGUIv3:
         )
         left_frame.pack(side=tk.LEFT, fill=tk.Y, padx=8, pady=8)
         
-        # 7个功能按钮
+        # 功能按钮（仅改名与顺序，不改变回调逻辑）
         buttons = [
-            ("1. 选择源文件", self.select_source_file),
-            ("1.5 选择expand文件", self.select_expand_file),
-            ("1.6 生成expand文件", self.generate_expand_from_source),
-            ("1.7 选择dot文件", self.select_dot_file),
-            ("1.8 过滤DOT文件", self.filter_dot_file),
-            ("2. 生成dag图", self.generate_dag),
-            ("2.1 生成源码调用图", self.generate_source_only_dag),
-            ("3. 查看条件节点", self.view_conditions),
-            ("4. 选择配置文件", self.select_config_folder),
-            ("5. 查看互斥锁", self.view_mutex),
-            ("6. 生成信号量图", self.generate_semaphore),
-            ("7. 时间分析", self.time_analysis_entry),
+            ("选择源文件", self.select_source_file),
+            ("选择expand文件", self.select_expand_file),
+            ("选择dot文件", self.select_dot_file),
+            ("选择配置文件", self.select_config_folder),
+            ("过滤dot文件", self.filter_dot_file),
+            ("生成expand文件", self.generate_expand_from_source),
+            ("生成dag图", self.generate_dag),
+            ("查看条件节点", self.view_conditions),
+            ("生成源码调用图", self.generate_source_only_dag),
+            ("查看互斥锁", self.view_mutex),
+            ("生成信号量图", self.generate_semaphore),
+            ("时间分析", self.time_analysis_entry),
         ]
         
         for text, cmd in buttons:
