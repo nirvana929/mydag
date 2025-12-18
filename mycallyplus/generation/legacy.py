@@ -1880,18 +1880,32 @@ def main():
             # 复制expand文件到配置文件根目录
             if expand_file.exists():
                 expand_dest = config_dir / expand_file.name
-                shutil.copy2(expand_file, expand_dest)
-                if config.debug:
-                    print_dbg(f"[INFO] Copied expand file to: {expand_dest}")
+                try:
+                    if expand_file.resolve() != expand_dest.resolve():
+                        shutil.copy2(expand_file, expand_dest)
+                        if config.debug:
+                            print_dbg(f"[INFO] Copied expand file to: {expand_dest}")
+                    else:
+                        if config.debug:
+                            print_dbg(f"[INFO] Expand file already in place: {expand_dest}")
+                except Exception as e:
+                    print_err(f"WARNING: failed to copy expand file: {e}")
             
             # 复制源文件到配置文件根目录（如果提供）
             if hasattr(config, 'source_file') and config.source_file:
                 source_file = Path(config.source_file)
                 if source_file.exists():
                     source_dest = config_dir / source_file.name
-                    shutil.copy2(source_file, source_dest)
-                    if config.debug:
-                        print_dbg(f"[INFO] Copied source file to: {source_dest}")
+                    try:
+                        if source_file.resolve() != source_dest.resolve():
+                            shutil.copy2(source_file, source_dest)
+                            if config.debug:
+                                print_dbg(f"[INFO] Copied source file to: {source_dest}")
+                        else:
+                            if config.debug:
+                                print_dbg(f"[INFO] Source file already in place: {source_dest}")
+                    except Exception as e:
+                        print_err(f"WARNING: failed to copy source file: {e}")
             
             # 如果需要生成PNG，保存到中间结果的images目录
             # PNG文件不属于dag_describe需要的配置文件

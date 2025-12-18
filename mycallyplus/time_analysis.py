@@ -287,7 +287,10 @@ def instrument_file(
                 wrapped = (
                     f"(__extension__({{ uint64_t {var_name} = now_ns(); "
                     f"__auto_type __ta_ret = {call_text}; "
-                    f'time_account("{key_str}", now_ns() - {var_name}); __ta_ret; }}))'
+                    f"uint64_t {var_name}_dur = now_ns() - {var_name}; "
+                    f'time_account("{key_str}", {var_name}_dur); '
+                    f'time_trace("{key_str}", {var_name}, {var_name}_dur); '
+                    f"__ta_ret; }}))"
                 )
                 new_snippet = snippet[: span[0]] + wrapped + snippet[span[1] :]
                 new_lines = new_snippet.splitlines(keepends=True)
@@ -310,7 +313,9 @@ def instrument_file(
         ]
         end_lines = [
             f"// TA_END: {file_path.name}:{site.line} {site.func}\n",
-            f'time_account("{key_str}", now_ns() - {var_name});\n',
+            f"uint64_t {var_name}_dur = now_ns() - {var_name};\n",
+            f'time_account("{key_str}", {var_name}_dur);\n',
+            f'time_trace("{key_str}", {var_name}, {var_name}_dur);\n',
         ]
 
         # 插入：先 BEGIN，再 END（END 位置需 +2 偏移）
@@ -341,6 +346,7 @@ def _write_time_stat(dest_dir: Path) -> None:
                 "",
                 "uint64_t now_ns(void);",
                 'void time_account(const char* key, uint64_t dur_ns);',
+                'void time_trace(const char* key, uint64_t start_ns, uint64_t dur_ns);',
                 "",
                 "#ifdef __cplusplus",
                 "}",
@@ -375,6 +381,8 @@ def _write_time_stat(dest_dir: Path) -> None:
                 "static size_t g_cap = 0, g_sz = 0;",
                 "static pthread_mutex_t g_mu = PTHREAD_MUTEX_INITIALIZER;",
                 "static int g_dumped = 0;",
+                "static FILE *g_trace_fp = NULL;",
+                "static int g_trace_first = 1;",
                 "",
                 "static void ensure_cap(void) {",
                 "    if (g_sz < g_cap) return;",
@@ -409,6 +417,30 @@ def _write_time_stat(dest_dir: Path) -> None:
                 "    return &g_stats[g_sz++];",
                 "}",
                 "",
+                "static void trace_init_locked(void) {",
+                "    if (g_trace_fp) return;",
+                '    g_trace_fp = fopen("thread_trace.json", "w");',
+                "    if (!g_trace_fp) return;",
+                '    fputs(\"[\\n\", g_trace_fp);',
+                "    g_trace_first = 1;",
+                "}",
+                "",
+                "void time_trace(const char* key, uint64_t start_ns, uint64_t dur_ns) {",
+                "    pthread_mutex_lock(&g_mu);",
+                "    trace_init_locked();",
+                "    if (g_trace_fp) {",
+                "        if (!g_trace_first) fputs(\",\\n\", g_trace_fp);",
+                "        g_trace_first = 0;",
+                "        fprintf(",
+                '            g_trace_fp, "  {\\"key\\": \\"%s\\", \\"start_ns\\": %llu, \\"dur_ns\\": %llu}",',
+                "            key,",
+                "            (unsigned long long)start_ns,",
+                "            (unsigned long long)dur_ns",
+                "        );",
+                "    }",
+                "    pthread_mutex_unlock(&g_mu);",
+                "}",
+                "",
                 "void time_account(const char* key, uint64_t dur_ns) {",
                 "    pthread_mutex_lock(&g_mu);",
                 "    stat_item* s = get_slot(key);",
@@ -419,7 +451,7 @@ def _write_time_stat(dest_dir: Path) -> None:
                 "    pthread_mutex_unlock(&g_mu);",
                 "}",
                 "",
-                "static void dump_json(void) {",
+                "static void dump_json_locked(void) {",
                 "    if (g_dumped) return;",
                 "    g_dumped = 1;",
                 '    FILE *fp = fopen("time_result.json", "w");',
@@ -442,8 +474,20 @@ def _write_time_stat(dest_dir: Path) -> None:
                 "    fclose(fp);",
                 "}",
                 "",
+                "static void dump_trace_locked(void) {",
+                "    if (!g_trace_fp) return;",
+                '    fputs(\"\\n]\\n\", g_trace_fp);',
+                "    fclose(g_trace_fp);",
+                "    g_trace_fp = NULL;",
+                "}",
+                "",
                 "__attribute__((destructor))",
-                "static void at_exit_dump(void) { dump_json(); }",
+                "static void at_exit_dump(void) {",
+                "    pthread_mutex_lock(&g_mu);",
+                "    dump_json_locked();",
+                "    dump_trace_locked();",
+                "    pthread_mutex_unlock(&g_mu);",
+                "}",
                 "",
             ]
         ),

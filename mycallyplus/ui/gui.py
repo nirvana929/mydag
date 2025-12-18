@@ -17,7 +17,7 @@ import random
 import re
 from PIL import Image, ImageTk
 
-from mycallyplus import filter_dot, time_analysis
+from mycallyplus import filter_dot, time_analysis, time_charts
 
 try:
     import networkx as nx
@@ -823,16 +823,30 @@ class MycallyplusGUIv3:
                 return
             
             source_dot = dot_files[0]
-            
-            target_dir = self.state.work_dir / "生成dag图"
+
+            # 统一存储路径：中间结果/<基名>/生成dag图/
+            base_name = self.state.get_base_name() or source_name
+            root_dir = self.base_dir / "中间结果" / base_name
+            target_dir = root_dir / "生成dag图"
+            target_dir.mkdir(parents=True, exist_ok=True)
             target_dot = target_dir / "dag.dot"
             
             import shutil
             shutil.copy(source_dot, target_dot)
-            
+
+            # 更新工作目录到统一路径，避免后续模块误用配置目录
+            self.state.work_dir = root_dir
             self.state.dot_file = target_dot
+            # 生成并展示 PNG（需要本机安装 graphviz 的 dot 命令）
+            png_path = target_dir / "dag.png"
+            subprocess.run(
+                ["dot", "-Tpng", str(target_dot), "-o", str(png_path)],
+                check=True,
+                capture_output=True,
+            )
+            self._display_image(png_path)
             self._update_status_display()
-            self._show_message("成功", "dag图生成成功（仅生成全量 DOT，未渲染 PNG）")
+            self._show_message("成功", f"dag图生成成功：\n{png_path}")
             
         except Exception as e:
             self._show_message("错误", f"生成dag图失败:\n{e}", is_error=True)
@@ -944,61 +958,47 @@ class MycallyplusGUIv3:
             return
         
         try:
-            # 步骤1: 确定配置目录位置
-            source_name = self.state.source_file.name if self.state.source_file else f"{self.state.get_base_name()}.c"
-            config_dir = self.base_dir / "配置文件" / source_name
-            
-            if not config_dir.exists():
-                # 尝试查找
-                config_base = self.base_dir / "配置文件"
-                matching = [d for d in config_base.iterdir()
-                           if d.is_dir() and d.name.startswith(self.state.get_base_name())]
-                if matching:
-                    config_dir = matching[0]
-                else:
-                    config_dir.mkdir(parents=True, exist_ok=True)
-            
-            # 步骤2: 调用mycallyplus命令行生成完整视图（不使用--threads-only，包含条件节点）
-            print("⚙️  调用mycallyplus生成完整视图（含条件节点）...")
-            
+            # 统一 basename（与 legacy/_ensure_output_dirs 一致：去掉 .233r 与 .c/.cpp 等）
+            base_name = self.state.get_base_name() or (self.state.source_file.stem if self.state.source_file else None)
+            if not base_name:
+                self._show_message("错误", "无法解析基名（请确认已选择 expand 文件）", is_error=True)
+                return
+
+            root_dir = self.base_dir / "中间结果" / base_name
+            target_dir = root_dir / "查看条件节点"
+            target_dir.mkdir(parents=True, exist_ok=True)
+            # 更新工作目录为统一路径，避免后续模块误用配置目录
+            self.state.work_dir = root_dir
+
+            # 配置文件目录：配置文件/<基名>/（legacy 会写入 <基名>_full.dot）
+            config_dir = self.base_dir / "配置文件" / base_name
+            config_dir.mkdir(parents=True, exist_ok=True)
+
+            # 步骤1: 调用 legacy 生成条件视图 DOT（--conditions-only）
+            print("⚙️  调用mycallyplus生成条件节点视图（--conditions-only）...")
             cmd = [
                 sys.executable,
-                "-m", "mycallyplus.generation.legacy",  # 不带--threads-only参数，生成完整视图
-                str(self.state.expand_file)
+                "-m", "mycallyplus.generation.legacy",
+                "--conditions-only",
+                "--output-base", str(self.base_dir),
+                str(self.state.expand_file),
             ]
-            
-            # 工作目录应该是项目根目录的父目录
-            work_dir = self.base_dir.parent
-            
             result = subprocess.run(
                 cmd,
-                cwd=str(work_dir),
+                cwd=str(self.base_dir.parent),
                 capture_output=True,
-                text=True
+                text=True,
             )
-            
             if result.returncode != 0:
-                self._show_message("错误", f"生成完整视图失败:\n{result.stderr}", is_error=True)
+                self._show_message("错误", f"生成条件节点视图失败:\n{result.stderr}", is_error=True)
+                return
+
+            config_dot = config_dir / f"{base_name}_full.dot"
+            if not config_dot.exists():
+                self._show_message("错误", f"未找到生成的 full.dot 文件:\n{config_dot}", is_error=True)
                 return
             
-            # 获取生成的DOT内容
-            dot_content = result.stdout
-            
-            # 步骤3: 保存到配置文件目录（扁平结构）
-            base_name = self.state.source_file.stem if self.state.source_file else self.state.get_base_name()
-            if self.state.expand_file:
-                expand_stem = self.state.expand_file.stem
-                if expand_stem.endswith('.233r'):
-                    base_name = expand_stem[:-5]
-                elif '.' in expand_stem:
-                    base_name = expand_stem.split('.')[0]
-            
-            # 保存full.dot到配置文件目录
-            config_dot = config_dir / f"{source_name.replace('.c', '')}_full.dot"
-            config_dot.write_text(dot_content, encoding='utf-8')
-            print(f"✅ 保存完整视图DOT: {config_dot}")
-            
-            # 步骤4: 调用legacy生成circle.txt（使用--export-txt参数）
+            # 步骤2: 调用legacy生成circle.txt（使用--export-txt参数）
             print("⚙️  生成circle.txt配置文件...")
             
             txt_output_path = config_dir / "circle.txt"
@@ -1022,13 +1022,12 @@ class MycallyplusGUIv3:
             else:
                 print(f"✅ 生成circle.txt: {txt_output_path}")
             
-            # 步骤5: 复制到中间结果目录
+            # 步骤3: 复制到中间结果目录
             import shutil
-            target_dir = self.state.work_dir / "查看条件节点"
             target_dot = target_dir / "conditions.dot"
             shutil.copy(config_dot, target_dot)
             
-            # 步骤6: 生成PNG
+            # 步骤4: 生成PNG
             png_path = target_dir / "conditions.png"
             subprocess.run(
                 ["dot", "-Tpng", str(target_dot), "-o", str(png_path)],
@@ -1037,7 +1036,7 @@ class MycallyplusGUIv3:
             )
             print(f"✅ 生成PNG图像: {png_path}")
             
-            # 步骤7: 更新状态
+            # 步骤5: 更新状态
             source_txt = config_dir / "circle.txt"
             if source_txt.exists():
                 self.state.txt_file = source_txt
@@ -1472,6 +1471,9 @@ class MycallyplusGUIv3:
         self._set_subfunc_toolbar([
             ("选中源代码文件", self._select_ta_source_file),
             ("选中JSON文件", self._select_ta_json_file),
+            ("线程中任务执行次数图", self._plot_thread_task_frequency),
+            ("线程执行时间图", self._plot_thread_total_time),
+            ("线程调用图", self._plot_thread_call_gantt),
         ])
         self._show_message("提示", "请选择源代码文件和 mycalls_meta_internal.json，完成后自动执行时间分析。")
 
@@ -1506,15 +1508,77 @@ class MycallyplusGUIv3:
             )
             # 将工作目录指向输出，便于后续查看
             self.state.work_dir = result.instrumented_dir
+            trace_path = result.result_json.parent / "thread_trace.json"
             self._show_message(
                 "成功",
                 "时间分析完成：\n"
                 f"插桩目录: {result.instrumented_dir}\n"
                 f"结果: {result.result_json}\n"
+                f"Trace: {trace_path}\n"
                 f"日志: {result.log_path}",
             )
         except Exception as e:
             self._show_message("错误", f"时间分析失败:\n{e}", is_error=True)
+
+    def _pick_time_analysis_json(self, title: str) -> Optional[Path]:
+        path_str = filedialog.askopenfilename(
+            title=title,
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not path_str:
+            return None
+        return Path(path_str)
+
+    def _plot_thread_task_frequency(self):
+        """子功能：线程中任务执行次数图（count）"""
+        json_path = self._pick_time_analysis_json("选择统计 JSON（thread_time_summary.json / time_result.json / meta.json）")
+        if not json_path:
+            return
+        try:
+            metrics = time_charts.load_thread_metrics(json_path)
+            out_dir = time_charts.choose_time_analysis_output_dir(
+                json_path,
+                time_analysis_root=self.state.work_dir if self.state.work_dir else None,
+            )
+            png_path = time_charts.render_thread_frequency_png(metrics, output_dir=out_dir)
+            self._display_image(png_path)
+            self._show_message("成功", f"已生成统计图：\n{png_path}")
+        except Exception as e:
+            self._show_message("错误", f"生成统计图失败:\n{e}", is_error=True)
+
+    def _plot_thread_total_time(self):
+        """子功能：线程执行时间图（total_ns）"""
+        json_path = self._pick_time_analysis_json("选择统计 JSON（thread_time_summary.json / time_result.json / meta.json）")
+        if not json_path:
+            return
+        try:
+            metrics = time_charts.load_thread_metrics(json_path)
+            out_dir = time_charts.choose_time_analysis_output_dir(
+                json_path,
+                time_analysis_root=self.state.work_dir if self.state.work_dir else None,
+            )
+            png_path = time_charts.render_thread_total_time_png(metrics, output_dir=out_dir)
+            self._display_image(png_path)
+            self._show_message("成功", f"已生成统计图：\n{png_path}")
+        except Exception as e:
+            self._show_message("错误", f"生成统计图失败:\n{e}", is_error=True)
+
+    def _plot_thread_call_gantt(self):
+        """子功能：线程调用图（甘特图，需要 thread_trace.json）"""
+        json_path = self._pick_time_analysis_json("选择 thread_trace.json（时间分析 trace）")
+        if not json_path:
+            return
+        try:
+            events = time_charts.load_trace_events(json_path)
+            out_dir = time_charts.choose_time_analysis_output_dir(
+                json_path,
+                time_analysis_root=self.state.work_dir if self.state.work_dir else None,
+            )
+            png_path = time_charts.render_thread_gantt_png(events, output_dir=out_dir)
+            self._display_image(png_path)
+            self._show_message("成功", f"已生成线程调用图：\n{png_path}")
+        except Exception as e:
+            self._show_message("错误", f"生成线程调用图失败:\n{e}", is_error=True)
     
     # ===================== 辅助方法：图分析 =====================
     
