@@ -17,7 +17,7 @@ import random
 import re
 from PIL import Image, ImageTk
 
-from mycallyplus import filter_dot, time_analysis, time_charts
+from mycallyplus import filter_dot, time_analysis, time_charts, scheduler
 
 try:
     import networkx as nx
@@ -178,6 +178,7 @@ class MycallyplusGUIv3:
             ("查看互斥锁", self.view_mutex),
             ("生成信号量图", self.generate_semaphore),
             ("时间分析", self.time_analysis_entry),
+            ("调度算法", self.scheduler_entry),
         ]
         
         for text, cmd in buttons:
@@ -1476,6 +1477,92 @@ class MycallyplusGUIv3:
             ("线程调用图", self._plot_thread_call_gantt),
         ])
         self._show_message("提示", "请选择源代码文件和 mycalls_meta_internal.json，完成后自动执行时间分析。")
+
+    # ===================== 按钮8: 调度算法 =====================
+
+    def scheduler_entry(self):
+        """按钮8: 调度算法 - 最长路径（带权 DAG）"""
+        self._set_subfunc_toolbar([
+            ("生成最长路径", self._scheduler_longest_path),
+        ])
+        self._show_message(
+            "提示",
+            "请选择 DAG 的 DOT 文件与 time_result.json，生成带权 DAG 并计算最长路径。",
+        )
+
+    def _scheduler_longest_path(self):
+        dot_str = filedialog.askopenfilename(
+            title="选择 DAG DOT 文件",
+            filetypes=[("DOT文件", "*.dot"), ("所有文件", "*.*")],
+        )
+        if not dot_str:
+            return
+        json_str = filedialog.askopenfilename(
+            title="选择 time_result.json",
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not json_str:
+            return
+
+        dot_path = Path(dot_str)
+        json_path = Path(json_str)
+
+        try:
+            nodes, edges = scheduler.parse_dot_edges(dot_path)
+            weights = scheduler.load_time_result_weights(json_path)
+            source = scheduler.find_single_source(nodes, edges)
+            if source is None:
+                # 不阻塞：按“全图任意起点”求最长路径，但提示用户源点不唯一
+                pass
+            result = scheduler.longest_path_dag(nodes, edges, weights, source=source)
+
+            out_dir = json_path.parent
+            out_dir.mkdir(parents=True, exist_ok=True)
+            highlight_dot_path = out_dir / "dag_highlight.dot"
+            highlight_png_path = out_dir / "dag_highlight.png"
+            longest_json_path = out_dir / "longest_path.json"
+            longest_txt_path = out_dir / "longest_path.txt"
+
+            original_dot_text = dot_path.read_text(encoding="utf-8", errors="replace")
+            highlight_text = scheduler.highlight_dot_inplace(
+                original_dot_text,
+                path_nodes=result.path,
+                path_edges=list(zip(result.path, result.path[1:])),
+                node_weight_ns=result.node_weight_ns,
+            )
+            highlight_dot_path.write_text(highlight_text, encoding="utf-8")
+            scheduler.write_longest_path_json(
+                longest_json_path,
+                dot_path=dot_path,
+                time_json_path=json_path,
+                result=result,
+            )
+            # 便于人工查看
+            longest_txt_path.write_text(
+                "最长路径（节点权重=total_ns，缺失权重按 0 计）：\n"
+                f"总耗时: {result.total_weight_ns:,} ns\n"
+                f"路径长度: {len(result.path)}\n"
+                + "\n".join(result.path)
+                + "\n",
+                encoding="utf-8",
+            )
+
+            subprocess.run(
+                ["dot", "-Tpng", str(highlight_dot_path), "-o", str(highlight_png_path)],
+                check=True,
+                capture_output=True,
+            )
+            self._display_image(highlight_png_path)
+            self._show_message(
+                "成功",
+                "已生成带权 DAG 与最长路径：\n"
+                f"DOT: {highlight_dot_path}\n"
+                f"PNG: {highlight_png_path}\n"
+                f"JSON: {longest_json_path}",
+            )
+        except Exception as e:
+            # scheduler.longest_path_dag 会在有环时给出中文报错
+            self._show_message("错误", f"生成最长路径失败:\n{e}", is_error=True)
 
     def _select_ta_source_file(self):
         path_str = filedialog.askopenfilename(
