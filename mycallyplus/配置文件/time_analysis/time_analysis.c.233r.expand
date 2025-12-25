@@ -43,16 +43,16 @@ try_optimize_cfg iteration 2
         (reg:DI 84)) "time_analysis.c":9:5 -1
      (nil))
 (call_insn 8 7 9 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("rad2deg") [flags 0x41]  <function_decl 0x7fe33baeac00 rad2deg>) [0 rad2deg S1 A8])
+        (call (mem:QI (symbol_ref:DI ("rad2deg") [flags 0x41]  <function_decl 0x7fa2d9b91c00 rad2deg>) [0 rad2deg S1 A8])
             (const_int 0 [0]))) "time_analysis.c":9:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 9 8 10 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7fe33bafe3f0 *.LC0>)) "time_analysis.c":10:5 -1
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7fa2d9ba53f0 *.LC0>)) "time_analysis.c":10:5 -1
      (nil))
 (call_insn 10 9 11 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":10:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -113,16 +113,16 @@ try_optimize_cfg iteration 2
         (reg:DI 84)) "time_analysis.c":14:5 -1
      (nil))
 (call_insn 8 7 9 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("prime") [flags 0x41]  <function_decl 0x7fe33baeae00 prime>) [0 prime S1 A8])
+        (call (mem:QI (symbol_ref:DI ("prime") [flags 0x41]  <function_decl 0x7fa2d9b91e00 prime>) [0 prime S1 A8])
             (const_int 0 [0]))) "time_analysis.c":14:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 9 8 10 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7fe33bafe7e0 *.LC1>)) "time_analysis.c":15:5 -1
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7fa2d9ba57e0 *.LC1>)) "time_analysis.c":15:5 -1
      (nil))
 (call_insn 10 9 11 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":15:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -183,7 +183,7 @@ try_optimize_cfg iteration 2
         (const_int 4 [0x4])) "time_analysis.c":19:22 -1
      (nil))
 (call_insn 7 6 8 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fe33bdbef00 malloc>) [0 __builtin_malloc S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fa2d9e65f00 malloc>) [0 __builtin_malloc S1 A8])
             (const_int 0 [0]))) "time_analysis.c":19:22 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -201,7 +201,7 @@ try_optimize_cfg iteration 2
         (const_int 4 [0x4])) "time_analysis.c":20:22 -1
      (nil))
 (call_insn 11 10 12 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fe33bdbef00 malloc>) [0 __builtin_malloc S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fa2d9e65f00 malloc>) [0 __builtin_malloc S1 A8])
             (const_int 0 [0]))) "time_analysis.c":20:22 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -237,16 +237,16 @@ try_optimize_cfg iteration 2
         (reg:DI 90)) "time_analysis.c":23:5 -1
      (nil))
 (call_insn 20 19 21 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("minver") [flags 0x41]  <function_decl 0x7fe33baee000 minver>) [0 minver S1 A8])
+        (call (mem:QI (symbol_ref:DI ("minver") [flags 0x41]  <function_decl 0x7fa2d9b95000 minver>) [0 minver S1 A8])
             (const_int 0 [0]))) "time_analysis.c":23:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 21 20 22 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7fe33bafeb40 *.LC2>)) "time_analysis.c":24:5 -1
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7fa2d9ba5b40 *.LC2>)) "time_analysis.c":24:5 -1
      (nil))
 (call_insn 22 21 23 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":24:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -259,16 +259,16 @@ try_optimize_cfg iteration 2
         (reg:DI 91)) "time_analysis.c":25:5 -1
      (nil))
 (insn 25 24 26 2 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("threadtask3") [flags 0x3]  <function_decl 0x7fe33baee500 threadtask3>)) "time_analysis.c":25:5 -1
+        (symbol_ref:DI ("threadtask3") [flags 0x3]  <function_decl 0x7fa2d9b95500 threadtask3>)) "time_analysis.c":25:5 -1
      (nil))
 (insn 26 25 27 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":25:5 -1
      (nil))
 (insn 27 26 28 2 (set (reg:DI 5 di)
-        (symbol_ref:DI ("thread2") [flags 0x2]  <var_decl 0x7fe33bed3360 thread2>)) "time_analysis.c":25:5 -1
+        (symbol_ref:DI ("thread2") [flags 0x2]  <var_decl 0x7fa2d9f7a360 thread2>)) "time_analysis.c":25:5 -1
      (nil))
 (call_insn 28 27 29 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe33bedc300 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fa2d9f83300 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "time_analysis.c":25:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -285,16 +285,16 @@ try_optimize_cfg iteration 2
         (reg:DI 92)) "time_analysis.c":26:5 -1
      (nil))
 (insn 31 30 32 2 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("threadtask4") [flags 0x3]  <function_decl 0x7fe33baee700 threadtask4>)) "time_analysis.c":26:5 -1
+        (symbol_ref:DI ("threadtask4") [flags 0x3]  <function_decl 0x7fa2d9b95700 threadtask4>)) "time_analysis.c":26:5 -1
      (nil))
 (insn 32 31 33 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":26:5 -1
      (nil))
 (insn 33 32 34 2 (set (reg:DI 5 di)
-        (symbol_ref:DI ("thread3") [flags 0x2]  <var_decl 0x7fe33bed33f0 thread3>)) "time_analysis.c":26:5 -1
+        (symbol_ref:DI ("thread3") [flags 0x2]  <var_decl 0x7fa2d9f7a3f0 thread3>)) "time_analysis.c":26:5 -1
      (nil))
 (call_insn 34 33 35 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe33bedc300 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fa2d9f83300 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "time_analysis.c":26:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -311,22 +311,22 @@ try_optimize_cfg iteration 2
         (reg:DI 93)) "time_analysis.c":27:5 -1
      (nil))
 (call_insn 37 36 38 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("ndes") [flags 0x41]  <function_decl 0x7fe33baeaf00 ndes>) [0 ndes S1 A8])
+        (call (mem:QI (symbol_ref:DI ("ndes") [flags 0x41]  <function_decl 0x7fa2d9b91f00 ndes>) [0 ndes S1 A8])
             (const_int 0 [0]))) "time_analysis.c":27:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 38 37 39 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7fe33bafebd0 *.LC3>)) "time_analysis.c":28:5 -1
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7fa2d9ba5bd0 *.LC3>)) "time_analysis.c":28:5 -1
      (nil))
 (call_insn 39 38 40 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":28:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 40 39 41 2 (set (reg:DI 82 [ thread2.0_1 ])
-        (mem/c:DI (symbol_ref:DI ("thread2") [flags 0x2]  <var_decl 0x7fe33bed3360 thread2>) [1 thread2+0 S8 A64])) "time_analysis.c":29:5 -1
+        (mem/c:DI (symbol_ref:DI ("thread2") [flags 0x2]  <var_decl 0x7fa2d9f7a360 thread2>) [1 thread2+0 S8 A64])) "time_analysis.c":29:5 -1
      (nil))
 (insn 41 40 42 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":29:5 -1
@@ -335,14 +335,14 @@ try_optimize_cfg iteration 2
         (reg:DI 82 [ thread2.0_1 ])) "time_analysis.c":29:5 -1
      (nil))
 (call_insn 43 42 44 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe33bedc500 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fa2d9f83500 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "time_analysis.c":29:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (expr_list:DI (use (reg:DI 4 si))
             (nil))))
 (insn 44 43 45 2 (set (reg:DI 83 [ thread3.1_2 ])
-        (mem/c:DI (symbol_ref:DI ("thread3") [flags 0x2]  <var_decl 0x7fe33bed33f0 thread3>) [1 thread3+0 S8 A64])) "time_analysis.c":30:5 -1
+        (mem/c:DI (symbol_ref:DI ("thread3") [flags 0x2]  <var_decl 0x7fa2d9f7a3f0 thread3>) [1 thread3+0 S8 A64])) "time_analysis.c":30:5 -1
      (nil))
 (insn 45 44 46 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":30:5 -1
@@ -351,7 +351,7 @@ try_optimize_cfg iteration 2
         (reg:DI 83 [ thread3.1_2 ])) "time_analysis.c":30:5 -1
      (nil))
 (call_insn 47 46 48 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe33bedc500 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fa2d9f83500 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "time_analysis.c":30:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -364,7 +364,7 @@ try_optimize_cfg iteration 2
 (insn 49 48 50 2 (set (reg:DI 5 di)
         (reg:DI 94)) "time_analysis.c":31:5 -1
      (nil))
-(call_insn 50 49 51 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fe33bdb9400 free>) [0 __builtin_free S1 A8])
+(call_insn 50 49 51 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fa2d9e60400 free>) [0 __builtin_free S1 A8])
         (const_int 0 [0])) "time_analysis.c":31:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -377,7 +377,7 @@ try_optimize_cfg iteration 2
 (insn 52 51 53 2 (set (reg:DI 5 di)
         (reg:DI 95)) "time_analysis.c":32:5 -1
      (nil))
-(call_insn 53 52 54 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fe33bdb9400 free>) [0 __builtin_free S1 A8])
+(call_insn 53 52 54 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fa2d9e60400 free>) [0 __builtin_free S1 A8])
         (const_int 0 [0])) "time_analysis.c":32:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -391,16 +391,16 @@ try_optimize_cfg iteration 2
         (reg:DI 96)) "time_analysis.c":33:5 -1
      (nil))
 (call_insn 56 55 57 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("ludcmp") [flags 0x41]  <function_decl 0x7fe33baee400 ludcmp>) [0 ludcmp S1 A8])
+        (call (mem:QI (symbol_ref:DI ("ludcmp") [flags 0x41]  <function_decl 0x7fa2d9b95400 ludcmp>) [0 ludcmp S1 A8])
             (const_int 0 [0]))) "time_analysis.c":33:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 57 56 58 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7fe33bafec60 *.LC4>)) "time_analysis.c":34:5 -1
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7fa2d9ba5c60 *.LC4>)) "time_analysis.c":34:5 -1
      (nil))
 (call_insn 58 57 59 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":34:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -459,7 +459,7 @@ try_optimize_cfg iteration 2
         (const_int 4 [0x4])) "time_analysis.c":39:22 -1
      (nil))
 (call_insn 7 6 8 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fe33bdbef00 malloc>) [0 __builtin_malloc S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fa2d9e65f00 malloc>) [0 __builtin_malloc S1 A8])
             (const_int 0 [0]))) "time_analysis.c":39:22 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -488,16 +488,16 @@ try_optimize_cfg iteration 2
         (reg:DI 87)) "time_analysis.c":41:5 -1
      (nil))
 (call_insn 14 13 15 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("Deg2rad") [flags 0x41]  <function_decl 0x7fe33baead00 Deg2rad>) [0 Deg2rad S1 A8])
+        (call (mem:QI (symbol_ref:DI ("Deg2rad") [flags 0x41]  <function_decl 0x7fa2d9b91d00 Deg2rad>) [0 Deg2rad S1 A8])
             (const_int 0 [0]))) "time_analysis.c":41:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 15 14 16 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7fe33bb0f000 *.LC5>)) "time_analysis.c":42:5 -1
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7fa2d9bb6000 *.LC5>)) "time_analysis.c":42:5 -1
      (nil))
 (call_insn 16 15 17 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":42:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -510,16 +510,16 @@ try_optimize_cfg iteration 2
         (reg:DI 88)) "time_analysis.c":43:5 -1
      (nil))
 (insn 19 18 20 2 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("threadtask2") [flags 0x3]  <function_decl 0x7fe33baee900 threadtask2>)) "time_analysis.c":43:5 -1
+        (symbol_ref:DI ("threadtask2") [flags 0x3]  <function_decl 0x7fa2d9b95900 threadtask2>)) "time_analysis.c":43:5 -1
      (nil))
 (insn 20 19 21 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":43:5 -1
      (nil))
 (insn 21 20 22 2 (set (reg:DI 5 di)
-        (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 0x7fe33bed32d0 thread1>)) "time_analysis.c":43:5 -1
+        (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 0x7fa2d9f7a2d0 thread1>)) "time_analysis.c":43:5 -1
      (nil))
 (call_insn 22 21 23 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe33bedc300 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fa2d9f83300 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "time_analysis.c":43:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -536,16 +536,16 @@ try_optimize_cfg iteration 2
         (reg:DI 89)) "time_analysis.c":44:5 -1
      (nil))
 (call_insn 25 24 26 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("cover") [flags 0x41]  <function_decl 0x7fe33baee300 cover>) [0 cover S1 A8])
+        (call (mem:QI (symbol_ref:DI ("cover") [flags 0x41]  <function_decl 0x7fa2d9b95300 cover>) [0 cover S1 A8])
             (const_int 0 [0]))) "time_analysis.c":44:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 26 25 27 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7fe33bb0f090 *.LC6>)) "time_analysis.c":45:5 -1
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7fa2d9bb6090 *.LC6>)) "time_analysis.c":45:5 -1
      (nil))
 (call_insn 27 26 28 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":45:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -558,22 +558,22 @@ try_optimize_cfg iteration 2
         (reg:DI 90)) "time_analysis.c":46:5 -1
      (nil))
 (call_insn 30 29 31 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("duff") [flags 0x41]  <function_decl 0x7fe33baee200 duff>) [0 duff S1 A8])
+        (call (mem:QI (symbol_ref:DI ("duff") [flags 0x41]  <function_decl 0x7fa2d9b95200 duff>) [0 duff S1 A8])
             (const_int 0 [0]))) "time_analysis.c":46:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 31 30 32 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7fe33bb0f120 *.LC7>)) "time_analysis.c":47:5 -1
+        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7fa2d9bb6120 *.LC7>)) "time_analysis.c":47:5 -1
      (nil))
 (call_insn 32 31 33 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":47:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 33 32 34 2 (set (reg:DI 82 [ thread1.2_1 ])
-        (mem/c:DI (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 0x7fe33bed32d0 thread1>) [1 thread1+0 S8 A64])) "time_analysis.c":48:5 -1
+        (mem/c:DI (symbol_ref:DI ("thread1") [flags 0x2]  <var_decl 0x7fa2d9f7a2d0 thread1>) [1 thread1+0 S8 A64])) "time_analysis.c":48:5 -1
      (nil))
 (insn 34 33 35 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":48:5 -1
@@ -582,7 +582,7 @@ try_optimize_cfg iteration 2
         (reg:DI 82 [ thread1.2_1 ])) "time_analysis.c":48:5 -1
      (nil))
 (call_insn 36 35 37 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe33bedc500 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fa2d9f83500 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "time_analysis.c":48:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -595,7 +595,7 @@ try_optimize_cfg iteration 2
 (insn 38 37 39 2 (set (reg:DI 5 di)
         (reg:DI 91)) "time_analysis.c":49:5 -1
      (nil))
-(call_insn 39 38 40 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fe33bdb9400 free>) [0 __builtin_free S1 A8])
+(call_insn 39 38 40 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fa2d9e60400 free>) [0 __builtin_free S1 A8])
         (const_int 0 [0])) "time_analysis.c":49:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -609,16 +609,16 @@ try_optimize_cfg iteration 2
         (reg:DI 92)) "time_analysis.c":50:5 -1
      (nil))
 (call_insn 42 41 43 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("insertsort") [flags 0x41]  <function_decl 0x7fe33baee100 insertsort>) [0 insertsort S1 A8])
+        (call (mem:QI (symbol_ref:DI ("insertsort") [flags 0x41]  <function_decl 0x7fa2d9b95100 insertsort>) [0 insertsort S1 A8])
             (const_int 0 [0]))) "time_analysis.c":50:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 43 42 44 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC8") [flags 0x2]  <var_decl 0x7fe33bb0f1b0 *.LC8>)) "time_analysis.c":51:5 -1
+        (symbol_ref/f:DI ("*.LC8") [flags 0x2]  <var_decl 0x7fa2d9bb61b0 *.LC8>)) "time_analysis.c":51:5 -1
      (nil))
 (call_insn 44 43 45 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":51:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -673,7 +673,7 @@ try_optimize_cfg iteration 2
         (const_int 4 [0x4])) "time_analysis.c":57:21 -1
      (nil))
 (call_insn 6 5 7 2 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fe33bdbef00 malloc>) [0 __builtin_malloc S1 A8])
+        (call (mem:QI (symbol_ref:DI ("malloc") [flags 0x41]  <function_decl 0x7fa2d9e65f00 malloc>) [0 __builtin_malloc S1 A8])
             (const_int 0 [0]))) "time_analysis.c":57:21 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -702,16 +702,16 @@ try_optimize_cfg iteration 2
         (reg:DI 87)) "time_analysis.c":60:5 -1
      (nil))
 (insn 13 12 14 2 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("threadtask1") [flags 0x3]  <function_decl 0x7fe33baeeb00 threadtask1>)) "time_analysis.c":60:5 -1
+        (symbol_ref:DI ("threadtask1") [flags 0x3]  <function_decl 0x7fa2d9b95b00 threadtask1>)) "time_analysis.c":60:5 -1
      (nil))
 (insn 14 13 15 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":60:5 -1
      (nil))
 (insn 15 14 16 2 (set (reg:DI 5 di)
-        (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 0x7fe33bed3240 thread>)) "time_analysis.c":60:5 -1
+        (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 0x7fa2d9f7a240 thread>)) "time_analysis.c":60:5 -1
      (nil))
 (call_insn 16 15 17 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fe33bedc300 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7fa2d9f83300 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "time_analysis.c":60:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -721,7 +721,7 @@ try_optimize_cfg iteration 2
                 (expr_list:DI (use (reg:DI 2 cx))
                     (nil))))))
 (insn 17 16 18 2 (set (reg:DI 82 [ thread.3_1 ])
-        (mem/c:DI (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 0x7fe33bed3240 thread>) [1 thread+0 S8 A64])) "time_analysis.c":61:5 -1
+        (mem/c:DI (symbol_ref:DI ("thread") [flags 0x2]  <var_decl 0x7fa2d9f7a240 thread>) [1 thread+0 S8 A64])) "time_analysis.c":61:5 -1
      (nil))
 (insn 18 17 19 2 (set (reg:DI 4 si)
         (const_int 0 [0])) "time_analysis.c":61:5 -1
@@ -730,7 +730,7 @@ try_optimize_cfg iteration 2
         (reg:DI 82 [ thread.3_1 ])) "time_analysis.c":61:5 -1
      (nil))
 (call_insn 20 19 21 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fe33bedc500 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7fa2d9f83500 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "time_analysis.c":61:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -743,17 +743,17 @@ try_optimize_cfg iteration 2
 (insn 22 21 23 2 (set (reg:DI 5 di)
         (reg:DI 88)) "time_analysis.c":62:5 -1
      (nil))
-(call_insn 23 22 24 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fe33bdb9400 free>) [0 __builtin_free S1 A8])
+(call_insn 23 22 24 2 (call (mem:QI (symbol_ref:DI ("free") [flags 0x41]  <function_decl 0x7fa2d9e60400 free>) [0 __builtin_free S1 A8])
         (const_int 0 [0])) "time_analysis.c":62:5 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
     (expr_list:DI (use (reg:DI 5 di))
         (nil)))
 (insn 24 23 25 2 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC9") [flags 0x2]  <var_decl 0x7fe33bb0f510 *.LC9>)) "time_analysis.c":63:5 -1
+        (symbol_ref/f:DI ("*.LC9") [flags 0x2]  <var_decl 0x7fa2d9bb6510 *.LC9>)) "time_analysis.c":63:5 -1
      (nil))
 (call_insn 25 24 26 2 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fe33bda1100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7fa2d9e48100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "time_analysis.c":63:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))

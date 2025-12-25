@@ -19,7 +19,7 @@ from typing import Optional
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-# 配置文件目录：mycallyplus/配置文件/
+# 配置文件目录：mycallyplus/中间结果/<base>/配置文件/
 PROJECT_ROOT = Path(__file__).resolve().parent
 
 # 允许包外直接运行（python3 gui.py）时的导入回退
@@ -281,8 +281,8 @@ class MyCallyGUI:
             # 确定输出目录（三阶段划分 + 扁平化结构）
             base_name = self._derive_base_name(self.current_expand_path)
             
-            # 阶段3 - 配置文件目录（扁平化结构，参考test/配置文件/）
-            config_base = PROJECT_ROOT / "配置文件" / base_name
+            # 阶段3 - 配置文件目录（新位置：中间结果/<base>/配置文件）
+            config_base = PROJECT_ROOT / "中间结果" / base_name / "配置文件"
             config_base.mkdir(parents=True, exist_ok=True)
             
             # 阶段2 - 中间结果目录（处理过程中的临时文件）

@@ -146,6 +146,30 @@ class MycallyplusGUIv3:
         # 构建UI
         self._build_ui()
         self._update_status_display()
+
+    # 路径辅助：统一配置目录（新位置）
+    def _config_dir_for_base(self, base_name: str) -> Path:
+        return self.base_dir / "中间结果" / base_name / "配置文件"
+
+    # 路径辅助：兼容旧配置目录（仅读取时使用）
+    def _iter_config_dirs(self, base_name: str):
+        # 新目录优先
+        yield self._config_dir_for_base(base_name)
+        # 旧目录兼容
+        yield self.base_dir / "配置文件" / base_name
+
+    def _infer_base_from_path(self, path: Path) -> Optional[str]:
+        """从任意路径推导 base（优先匹配 '中间结果/<base>/' 段）。"""
+        try:
+            parts = path.resolve().parts
+            if "中间结果" in parts:
+                i = parts.index("中间结果")
+                if i + 1 < len(parts):
+                    return parts[i + 1]
+        except Exception:
+            pass
+        # 回退：使用当前状态或文件名推断
+        return self.state.get_base_name() or (self.state.source_file.stem if self.state.source_file else None)
     
     def _build_ui(self):
         """构建UI界面"""
@@ -805,17 +829,14 @@ class MycallyplusGUIv3:
                 if self.state.source_file
                 else self.state.get_base_name()
             )
-            config_dir = self.base_dir / "配置文件" / source_name
-            
-            if not config_dir.exists():
-                config_base = self.base_dir / "配置文件"
-                matching = [d for d in config_base.iterdir() 
-                           if d.is_dir() and d.name.startswith(self.state.get_base_name())]
-                if matching:
-                    config_dir = matching[0]
-                else:
-                    self._show_message("错误", f"未找到配置目录\n路径: {config_dir}", is_error=True)
-                    return
+            config_dir = None
+            for cand in self._iter_config_dirs(source_name):
+                if cand.exists():
+                    config_dir = cand
+                    break
+            if config_dir is None:
+                self._show_message("错误", f"未找到配置目录\n路径: {self._config_dir_for_base(source_name)}", is_error=True)
+                return
             
             dot_files = list(config_dir.glob("*_threads.dot"))
             
@@ -971,8 +992,8 @@ class MycallyplusGUIv3:
             # 更新工作目录为统一路径，避免后续模块误用配置目录
             self.state.work_dir = root_dir
 
-            # 配置文件目录：配置文件/<基名>/（legacy 会写入 <基名>_full.dot）
-            config_dir = self.base_dir / "配置文件" / base_name
+            # 配置文件目录：中间结果/<基名>/配置文件（legacy 会写入 <基名>_full.dot）
+            config_dir = self._config_dir_for_base(base_name)
             config_dir.mkdir(parents=True, exist_ok=True)
 
             # 步骤1: 调用 legacy 生成条件视图 DOT（--conditions-only）
@@ -1087,7 +1108,11 @@ class MycallyplusGUIv3:
 
             # 若尚未建立工作目录，则根据配置目录名初始化
             if self.state.work_dir is None:
-                base_name = folder.name
+                # 兼容新旧目录：如果选择的是 .../中间结果/<base>/配置文件，则 base_name = 上级目录名
+                if folder.name == "配置文件" and folder.parent.name:
+                    base_name = folder.parent.name
+                else:
+                    base_name = folder.name
                 self.state.work_dir = self.base_dir / "中间结果" / base_name
                 self.state.work_dir.mkdir(parents=True, exist_ok=True)
                 for sub in [
@@ -1516,7 +1541,12 @@ class MycallyplusGUIv3:
                 pass
             result = scheduler.longest_path_dag(nodes, edges, weights, source=source)
 
-            out_dir = json_path.parent
+            base_name = self._infer_base_from_path(json_path)
+            out_dir = None
+            if base_name:
+                out_dir = self.base_dir / "中间结果" / base_name / "调度算法"
+            else:
+                out_dir = json_path.parent / "调度算法"
             out_dir.mkdir(parents=True, exist_ok=True)
             highlight_dot_path = out_dir / "dag_highlight.dot"
             highlight_png_path = out_dir / "dag_highlight.png"

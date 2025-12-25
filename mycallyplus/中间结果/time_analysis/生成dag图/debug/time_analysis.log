@@ -1,4 +1,4 @@
-[copy] /home/chove/Desktop/mydag/mycallyplus/源文件/time_analysis -> /home/chove/Desktop/mydag/mycallyplus/中间结果/time_analysis/时间分析/time_analysis
+[copy] /home/chove/Desktop/mydag/mycallyplus_v1/源文件/time_analysis -> /home/chove/Desktop/mydag/mycallyplus/中间结果/time_analysis/时间分析/time_analysis
 [runtime] 写入 time_stat.c/h
 [include] /home/chove/Desktop/mydag/mycallyplus/中间结果/time_analysis/时间分析/time_analysis/time_analysis.c 插入 time_stat.h
 [ok] /home/chove/Desktop/mydag/mycallyplus/中间结果/time_analysis/时间分析/time_analysis/time_analysis.c:63 printf
@@ -50,6 +50,6 @@ task7结束
 task4结束
 主线程已完成
 
-[meta] 回写 /home/chove/Desktop/mydag/mycallyplus/中间结果/time_analysis/生成dag图/debug/mycalls_meta_internal.json
-[summary] 线程耗时汇总 -> /home/chove/Desktop/mydag/mycallyplus/中间结果/time_analysis/生成dag图/debug/thread_time_summary.json
-[update] 已回写统计到 /home/chove/Desktop/mydag/mycallyplus/中间结果/time_analysis/生成dag图/debug/mycalls_meta_internal.json
+[meta] 回写 /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/debug/mycalls_meta_internal.json
+[summary] 线程耗时汇总 -> /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/debug/thread_time_summary.json
+[update] 已回写统计到 /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/debug/mycalls_meta_internal.json

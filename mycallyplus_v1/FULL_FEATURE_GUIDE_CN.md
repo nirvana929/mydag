@@ -27,7 +27,7 @@
 - `mycallyplus/visualization/`：查看器（原始图/互斥锁/信号量/Tarjan）
 - `mycallyplus/ui/`：统一 GUI（整合"生成 + 可视化"）
 - 输出：
-  - 配置输出：`<base>/配置文件/<basename>/`（DOT、circle.txt、expand等）
+  - 配置输出：`<base>/中间结果/<basename>/配置文件/`（DOT、circle.txt、expand等）
   - 中间结果：`<base>/中间结果/<basename>/`（debug JSON、临时 DOT/PNG、日志等）
   - 可视化图片：`<base>/dag图/图N/…`（通过 `info.json` 做目录映射）
 
@@ -70,13 +70,13 @@ base 的取值：
   - expand 文件：直接拷贝到 `中间结果/<basename>/rtl文件/`
 - 生成 dag 图（线程视图）
   - 调用 legacy：`--threads-only --output-base <base>`
-  - 从 `<base>/配置文件/<basename>/<basename>_threads.dot` 复制到 `中间结果/<basename>/生成dag图/dag.dot`，并渲染 `dag.png`
+  - 从 `<base>/中间结果/<basename>/配置文件/<basename>_threads.dot` 复制到 `中间结果/<basename>/生成dag图/dag.dot`，并渲染 `dag.png`
 - 查看条件节点（完整视图）
   - 调用 legacy：`--conditions-only --output-base <base>`
-  - 从 `<base>/配置文件/<basename>/<basename>_full.dot` 复制为 `中间结果/<basename>/查看条件节点/conditions.dot` 并渲染 `conditions.png`
+  - 从 `<base>/中间结果/<basename>/配置文件/<basename>_full.dot` 复制为 `中间结果/<basename>/查看条件节点/conditions.dot` 并渲染 `conditions.png`
 - 生成配置文件（circle.txt）
   - 调用 legacy：`--export-txt --output-base <base>`
-  - 从 `<base>/配置文件/<basename>/circle.txt` 复制为 `中间结果/<basename>/配置文件/circle.txt`
+  - circle.txt 生成路径：`<base>/中间结果/<basename>/配置文件/circle.txt`
 - 生成原始图 / 查看互斥锁 / 生成信号量图
   - 在 `中间结果/<basename>/…` 目录下生成/展示 `original.png`、`mutex.png`、`semaphore.png/tarjan.png/threads.png`
 

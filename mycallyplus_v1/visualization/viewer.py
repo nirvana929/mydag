@@ -116,7 +116,8 @@ class TarjanGUI:
 
         # 工作路径
         self.base_dir = Path.cwd()
-        self.dot_dir = self.base_dir / "配置文件"
+        # 默认配置目录切换到中间结果/<base>/配置文件，兼容旧目录只读
+        self.dot_dir = self.base_dir / "中间结果"
         self.output_root = self.base_dir / "dag图"
         self.output_root.mkdir(parents=True, exist_ok=True)
 
@@ -428,6 +429,9 @@ class TarjanGUI:
         if not folder:
             return
         folder_path = Path(folder)
+        # 如果选的是中间结果/<base>/，自动进入其中的配置文件子目录
+        if folder_path.name != "配置文件" and (folder_path / "配置文件").exists():
+            folder_path = folder_path / "配置文件"
         if not folder_path.is_dir():
             messagebox.showerror("错误", "请选择有效的文件夹。")
             return

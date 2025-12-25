@@ -565,12 +565,12 @@ def _ensure_output_dirs(config) -> Tuple[Path, Path]:
     - intermediate_dir: 中间结果目录（处理过程中的临时文件）
     
     配置文件目录结构（阶段3 - 扁平化结构，参考test/配置文件/）：
-    mycallypro/配置文件/<basename>/
+    mycallypro/中间结果/<basename>/配置文件/
     ├── circle.txt        # 主配置文件
     ├── <basename>.dot    # DAG图文件
     ├── <basename>.c      # 源代码副本（可选）
     └── <basename>.c.233r.expand  # expand文件副本（可选）
-    
+
     中间结果目录结构（阶段2 - 临时文件）：
     mycallypro/中间结果/<basename>/
     ├── debug/            # 调试JSON文件
@@ -612,8 +612,8 @@ def _ensure_output_dirs(config) -> Tuple[Path, Path]:
         base_name = "default"
         root = Path(__file__).parent
     
-    # 配置文件目录：mycallypro/配置文件/basename/（阶段3 - 扁平化结构）
-    config_dir = root / "配置文件" / base_name
+    # 配置文件目录：mycallypro/中间结果/basename/配置文件（阶段3 - 扁平化结构）
+    config_dir = root / "中间结果" / base_name / "配置文件"
     
     # 中间结果目录：mycallypro/中间结果/basename/（阶段2 - 临时文件）
     intermediate_dir = root / "中间结果" / base_name

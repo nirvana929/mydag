@@ -1,7 +1,7 @@
 {
   "threadtask3": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/配置文件/time_analysis/time_analysis.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus_v1/配置文件/time_analysis/time_analysis.c.233r.expand"
     ],
     "calls": [
       "rad2deg",
@@ -40,7 +40,7 @@
   },
   "threadtask4": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/配置文件/time_analysis/time_analysis.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus_v1/配置文件/time_analysis/time_analysis.c.233r.expand"
     ],
     "calls": [
       "prime",
@@ -79,7 +79,7 @@
   },
   "threadtask2": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/配置文件/time_analysis/time_analysis.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus_v1/配置文件/time_analysis/time_analysis.c.233r.expand"
     ],
     "calls": [
       "malloc",
@@ -219,7 +219,7 @@
   },
   "threadtask1": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/配置文件/time_analysis/time_analysis.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus_v1/配置文件/time_analysis/time_analysis.c.233r.expand"
     ],
     "calls": [
       "malloc",
@@ -341,7 +341,7 @@
   },
   "main": {
     "files": [
-      "/home/chove/Desktop/mydag/mycallyplus/配置文件/time_analysis/time_analysis.c.233r.expand"
+      "/home/chove/Desktop/mydag/mycallyplus_v1/配置文件/time_analysis/time_analysis.c.233r.expand"
     ],
     "calls": [
       "malloc",

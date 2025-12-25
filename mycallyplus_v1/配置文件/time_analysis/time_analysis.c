@@ -22,7 +22,7 @@ void* threadtask2(void* arg) {
     *task_arg2 = 44;
     minver(arg);
     printf("task5结束\n");
-    pthread_create(&thread2, NULL, threadtask3, task_arg1);
+    pthread_create(&thread2, NULL, threadtask3, task_arg1); 
     pthread_create(&thread3, NULL, threadtask4, task_arg2);
     ndes(arg);
     printf("task6结束\n");

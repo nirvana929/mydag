@@ -82,7 +82,7 @@ time_trace("threadtask2/printf4", __ta_t0_threadtask2_printf4_24_28, __ta_t0_thr
 // TA_BEGIN: time_analysis.c:25 pthread_create
 ; /* TA_PAD */
 uint64_t __ta_t0_threadtask2_pthread_create5_25_27 = now_ns();
-    pthread_create(&thread2, NULL, threadtask3, task_arg1);
+    pthread_create(&thread2, NULL, threadtask3, task_arg1); 
 // TA_END: time_analysis.c:25 pthread_create
 uint64_t __ta_t0_threadtask2_pthread_create5_25_27_dur = now_ns() - __ta_t0_threadtask2_pthread_create5_25_27;
 time_account("threadtask2/pthread_create5", __ta_t0_threadtask2_pthread_create5_25_27_dur);
