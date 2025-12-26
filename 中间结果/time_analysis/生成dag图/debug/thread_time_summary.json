@@ -1,0 +1,22 @@
+{
+  "threadtask3": {
+    "total_ns": 604,
+    "count": 2
+  },
+  "threadtask4": {
+    "total_ns": 468,
+    "count": 2
+  },
+  "threadtask2": {
+    "total_ns": 141243,
+    "count": 14
+  },
+  "threadtask1": {
+    "total_ns": 234547,
+    "count": 12
+  },
+  "main": {
+    "total_ns": 366241,
+    "count": 5
+  }
+}
