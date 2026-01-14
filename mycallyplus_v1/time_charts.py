@@ -173,6 +173,56 @@ def render_thread_total_time_png(
     )
 
 
+# ===================== Compare charts =====================
+
+
+def render_program_compare_png(
+    metrics_a: Mapping,
+    metrics_b: Mapping,
+    *,
+    labels: Tuple[str, str],
+    output_dir: Path,
+    filename: str = "metrics_compare_program.png",
+) -> Path:
+    total_a = int(metrics_a.get("program_total_ns", 0) or 0)
+    total_b = int(metrics_b.get("program_total_ns", 0) or 0)
+    return _render_grouped_bar_png(
+        categories=["program_total_ns"],
+        values_a=[total_a],
+        values_b=[total_b],
+        labels=labels,
+        title="Program Total Execution Time (ns)",
+        ylabel="Time (ns)",
+        output_dir=output_dir,
+        filename=filename,
+    )
+
+
+def render_thread_compare_png(
+    metrics_a: Mapping,
+    metrics_b: Mapping,
+    *,
+    labels: Tuple[str, str],
+    output_dir: Path,
+    filename: str = "metrics_compare_threads.png",
+) -> Path:
+    threads_a = metrics_a.get("thread_time_ns", {}) or {}
+    threads_b = metrics_b.get("thread_time_ns", {}) or {}
+    all_threads = sorted(set(threads_a.keys()) | set(threads_b.keys()))
+    vals_a = [int((threads_a.get(t) or {}).get("total_ns", 0) or 0) for t in all_threads]
+    vals_b = [int((threads_b.get(t) or {}).get("total_ns", 0) or 0) for t in all_threads]
+    return _render_grouped_bar_png(
+        categories=all_threads,
+        values_a=vals_a,
+        values_b=vals_b,
+        labels=labels,
+        title="Thread Total Execution Time (ns)",
+        ylabel="Time (ns)",
+        output_dir=output_dir,
+        filename=filename,
+    )
+
+
 def render_thread_gantt_png(
     events: List[TraceEvent],
     *,
@@ -390,6 +440,84 @@ def _render_bar_png(
             fontweight="bold",
             color="#111111",
         )
+
+    fig.tight_layout()
+    fig.savefig(out_path, bbox_inches="tight", facecolor=fig.get_facecolor())
+    plt.close(fig)
+    return out_path
+
+
+def _render_grouped_bar_png(
+    categories: List[str],
+    values_a: List[int],
+    values_b: List[int],
+    *,
+    labels: Tuple[str, str],
+    title: str,
+    ylabel: str,
+    output_dir: Path,
+    filename: str,
+) -> Path:
+    output_dir = output_dir.expanduser().resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    out_path = output_dir / filename
+    if out_path.exists():
+        stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        out_path = output_dir / f"{out_path.stem}_{stamp}{out_path.suffix}"
+
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from matplotlib.ticker import StrMethodFormatter
+
+    cats = list(categories)
+    a = [int(v) for v in values_a]
+    b = [int(v) for v in values_b]
+
+    width = max(9.0, 1.2 * max(1, len(cats)))
+    height = max(5.0, 0.6 * len(cats) + 2.4)
+    fig, ax = plt.subplots(figsize=(width, height), dpi=160)
+
+    try:
+        plt.style.use("seaborn-v0_8-whitegrid")
+    except Exception:
+        pass
+
+    xs = np.arange(len(cats))
+    bar_w = 0.35
+    bars1 = ax.bar(xs - bar_w / 2, a, bar_w, label=labels[0], color="#64B5F6", edgecolor="#2f2f2f", linewidth=0.6)
+    bars2 = ax.bar(xs + bar_w / 2, b, bar_w, label=labels[1], color="#E57373", edgecolor="#2f2f2f", linewidth=0.6)
+
+    ax.set_title(title, fontsize=16, fontweight="bold", pad=14)
+    ax.set_ylabel(ylabel, fontsize=12)
+    ax.set_xticks(xs)
+    ax.set_xticklabels(cats, fontsize=11)
+    ax.yaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
+    ax.grid(axis="y", linestyle="-", alpha=0.28)
+    ax.set_axisbelow(True)
+    ax.legend()
+
+    if len(cats) > 6:
+        plt.setp(ax.get_xticklabels(), rotation=20, ha="right")
+
+    max_v = max(a + b) if (a or b) else 0
+    pad = max(1, int(max_v * 0.02))
+    ax.set_ylim(0, max_v + pad * 10)
+
+    for bars, vals in ((bars1, a), (bars2, b)):
+        for bar, val in zip(bars, vals):
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                bar.get_height() + pad,
+                f"{val:,}",
+                ha="center",
+                va="bottom",
+                fontsize=10,
+                color="#111111",
+            )
 
     fig.tight_layout()
     fig.savefig(out_path, bbox_inches="tight", facecolor=fig.get_facecolor())

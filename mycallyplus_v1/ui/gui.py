@@ -15,9 +15,11 @@ import subprocess
 import shutil
 import random
 import re
+import json
 from PIL import Image, ImageTk
 
-from mycallyplus import filter_dot, time_analysis, time_charts, scheduler
+# 使用包内模块，避免与非 v1 版本混淆
+from mycallyplus_v1 import filter_dot, time_analysis, time_charts, scheduler
 
 try:
     import networkx as nx
@@ -1509,10 +1511,13 @@ class MycallyplusGUIv3:
         """按钮8: 调度算法 - 最长路径（带权 DAG）"""
         self._set_subfunc_toolbar([
             ("生成最长路径", self._scheduler_longest_path),
+            ("CPC分析", self._scheduler_cpc),
+            ("CPC优先级插桩", self._scheduler_cpc_instrument),
+            ("实验结果对比", self._scheduler_compare_metrics),
         ])
         self._show_message(
             "提示",
-            "请选择 DAG 的 DOT 文件与 time_result.json，生成带权 DAG 并计算最长路径。",
+            "请选择 DAG 的 DOT 文件与 time_result.json，生成带权 DAG 并计算最长路径；或执行 CPC 分析/优先级插桩。",
         )
 
     def _scheduler_longest_path(self):
@@ -1594,6 +1599,168 @@ class MycallyplusGUIv3:
             # scheduler.longest_path_dag 会在有环时给出中文报错
             self._show_message("错误", f"生成最长路径失败:\n{e}", is_error=True)
 
+    def _scheduler_cpc(self):
+        dot_str = filedialog.askopenfilename(
+            title="选择 DAG DOT 文件",
+            filetypes=[("DOT文件", "*.dot"), ("所有文件", "*.*")],
+        )
+        if not dot_str:
+            return
+        time_json_str = filedialog.askopenfilename(
+            title="选择 time_result.json",
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not time_json_str:
+            return
+        longest_json_str = filedialog.askopenfilename(
+            title="选择 longest_path.json",
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not longest_json_str:
+            return
+
+        dot_path = Path(dot_str)
+        time_json_path = Path(time_json_str)
+        longest_json_path = Path(longest_json_str)
+
+        try:
+            nodes, edges = scheduler.parse_dot_edges(dot_path)
+            weights = scheduler.load_time_result_weights(time_json_path)
+            longest = json.loads(longest_json_path.read_text(encoding="utf-8"))
+            longest_path_nodes = longest.get("path", [])
+
+            if not longest_path_nodes:
+                raise RuntimeError("longest_path.json 中缺少 path 字段或为空。")
+
+            result = scheduler.compute_cpc_priorities(
+                nodes,
+                edges,
+                weights,
+                longest_path_nodes,
+                m=2,
+            )
+
+            base_name = self._infer_base_from_path(time_json_path)
+            out_dir = None
+            if base_name:
+                out_dir = self.base_dir / "中间结果" / base_name / "调度算法" / "cpc"
+            else:
+                out_dir = time_json_path.parent / "调度算法" / "cpc"
+            out_dir.mkdir(parents=True, exist_ok=True)
+
+            highlight_dot_path = out_dir / "dag_highlight.dot"
+            highlight_png_path = out_dir / "dag_highlight.png"
+            schedule_json_path = out_dir / "schedule.json"
+            schedule_txt_path = out_dir / "schedule.txt"
+
+            original_dot_text = dot_path.read_text(encoding="utf-8", errors="replace")
+            highlight_text = scheduler.apply_priorities_to_dot(
+                original_dot_text,
+                priorities=result.priorities,
+                node_weight_ns=result.node_weight_ns,
+                longest_path=result.longest_path,
+            )
+            highlight_dot_path.write_text(highlight_text, encoding="utf-8")
+
+            scheduler.write_cpc_schedule_json(
+                schedule_json_path,
+                dot_path=dot_path,
+                time_json_path=time_json_path,
+                longest_json_path=longest_json_path,
+                result=result,
+            )
+            schedule_txt_path.write_text(
+                "CPC 节点优先级（m=2，缺权重置 0）：\n"
+                f"provider 段数: {len(result.providers)}\n"
+                f"节点数: {len(result.priorities)}\n"
+                + "\n".join(f"{n}: prio={p}, weight={result.node_weight_ns.get(n,0)}"
+                            for n, p in sorted(result.priorities.items(), key=lambda kv: -kv[1])),
+                encoding="utf-8",
+            )
+
+            subprocess.run(
+                ["dot", "-Tpng", str(highlight_dot_path), "-o", str(highlight_png_path)],
+                check=True,
+                capture_output=True,
+            )
+            self._display_image(highlight_png_path)
+            self._show_message(
+                "成功",
+                "CPC 分析完成：\n"
+                f"DOT: {highlight_dot_path}\n"
+                f"PNG: {highlight_png_path}\n"
+                f"JSON: {schedule_json_path}",
+            )
+        except Exception as e:
+            self._show_message("错误", f"CPC 分析失败:\n{e}", is_error=True)
+
+    def _scheduler_cpc_instrument(self):
+        src_str = filedialog.askopenfilename(
+            title="选择源代码文件（C）",
+            filetypes=[("C源文件", "*.c"), ("所有文件", "*.*")],
+        )
+        if not src_str:
+            return
+        meta_str = filedialog.askopenfilename(
+            title="选择 mycalls_meta_internal.json",
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not meta_str:
+            return
+        schedule_str = filedialog.askopenfilename(
+            title="选择 CPC schedule.json",
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not schedule_str:
+            return
+
+        src_path = Path(src_str)
+        meta_path = Path(meta_str)
+        schedule_path = Path(schedule_str)
+
+        try:
+            sched_data = json.loads(schedule_path.read_text(encoding="utf-8"))
+            priorities = sched_data.get("priorities")
+            if not isinstance(priorities, dict):
+                raise RuntimeError("schedule.json 中未找到 priorities 对象。")
+
+            result = time_analysis.run_time_analysis(
+                src_path,
+                meta_path,
+                self.base_dir,
+                priorities=priorities,
+                cpc_mode=True,
+            )
+
+            base_name = self._infer_base_from_path(meta_path) or src_path.stem
+            out_dir = self.base_dir / "中间结果" / base_name / "调度算法" / "cpc分析结果"
+            out_dir.mkdir(parents=True, exist_ok=True)
+
+            # 复制相关输出便于对比
+            shutil.copy2(result.result_json, out_dir / "time_result.json")
+            if result.prio_result_json:
+                shutil.copy2(result.prio_result_json, out_dir / "time_result_prio.json")
+            if result.prio_weighted_dot:
+                shutil.copy2(result.prio_weighted_dot, out_dir / "dag_weighted_prio.dot")
+            weighted_src = result.result_json.parent / "dag_weighted.dot"
+            if weighted_src.exists():
+                shutil.copy2(weighted_src, out_dir / "dag_weighted.dot")
+            summary_src = meta_path.parent / "thread_time_summary.json"
+            if summary_src.exists():
+                shutil.copy2(summary_src, out_dir / "thread_time_summary.json")
+            if result.metrics_json and result.metrics_json.exists():
+                shutil.copy2(result.metrics_json, out_dir / result.metrics_json.name)
+
+            self._show_message(
+                "成功",
+                "已完成 CPC 优先级插桩时间分析：\n"
+                f"输出目录: {out_dir}\n"
+                f"基础结果: {out_dir / 'time_result.json'}\n"
+                f"优先级结果: {out_dir / 'time_result_prio.json'}",
+            )
+        except Exception as e:
+            self._show_message("错误", f"CPC 插桩时间分析失败:\n{e}", is_error=True)
+
     def _select_ta_source_file(self):
         path_str = filedialog.askopenfilename(
             title="选择C源文件（时间分析）",
@@ -1631,11 +1798,62 @@ class MycallyplusGUIv3:
                 "时间分析完成：\n"
                 f"插桩目录: {result.instrumented_dir}\n"
                 f"结果: {result.result_json}\n"
+                f"指标: {result.metrics_json}\n"
                 f"Trace: {trace_path}\n"
                 f"日志: {result.log_path}",
             )
         except Exception as e:
             self._show_message("错误", f"时间分析失败:\n{e}", is_error=True)
+
+    def _scheduler_compare_metrics(self):
+        file_a = filedialog.askopenfilename(
+            title="选择指标文件 A (metrics*.json)",
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not file_a:
+            return
+        file_b = filedialog.askopenfilename(
+            title="选择指标文件 B (metrics*.json)",
+            filetypes=[("JSON文件", "*.json"), ("所有文件", "*.*")],
+        )
+        if not file_b:
+            return
+
+        path_a = Path(file_a)
+        path_b = Path(file_b)
+        try:
+            m_a = json.loads(path_a.read_text(encoding="utf-8"))
+            m_b = json.loads(path_b.read_text(encoding="utf-8"))
+            base_name = self._infer_base_from_path(path_a) or self._infer_base_from_path(path_b) or "compare"
+            root_dir = self.base_dir / "中间结果" / base_name / "调度算法" / "compare"
+            ts_dir = root_dir / datetime.now().strftime("%Y%m%d_%H%M%S")
+            out_dir = ts_dir
+            out_dir.mkdir(parents=True, exist_ok=True)
+
+            lbl_a = path_a.stem
+            lbl_b = path_b.stem
+
+            prog_png = time_charts.render_program_compare_png(
+                m_a,
+                m_b,
+                labels=(lbl_a, lbl_b),
+                output_dir=out_dir,
+            )
+            thread_png = time_charts.render_thread_compare_png(
+                m_a,
+                m_b,
+                labels=(lbl_a, lbl_b),
+                output_dir=out_dir,
+            )
+            self._display_image(thread_png)
+            self._show_message(
+                "成功",
+                "已生成指标对比图：\n"
+                f"总耗时对比: {prog_png}\n"
+                f"线程耗时对比: {thread_png}",
+            )
+        except Exception as e:
+            self._show_message("错误", f"指标对比失败:\n{e}", is_error=True)
 
     def _pick_time_analysis_json(self, title: str) -> Optional[Path]:
         path_str = filedialog.askopenfilename(

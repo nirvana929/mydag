@@ -43,9 +43,9 @@ task1结束
 task2结束
 task3结束
 task5结束
-task8结束
 task6结束
 task9结束
+task8结束
 task7结束
 task4结束
 主线程已完成
@@ -53,3 +53,5 @@ task4结束
 [meta] 回写 /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/debug/mycalls_meta_internal.json
 [summary] 线程耗时汇总 -> /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/debug/thread_time_summary.json
 [update] 已回写统计到 /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/debug/mycalls_meta_internal.json
+[metrics] -> /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/时间分析/time_analysis/metrics.json
+[weighted_dag] /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/dag.dot + time_result -> /home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/时间分析/time_analysis/dag_weighted.dot

@@ -1,0 +1,807 @@
+
+;; Function px4_mavlink_debug_main (px4_mavlink_debug_main, funcdef_no=134, decl_uid=6730, cgraph_uid=135, symbol_order=134)
+
+Partition 3: size 256 align 16
+	dbg_array
+Partition 2: size 32 align 16
+	dbg_vect
+Partition 0: size 24 align 16
+	dbg_key
+Partition 1: size 16 align 16
+	dbg_ind
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+;; Generating RTL for gimple basic block 4
+
+;; Generating RTL for gimple basic block 5
+
+;; Generating RTL for gimple basic block 6
+Predictions for insn 218 bb 8
+  first match heuristics: 99.96%  exec 183295 (estimated locally) hit 366590 (estimated locally) (200.0%)
+  combined heuristics: 99.96%  exec 183295 (estimated locally) hit 366590 (estimated locally) (200.0%)
+  noreturn call heuristics: 99.96%  exec 183295 (estimated locally) hit 366590 (estimated locally) (200.0%)
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Removing jump 213.
+Merging block 8 into block 7...
+Merged blocks 7 and 8.
+Merged 7 and 8 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 9 NOTE_INSN_DELETED)
+(note 9 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 9 3 2 (set (reg/v:SI 98 [ argc ])
+        (reg:SI 5 di [ argc ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":59:1 -1
+     (nil))
+(insn 3 2 4 2 (set (reg/v/f:DI 99 [ argv ])
+        (reg:DI 4 si [ argv ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":59:1 -1
+     (nil))
+(note 4 3 5 2 NOTE_INSN_FUNCTION_BEG)
+(insn 5 4 6 2 (set (reg/f:DI 100)
+        (const_int 40 [0x28])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":59:1 -1
+     (nil))
+(insn 6 5 11 2 (parallel [
+            (set (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                        (const_int -8 [0xfffffffffffffff8])) [4 D.6944+0 S8 A64])
+                (unspec:DI [
+                        (mem/v/f:DI (reg/f:DI 100) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_SET))
+            (set (scratch:DI)
+                (const_int 0 [0]))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":59:1 -1
+     (nil))
+(debug_insn 11 6 12 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":60:2 -1
+     (nil))
+(debug_insn 12 11 13 2 (var_location:DI __fmt (const_string:DI ("Hello Debug!
+"))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":60:2 -1
+     (nil))
+(debug_insn 13 12 14 2 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":105:1 -1
+     (nil))
+(debug_insn 14 13 15 2 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":107:3 -1
+     (nil))
+(insn 15 14 16 2 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f276e624d80 *.LC0>)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":107:23 -1
+     (nil))
+(call_insn 16 15 17 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f276eae1c00 __builtin_puts>) [0 __builtin_puts S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":107:23 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f276eae1c00 __builtin_puts>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 17 16 18 2 (var_location:DI __fmt (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":60:8 -1
+     (nil))
+(debug_insn 18 17 19 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":63:2 -1
+     (nil))
+(debug_insn 19 18 20 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":64:2 -1
+     (nil))
+(debug_insn 20 19 21 2 (var_location:DI __dest (plus:DI (reg/f:DI 77 virtual-stack-vars)
+        (const_int -324 [0xfffffffffffffebc]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":64:2 -1
+     (nil))
+(debug_insn 21 20 22 2 (var_location:DI __src (const_string:DI ("velx"))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":64:2 -1
+     (nil))
+(debug_insn 22 21 23 2 (var_location:DI __len (const_int 10 [0xa])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":64:2 -1
+     (nil))
+(debug_insn 23 22 24 2 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":103:1 -1
+     (nil))
+(debug_insn 24 23 25 2 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:3 -1
+     (nil))
+(insn 25 24 26 2 (parallel [
+            (set (reg:DI 101)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -336 [0xfffffffffffffeb0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(insn 26 25 27 2 (parallel [
+            (set (reg:DI 102)
+                (plus:DI (reg:DI 101)
+                    (const_int 12 [0xc])))
+            (clobber (reg:CC 17 flags))
+        ]) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(insn 27 26 28 2 (set (mem/c:DI (reg:DI 102) [0 MEM[(void *)&dbg_key + 12B]+0 S8 A32])
+        (const_int 2020369782 [0x786c6576])) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(insn 28 27 29 2 (set (mem/c:HI (plus:DI (reg:DI 102)
+                (const_int 8 [0x8])) [0 MEM[(void *)&dbg_key + 12B]+8 S2 A32])
+        (const_int 0 [0])) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(debug_insn 29 28 30 2 (var_location:DI __dest (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":64:9 -1
+     (nil))
+(debug_insn 30 29 31 2 (var_location:DI __src (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":64:9 -1
+     (nil))
+(debug_insn 31 30 32 2 (var_location:DI __len (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":64:9 -1
+     (nil))
+(debug_insn 32 31 33 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":65:2 -1
+     (nil))
+(insn 33 32 34 2 (set (reg:SF 103)
+        (mem/u/c:SF (symbol_ref/u:DI ("*.LC1") [flags 0x2]) [0  S4 A32])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":65:16 -1
+     (nil))
+(insn 34 33 35 2 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -328 [0xfffffffffffffeb8])) [1 dbg_key.value+0 S4 A64])
+        (reg:SF 103)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":65:16 -1
+     (nil))
+(debug_insn 35 34 36 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:2 -1
+     (nil))
+(insn 36 35 37 2 (parallel [
+            (set (reg:DI 104)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -336 [0xfffffffffffffeb0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:42 -1
+     (nil))
+(insn 37 36 38 2 (set (reg:DI 4 si)
+        (reg:DI 104)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:42 -1
+     (nil))
+(insn 38 37 39 2 (set (reg:DI 105)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_key_value") [flags 0x40]  <var_decl 0x7f276e577510 __orb_debug_key_value>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:42 -1
+     (nil))
+(insn 39 38 40 2 (set (reg:DI 5 di)
+        (reg:DI 105)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:42 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_key_value") [flags 0x40]  <var_decl 0x7f276e577510 __orb_debug_key_value>)
+        (nil)))
+(call_insn 40 39 41 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>) [0 orb_advertise S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:42 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 41 40 42 2 (set (reg/f:DI 89 [ _15 ])
+        (reg:DI 0 ax)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:42 -1
+     (nil))
+(debug_insn 42 41 43 2 (var_location:DI pub_dbg_key (reg/f:DI 89 [ _15 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":66:42 -1
+     (nil))
+(debug_insn 43 42 44 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":69:2 -1
+     (nil))
+(debug_insn 44 43 45 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":70:2 -1
+     (nil))
+(insn 45 44 46 2 (set (mem/c:QI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -340 [0xfffffffffffffeac])) [0 dbg_ind.ind+0 S1 A32])
+        (const_int 42 [0x2a])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":70:14 -1
+     (nil))
+(debug_insn 46 45 47 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":71:2 -1
+     (nil))
+(insn 47 46 48 2 (set (reg:SF 106)
+        (mem/u/c:SF (symbol_ref/u:DI ("*.LC2") [flags 0x2]) [0  S4 A32])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":71:16 -1
+     (nil))
+(insn 48 47 49 2 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -344 [0xfffffffffffffea8])) [1 dbg_ind.value+0 S4 A64])
+        (reg:SF 106)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":71:16 -1
+     (nil))
+(debug_insn 49 48 50 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:2 -1
+     (nil))
+(insn 50 49 51 2 (parallel [
+            (set (reg:DI 107)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -352 [0xfffffffffffffea0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:42 -1
+     (nil))
+(insn 51 50 52 2 (set (reg:DI 4 si)
+        (reg:DI 107)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:42 -1
+     (nil))
+(insn 52 51 53 2 (set (reg:DI 108)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_value") [flags 0x40]  <var_decl 0x7f276e5775a0 __orb_debug_value>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:42 -1
+     (nil))
+(insn 53 52 54 2 (set (reg:DI 5 di)
+        (reg:DI 108)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:42 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_value") [flags 0x40]  <var_decl 0x7f276e5775a0 __orb_debug_value>)
+        (nil)))
+(call_insn 54 53 55 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>) [0 orb_advertise S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:42 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 55 54 56 2 (set (reg/f:DI 90 [ _19 ])
+        (reg:DI 0 ax)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:42 -1
+     (nil))
+(debug_insn 56 55 57 2 (var_location:DI pub_dbg_ind (reg/f:DI 90 [ _19 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":72:42 -1
+     (nil))
+(debug_insn 57 56 58 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":75:2 -1
+     (nil))
+(debug_insn 58 57 59 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":76:2 -1
+     (nil))
+(debug_insn 59 58 60 2 (var_location:DI __dest (plus:DI (reg/f:DI 77 virtual-stack-vars)
+        (const_int -284 [0xfffffffffffffee4]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":76:2 -1
+     (nil))
+(debug_insn 60 59 61 2 (var_location:DI __src (const_string:DI ("vel3D"))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":76:2 -1
+     (nil))
+(debug_insn 61 60 62 2 (var_location:DI __len (const_int 10 [0xa])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":76:2 -1
+     (nil))
+(debug_insn 62 61 63 2 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":103:1 -1
+     (nil))
+(debug_insn 63 62 64 2 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:3 -1
+     (nil))
+(insn 64 63 65 2 (parallel [
+            (set (reg:DI 109)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -304 [0xfffffffffffffed0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(insn 65 64 66 2 (parallel [
+            (set (reg:DI 110)
+                (plus:DI (reg:DI 109)
+                    (const_int 20 [0x14])))
+            (clobber (reg:CC 17 flags))
+        ]) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(insn 66 65 67 2 (set (reg:DI 111)
+        (const_int 292920518006 [0x44336c6576])) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(insn 67 66 68 2 (set (mem/c:DI (reg:DI 110) [0 MEM[(void *)&dbg_vect + 20B]+0 S8 A32])
+        (reg:DI 111)) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(insn 68 67 69 2 (set (mem/c:HI (plus:DI (reg:DI 110)
+                (const_int 8 [0x8])) [0 MEM[(void *)&dbg_vect + 20B]+8 S2 A32])
+        (const_int 0 [0])) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:34 -1
+     (nil))
+(debug_insn 69 68 70 2 (var_location:DI __dest (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":76:9 -1
+     (nil))
+(debug_insn 70 69 71 2 (var_location:DI __src (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":76:9 -1
+     (nil))
+(debug_insn 71 70 72 2 (var_location:DI __len (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":76:9 -1
+     (nil))
+(debug_insn 72 71 73 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":77:2 -1
+     (nil))
+(debug_insn 73 72 74 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":78:2 -1
+     (nil))
+(debug_insn 74 73 75 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":79:2 -1
+     (nil))
+(insn 75 74 76 2 (set (reg:DI 112)
+        (const_int 4611686019492741120 [0x400000003f800000])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":77:13 -1
+     (nil))
+(insn 76 75 77 2 (set (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -296 [0xfffffffffffffed8])) [0 MEM[(float *)&dbg_vect + 8B]+0 S8 A64])
+        (reg:DI 112)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":77:13 -1
+     (nil))
+(insn 77 76 78 2 (set (reg:SF 113)
+        (mem/u/c:SF (symbol_ref/u:DI ("*.LC3") [flags 0x2]) [0  S4 A32])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":79:13 -1
+     (nil))
+(insn 78 77 79 2 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -288 [0xfffffffffffffee0])) [1 dbg_vect.z+0 S4 A128])
+        (reg:SF 113)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":79:13 -1
+     (nil))
+(debug_insn 79 78 80 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:2 -1
+     (nil))
+(insn 80 79 81 2 (parallel [
+            (set (reg:DI 114)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -304 [0xfffffffffffffed0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:43 -1
+     (nil))
+(insn 81 80 82 2 (set (reg:DI 4 si)
+        (reg:DI 114)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:43 -1
+     (nil))
+(insn 82 81 83 2 (set (reg:DI 115)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_vect") [flags 0x40]  <var_decl 0x7f276e5776c0 __orb_debug_vect>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:43 -1
+     (nil))
+(insn 83 82 84 2 (set (reg:DI 5 di)
+        (reg:DI 115)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:43 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_vect") [flags 0x40]  <var_decl 0x7f276e5776c0 __orb_debug_vect>)
+        (nil)))
+(call_insn 84 83 85 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>) [0 orb_advertise S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:43 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 85 84 86 2 (set (reg/f:DI 91 [ _24 ])
+        (reg:DI 0 ax)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:43 -1
+     (nil))
+(debug_insn 86 85 87 2 (var_location:DI pub_dbg_vect (reg/f:DI 91 [ _24 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":80:43 -1
+     (nil))
+(debug_insn 87 86 88 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":83:2 -1
+     (nil))
+(debug_insn 88 87 89 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":84:2 -1
+     (nil))
+(insn 89 88 90 2 (set (mem/c:HI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -32 [0xffffffffffffffe0])) [2 dbg_array.id+0 S2 A128])
+        (const_int 1 [0x1])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":84:15 -1
+     (nil))
+(debug_insn 90 89 91 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":85:2 -1
+     (nil))
+(debug_insn 91 90 92 2 (var_location:DI __dest (plus:DI (reg/f:DI 77 virtual-stack-vars)
+        (const_int -30 [0xffffffffffffffe2]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":85:2 -1
+     (nil))
+(debug_insn 92 91 93 2 (var_location:DI __src (const_string:DI ("dbg_array"))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":85:2 -1
+     (nil))
+(debug_insn 93 92 94 2 (var_location:DI __len (const_int 10 [0xa])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":85:2 -1
+     (nil))
+(debug_insn 94 93 95 2 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/string_fortified.h":106:3 -1
+     (nil))
+(insn 95 94 96 2 (set (reg:DI 116)
+        (const_int 7021800531562029668 [0x617272615f676264])) -1
+     (nil))
+(insn 96 95 97 2 (set (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -30 [0xffffffffffffffe2])) [0 MEM[(char * {ref-all})&dbg_array + 242B]+0 S8 A16])
+        (reg:DI 116)) -1
+     (nil))
+(insn 97 96 98 2 (set (mem/c:HI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -22 [0xffffffffffffffea])) [0 MEM[(char * {ref-all})&dbg_array + 242B]+8 S2 A16])
+        (const_int 121 [0x79])) -1
+     (nil))
+(debug_insn 98 97 99 2 (var_location:DI __dest (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":85:9 -1
+     (nil))
+(debug_insn 99 98 100 2 (var_location:DI __src (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":85:9 -1
+     (nil))
+(debug_insn 100 99 101 2 (var_location:DI __len (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":85:9 -1
+     (nil))
+(debug_insn 101 100 102 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:2 -1
+     (nil))
+(insn 102 101 103 2 (parallel [
+            (set (reg:DI 117)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -272 [0xfffffffffffffef0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (nil))
+(insn 103 102 104 2 (set (reg:DI 4 si)
+        (reg:DI 117)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (nil))
+(insn 104 103 105 2 (set (reg:DI 118)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_array") [flags 0x40]  <var_decl 0x7f276e577ea0 __orb_debug_array>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (nil))
+(insn 105 104 106 2 (set (reg:DI 5 di)
+        (reg:DI 118)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_array") [flags 0x40]  <var_decl 0x7f276e577ea0 __orb_debug_array>)
+        (nil)))
+(call_insn 106 105 107 2 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>) [0 orb_advertise S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_advertise") [flags 0x41]  <function_decl 0x7f276e5e7200 orb_advertise>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (nil))))
+(insn 107 106 108 2 (set (reg/f:DI 92 [ _27 ])
+        (reg:DI 0 ax)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (nil))
+(debug_insn 108 107 109 2 (var_location:DI pub_dbg_array (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (nil))
+(debug_insn 109 108 110 2 (var_location:SI value_counter (const_int 0 [0])) -1
+     (nil))
+(debug_insn 110 109 111 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":90:2 -1
+     (nil))
+(debug_insn 111 110 7 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":90:23 -1
+     (nil))
+(insn 7 111 207 2 (set (reg/v:SI 95 [ value_counter ])
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":88:6 -1
+     (nil))
+(code_label 207 7 112 4 3 (nil) [1 uses])
+(note 112 207 113 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 113 112 114 4 (var_location:DI pub_dbg_array (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (nil))
+(debug_insn 114 113 115 4 (var_location:SI value_counter (reg/v:SI 95 [ value_counter ])) -1
+     (nil))
+(debug_insn 115 114 116 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":91:3 -1
+     (nil))
+(call_insn 116 115 117 4 (set (reg:DI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("hrt_absolute_time") [flags 0x41]  <function_decl 0x7f276e5ccd00 hrt_absolute_time>) [0 hrt_absolute_time S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":91:44 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("hrt_absolute_time") [flags 0x41]  <function_decl 0x7f276e5ccd00 hrt_absolute_time>)
+        (nil))
+    (nil))
+(insn 117 116 118 4 (set (reg:DI 93 [ _29 ])
+        (reg:DI 0 ax)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":91:44 -1
+     (nil))
+(debug_insn 118 117 119 4 (var_location:DI timestamp_us (reg:DI 93 [ _29 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":91:44 -1
+     (nil))
+(debug_insn 119 118 120 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":94:3 -1
+     (nil))
+(insn 120 119 121 4 (set (reg:SF 82 [ _1 ])
+        (float:SF (reg/v:SI 95 [ value_counter ]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":94:17 -1
+     (nil))
+(insn 121 120 122 4 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -328 [0xfffffffffffffeb8])) [1 dbg_key.value+0 S4 A64])
+        (reg:SF 82 [ _1 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":94:17 -1
+     (nil))
+(debug_insn 122 121 123 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":95:3 -1
+     (nil))
+(insn 123 122 124 4 (set (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -336 [0xfffffffffffffeb0])) [3 dbg_key.timestamp+0 S8 A128])
+        (reg:DI 93 [ _29 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":95:21 -1
+     (nil))
+(debug_insn 124 123 125 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":96:3 -1
+     (nil))
+(insn 125 124 126 4 (parallel [
+            (set (reg:DI 119)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -336 [0xfffffffffffffeb0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":96:14 -1
+     (nil))
+(insn 126 125 127 4 (set (reg:DI 1 dx)
+        (reg:DI 119)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":96:14 -1
+     (nil))
+(insn 127 126 128 4 (set (reg:DI 4 si)
+        (reg/f:DI 89 [ _15 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":96:14 -1
+     (nil))
+(insn 128 127 129 4 (set (reg:DI 120)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_key_value") [flags 0x40]  <var_decl 0x7f276e577510 __orb_debug_key_value>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":96:14 -1
+     (nil))
+(insn 129 128 130 4 (set (reg:DI 5 di)
+        (reg:DI 120)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":96:14 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_key_value") [flags 0x40]  <var_decl 0x7f276e577510 __orb_debug_key_value>)
+        (nil)))
+(call_insn 130 129 131 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>) [0 orb_publish S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":96:14 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(debug_insn 131 130 132 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":99:3 -1
+     (nil))
+(insn 132 131 133 4 (set (reg:SF 122)
+        (mem/u/c:SF (symbol_ref/u:DI ("*.LC2") [flags 0x2]) [0  S4 A32])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":99:24 -1
+     (expr_list:REG_EQUAL (const_double:SF 5.0e-1 [0x0.8p+0])
+        (nil)))
+(insn 133 132 134 4 (set (reg:SF 121)
+        (mult:SF (reg:SF 82 [ _1 ])
+            (reg:SF 122))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":99:24 -1
+     (nil))
+(insn 134 133 135 4 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -344 [0xfffffffffffffea8])) [1 dbg_ind.value+0 S4 A64])
+        (reg:SF 121)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":99:17 -1
+     (nil))
+(debug_insn 135 134 136 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":100:3 -1
+     (nil))
+(insn 136 135 137 4 (set (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -352 [0xfffffffffffffea0])) [3 dbg_ind.timestamp+0 S8 A128])
+        (reg:DI 93 [ _29 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":100:21 -1
+     (nil))
+(debug_insn 137 136 138 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":101:3 -1
+     (nil))
+(insn 138 137 139 4 (parallel [
+            (set (reg:DI 123)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -352 [0xfffffffffffffea0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":101:14 -1
+     (nil))
+(insn 139 138 140 4 (set (reg:DI 1 dx)
+        (reg:DI 123)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":101:14 -1
+     (nil))
+(insn 140 139 141 4 (set (reg:DI 4 si)
+        (reg/f:DI 90 [ _19 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":101:14 -1
+     (nil))
+(insn 141 140 142 4 (set (reg:DI 124)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_value") [flags 0x40]  <var_decl 0x7f276e5775a0 __orb_debug_value>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":101:14 -1
+     (nil))
+(insn 142 141 143 4 (set (reg:DI 5 di)
+        (reg:DI 124)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":101:14 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_value") [flags 0x40]  <var_decl 0x7f276e5775a0 __orb_debug_value>)
+        (nil)))
+(call_insn 143 142 144 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>) [0 orb_publish S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":101:14 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(debug_insn 144 143 145 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":104:3 -1
+     (nil))
+(insn 145 144 146 4 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -296 [0xfffffffffffffed8])) [1 dbg_vect.x+0 S4 A64])
+        (reg:SF 82 [ _1 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":104:14 -1
+     (nil))
+(debug_insn 146 145 147 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":105:3 -1
+     (nil))
+(insn 147 146 148 4 (set (reg:SF 125)
+        (plus:SF (reg:SF 82 [ _1 ])
+            (reg:SF 82 [ _1 ]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":105:21 -1
+     (nil))
+(insn 148 147 149 4 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -292 [0xfffffffffffffedc])) [1 dbg_vect.y+0 S4 A32])
+        (reg:SF 125)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":105:14 -1
+     (nil))
+(debug_insn 149 148 150 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":106:3 -1
+     (nil))
+(insn 150 149 151 4 (set (reg:SF 127)
+        (mem/u/c:SF (symbol_ref/u:DI ("*.LC3") [flags 0x2]) [0  S4 A32])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":106:21 -1
+     (expr_list:REG_EQUAL (const_double:SF 3.0e+0 [0x0.cp+2])
+        (nil)))
+(insn 151 150 152 4 (set (reg:SF 126)
+        (mult:SF (reg:SF 82 [ _1 ])
+            (reg:SF 127))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":106:21 -1
+     (nil))
+(insn 152 151 153 4 (set (mem/c:SF (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -288 [0xfffffffffffffee0])) [1 dbg_vect.z+0 S4 A128])
+        (reg:SF 126)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":106:14 -1
+     (nil))
+(debug_insn 153 152 154 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":107:3 -1
+     (nil))
+(insn 154 153 155 4 (set (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -304 [0xfffffffffffffed0])) [3 dbg_vect.timestamp+0 S8 A128])
+        (reg:DI 93 [ _29 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":107:22 -1
+     (nil))
+(debug_insn 155 154 156 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":108:3 -1
+     (nil))
+(insn 156 155 157 4 (parallel [
+            (set (reg:DI 128)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -304 [0xfffffffffffffed0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":108:14 -1
+     (nil))
+(insn 157 156 158 4 (set (reg:DI 1 dx)
+        (reg:DI 128)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":108:14 -1
+     (nil))
+(insn 158 157 159 4 (set (reg:DI 4 si)
+        (reg/f:DI 91 [ _24 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":108:14 -1
+     (nil))
+(insn 159 158 160 4 (set (reg:DI 129)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_vect") [flags 0x40]  <var_decl 0x7f276e5776c0 __orb_debug_vect>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":108:14 -1
+     (nil))
+(insn 160 159 161 4 (set (reg:DI 5 di)
+        (reg:DI 129)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":108:14 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_vect") [flags 0x40]  <var_decl 0x7f276e5776c0 __orb_debug_vect>)
+        (nil)))
+(call_insn 161 160 162 4 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>) [0 orb_publish S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":108:14 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(debug_insn 162 161 163 4 (var_location:DI i (const_int 0 [0])) -1
+     (nil))
+(debug_insn 163 162 8 4 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":111:24 -1
+     (nil))
+(insn 8 163 177 4 (set (reg/v:DI 94 [ i ])
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":111:15 -1
+     (nil))
+(code_label 177 8 164 5 2 (nil) [1 uses])
+(note 164 177 165 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 165 164 166 5 (var_location:DI i (reg/v:DI 94 [ i ])) -1
+     (nil))
+(debug_insn 166 165 167 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":112:4 -1
+     (nil))
+(insn 167 166 168 5 (parallel [
+            (set (reg:DI 130)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -272 [0xfffffffffffffef0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":112:22 -1
+     (nil))
+(insn 168 167 169 5 (set (reg:SF 131)
+        (float:SF (reg/v:DI 94 [ i ]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":112:42 -1
+     (nil))
+(insn 169 168 170 5 (set (reg:SF 133)
+        (mem/u/c:SF (symbol_ref/u:DI ("*.LC4") [flags 0x2]) [0  S4 A32])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":112:42 -1
+     (expr_list:REG_EQUAL (const_double:SF 9.99999977648258209228515625e-3 [0x0.a3d70ap-6])
+        (nil)))
+(insn 170 169 171 5 (set (reg:SF 132)
+        (mult:SF (reg:SF 131)
+            (reg:SF 133))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":112:42 -1
+     (nil))
+(insn 171 170 172 5 (set (reg:SF 134)
+        (plus:SF (reg:SF 132)
+            (reg:SF 82 [ _1 ]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":112:38 -1
+     (nil))
+(insn 172 171 173 5 (set (mem:SF (plus:DI (plus:DI (mult:DI (reg/v:DI 94 [ i ])
+                        (const_int 4 [0x4]))
+                    (reg:DI 130))
+                (const_int 8 [0x8])) [0 MEM[symbol: dbg_array, index: i_64, step: 4, offset: 8B]+0 S4 A32])
+        (reg:SF 134)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":112:22 -1
+     (nil))
+(debug_insn 173 172 174 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":111:3 -1
+     (nil))
+(insn 174 173 175 5 (parallel [
+            (set (reg/v:DI 94 [ i ])
+                (plus:DI (reg/v:DI 94 [ i ])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":111:3 -1
+     (nil))
+(debug_insn 175 174 176 5 (var_location:DI i (reg/v:DI 94 [ i ])) -1
+     (nil))
+(debug_insn 176 175 178 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":111:24 -1
+     (nil))
+(insn 178 176 179 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:DI 94 [ i ])
+            (const_int 58 [0x3a]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":111:24 -1
+     (nil))
+(jump_insn 179 178 180 5 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 177)
+            (pc))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":111:24 -1
+     (int_list:REG_BR_PROB 1055283644 (nil))
+ -> 177)
+(note 180 179 181 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 181 180 182 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":115:3 -1
+     (nil))
+(insn 182 181 183 6 (set (mem/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                (const_int -272 [0xfffffffffffffef0])) [3 dbg_array.timestamp+0 S8 A128])
+        (reg:DI 93 [ _29 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":115:23 -1
+     (nil))
+(debug_insn 183 182 184 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":116:3 -1
+     (nil))
+(insn 184 183 185 6 (parallel [
+            (set (reg:DI 135)
+                (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                    (const_int -272 [0xfffffffffffffef0])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":116:14 -1
+     (nil))
+(insn 185 184 186 6 (set (reg:DI 1 dx)
+        (reg:DI 135)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":116:14 -1
+     (nil))
+(insn 186 185 187 6 (set (reg:DI 4 si)
+        (reg/f:DI 92 [ _27 ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":116:14 -1
+     (nil))
+(insn 187 186 188 6 (set (reg:DI 136)
+        (mem/u/c:DI (const:DI (unspec:DI [
+                        (symbol_ref:DI ("__orb_debug_array") [flags 0x40]  <var_decl 0x7f276e577ea0 __orb_debug_array>)
+                    ] UNSPEC_GOTPCREL)) [8  S8 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":116:14 -1
+     (nil))
+(insn 188 187 189 6 (set (reg:DI 5 di)
+        (reg:DI 136)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":116:14 -1
+     (expr_list:REG_EQUAL (symbol_ref:DI ("__orb_debug_array") [flags 0x40]  <var_decl 0x7f276e577ea0 __orb_debug_array>)
+        (nil)))
+(call_insn 189 188 190 6 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>) [0 orb_publish S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":116:14 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("orb_publish") [flags 0x41]  <function_decl 0x7f276e5e7500 orb_publish>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(debug_insn 190 189 191 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":118:3 -1
+     (nil))
+(debug_insn 191 190 192 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":118:3 -1
+     (nil))
+(insn 192 191 193 6 (set (reg:DI 1 dx)
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7f276e624ea0 *.LC5>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":118:3 -1
+     (nil))
+(insn 193 192 194 6 (set (reg:DI 4 si)
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7f276e624f30 *.LC6>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":118:3 -1
+     (nil))
+(insn 194 193 195 6 (set (reg:SI 5 di)
+        (const_int 2 [0x2])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":118:3 -1
+     (nil))
+(insn 195 194 196 6 (set (reg:QI 0 ax)
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":118:3 -1
+     (nil))
+(call_insn 196 195 197 6 (call (mem:QI (symbol_ref:DI ("px4_log_modulename") [flags 0x41]  <function_decl 0x7f276e5ddc00 px4_log_modulename>) [0 px4_log_modulename S1 A8])
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":118:3 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("px4_log_modulename") [flags 0x41]  <function_decl 0x7f276e5ddc00 px4_log_modulename>)
+        (nil))
+    (expr_list (use (reg:QI 0 ax))
+        (expr_list:SI (use (reg:SI 5 di))
+            (expr_list:DI (use (reg:DI 4 si))
+                (expr_list:DI (use (reg:DI 1 dx))
+                    (nil))))))
+(debug_insn 197 196 198 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":120:3 -1
+     (nil))
+(insn 198 197 199 6 (parallel [
+            (set (reg/v:SI 95 [ value_counter ])
+                (plus:SI (reg/v:SI 95 [ value_counter ])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":120:16 -1
+     (nil))
+(debug_insn 199 198 200 6 (var_location:SI value_counter (reg/v:SI 95 [ value_counter ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":120:16 -1
+     (nil))
+(debug_insn 200 199 201 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":121:3 -1
+     (nil))
+(insn 201 200 202 6 (set (reg:SI 5 di)
+        (const_int 500000 [0x7a120])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":121:13 -1
+     (nil))
+(call_insn 202 201 203 6 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("px4_usleep") [flags 0x41]  <function_decl 0x7f276e5baf00 px4_usleep>) [0 px4_usleep S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":121:13 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("px4_usleep") [flags 0x41]  <function_decl 0x7f276e5baf00 px4_usleep>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(debug_insn 203 202 204 6 (var_location:DI pub_dbg_array (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":86:44 -1
+     (nil))
+(debug_insn 204 203 205 6 (var_location:SI value_counter (reg/v:SI 95 [ value_counter ])) -1
+     (nil))
+(debug_insn 205 204 206 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":90:2 -1
+     (nil))
+(debug_insn 206 205 208 6 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":90:23 -1
+     (nil))
+(insn 208 206 209 6 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 95 [ value_counter ])
+            (const_int 100 [0x64]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":90:23 -1
+     (nil))
+(jump_insn 209 208 210 6 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 207)
+            (pc))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":90:23 -1
+     (int_list:REG_BR_PROB 1062895972 (nil))
+ -> 207)
+(note 210 209 211 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 211 210 212 7 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":124:2 -1
+     (nil))
+(insn 212 211 216 7 (set (reg:SI 97 [ <retval> ])
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":124:9 -1
+     (nil))
+(insn 216 212 217 7 (set (reg/f:DI 138)
+        (const_int 40 [0x28])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":125:1 -1
+     (nil))
+(insn 217 216 218 7 (parallel [
+            (set (reg:CCZ 17 flags)
+                (unspec:CCZ [
+                        (mem/v/f/c:DI (plus:DI (reg/f:DI 77 virtual-stack-vars)
+                                (const_int -8 [0xfffffffffffffff8])) [4 D.6944+0 S8 A64])
+                        (mem/v/f:DI (reg/f:DI 138) [0 MEM[(<address-space-1> long unsigned int *)40B]+0 S8 A64 AS1])
+                    ] UNSPEC_SP_TEST))
+            (clobber (scratch:DI))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":125:1 -1
+     (nil))
+(jump_insn 218 217 225 7 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 221)
+            (pc))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":125:1 -1
+     (int_list:REG_BR_PROB 1073312332 (nil))
+ -> 221)
+(note 225 218 219 9 [bb 9] NOTE_INSN_BASIC_BLOCK)
+(call_insn 219 225 220 9 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f276e62d900 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":125:1 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f276e62d900 __stack_chk_fail>)
+        (expr_list:REG_ARGS_SIZE (const_int 0 [0])
+            (expr_list:REG_NORETURN (const_int 0 [0])
+                (expr_list:REG_EH_REGION (const_int 0 [0])
+                    (nil)))))
+    (nil))
+(barrier 220 219 221)
+(code_label 221 220 226 10 4 (nil) [1 uses])
+(note 226 221 222 10 [bb 10] NOTE_INSN_BASIC_BLOCK)
+(insn 222 226 223 10 (set (reg/i:SI 0 ax)
+        (reg:SI 97 [ <retval> ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":125:1 -1
+     (nil))
+(insn 223 222 0 10 (use (reg/i:SI 0 ax)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/px4_mavlink_debug/px4_mavlink_debug.cpp":125:1 -1
+     (nil))

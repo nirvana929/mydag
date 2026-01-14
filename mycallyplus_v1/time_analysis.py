@@ -15,7 +15,11 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Dict, Iterable, List, Optional, Tuple, Mapping
+
+# 轻量级 DOT 解析正则（兼容 legacy 输出）
+_EDGE_RE = re.compile(r'"([^"]+)"\s*->\s*"([^"]+)"')
+_NODE_QUOTED_RE = re.compile(r'"([^"]+)"')
 
 
 @dataclass
@@ -32,6 +36,9 @@ class InstrumentResult:
     instrumented_dir: Path
     app_path: Path
     result_json: Path
+    prio_result_json: Optional[Path]
+    prio_weighted_dot: Optional[Path]
+    metrics_json: Optional[Path]
     log_path: Path
     instrumented_files: List[Path]
     warnings: List[str]
@@ -217,6 +224,9 @@ def instrument_file(
     file_path: Path,
     sites: List[CallSite],
     log: List[str],
+    *,
+    priorities: Optional[Mapping[str, int]] = None,
+    cpc_mode: bool = False,
 ) -> Tuple[List[str], List[str], List[str]]:
     """对单个文件插桩，返回修改后的行、警告列表、成功插桩的key列表。"""
     lines = file_path.read_text(encoding="utf-8").splitlines(keepends=True)
@@ -228,6 +238,7 @@ def instrument_file(
 
     # 按行号降序，避免前面插入影响后续定位
     seq = 1
+    seen_prefix_prio: Dict[str, int] = {}
     base_offset = include_added  # include 插入行数，统一偏移
     for site in sorted(sites, key=lambda s: (s.line, s.col or 0), reverse=True):
         # 跳过编译器插入/不应插桩的内部符号，避免跨函数边界破坏源码
@@ -306,9 +317,23 @@ def instrument_file(
             )
             continue
 
+        prio = 0
+        thread_prefix = key_str.split("/", 1)[0]
+        if priorities:
+            prio = int(priorities.get(key_str, 0) or 0)
+            if prio <= 0:
+                prio = int(priorities.get(thread_prefix, 0) or 0)
+
+        # 仅在每个线程前缀首次插桩时设置优先级，避免每次调用都做系统调用
+        maybe_prio_line = ""
+        if cpc_mode and prio > 0 and thread_prefix not in seen_prefix_prio:
+            maybe_prio_line = f"ta_set_priority({prio});\n"
+            seen_prefix_prio[thread_prefix] = prio
+
         begin_lines = [
             f"// TA_BEGIN: {file_path.name}:{site.line} {site.func}\n",
             "; /* TA_PAD */\n",
+            maybe_prio_line,
             f"uint64_t {var_name} = now_ns();\n",
         ]
         end_lines = [
@@ -347,6 +372,7 @@ def _write_time_stat(dest_dir: Path) -> None:
                 "uint64_t now_ns(void);",
                 'void time_account(const char* key, uint64_t dur_ns);',
                 'void time_trace(const char* key, uint64_t start_ns, uint64_t dur_ns);',
+                "void ta_set_priority(int prio);",
                 "",
                 "#ifdef __cplusplus",
                 "}",
@@ -365,6 +391,8 @@ def _write_time_stat(dest_dir: Path) -> None:
                 '#include "time_stat.h"',
                 "#include <time.h>",
                 "#include <pthread.h>",
+                "#include <sched.h>",
+                "#include <errno.h>",
                 "#include <stdio.h>",
                 "#include <string.h>",
                 "#include <stdlib.h>",
@@ -383,6 +411,13 @@ def _write_time_stat(dest_dir: Path) -> None:
                 "static int g_dumped = 0;",
                 "static FILE *g_trace_fp = NULL;",
                 "static int g_trace_first = 1;",
+                "",
+                "void ta_set_priority(int prio) {",
+                "    if (prio <= 0) return;",
+                "    struct sched_param param; param.sched_priority = prio;",
+                "    int ret = pthread_setschedparam(pthread_self(), SCHED_FIFO, &param);",
+                "    (void)ret; // ignore failure if lacking permission",
+                "}",
                 "",
                 "static void ensure_cap(void) {",
                 "    if (g_sz < g_cap) return;",
@@ -617,7 +652,94 @@ def _run_app(app_path: Path, log: List[str]) -> None:
         raise RuntimeError(f"程序运行失败，退出码 {proc.returncode}")
 
 
-def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> InstrumentResult:
+def _parse_dot_edges_simple(dot_path: Path) -> Tuple[Iterable[str], List[Tuple[str, str]]]:
+    """极简解析 DOT，返回节点集合与边列表。"""
+    text = dot_path.read_text(encoding="utf-8", errors="replace")
+    edges = _EDGE_RE.findall(text)
+    nodes = set()
+    for u, v in edges:
+        nodes.add(u)
+        nodes.add(v)
+    for name in _NODE_QUOTED_RE.findall(text):
+        nodes.add(name)
+    nodes.discard("callgraph")
+    return nodes, [(u, v) for u, v in edges]
+
+
+def _render_weighted_dot(
+    nodes: Iterable[str],
+    edges: Iterable[Tuple[str, str]],
+    weights: Dict[str, int],
+    *,
+    priorities: Optional[Mapping[str, int]] = None,
+) -> str:
+    """生成只包含节点/边/权重的简化 DOT，可选附加 prio 行。"""
+    lines: List[str] = []
+    lines.append("digraph callgraph {")
+    lines.append('  node [shape=box, style="rounded,filled", fontname="Consolas", fontsize=10, fillcolor="#F6F6F6"];')
+    for n in sorted(nodes):
+        w = int(weights.get(n, 0) or 0)
+        if priorities is not None:
+            label = f"{n}\\n{w} ns\\nprio={int(priorities.get(n, 0) or 0)}"
+        else:
+            label = f"{n}\\n{w} ns"
+        lines.append(f'  "{n}" [label="{label}"];')
+    for u, v in edges:
+        lines.append(f'  "{u}" -> "{v}";')
+    lines.append("}")
+    return "\n".join(lines) + "\n"
+
+
+def _write_metrics(
+    result_map: Dict[str, Dict],
+    thread_summary_path: Path,
+    output_dir: Path,
+    *,
+    filename: str = "metrics.json",
+) -> Path:
+    """生成指标文件：program_total_ns（节点 total_ns 求和）+ 线程汇总。"""
+    program_total_ns = sum(int(v.get("total_ns", 0) or 0) for v in result_map.values() if isinstance(v, dict))
+    thread_summary: Dict[str, Dict] = {}
+    if thread_summary_path.exists():
+        thread_summary = json.loads(thread_summary_path.read_text(encoding="utf-8"))
+    # 若线程汇总缺失，按 callsite 前缀聚合
+    if not thread_summary:
+        agg: Dict[str, Dict[str, int]] = {}
+        for k, v in result_map.items():
+            if not isinstance(v, dict):
+                continue
+            thread = k.split("/", 1)[0] if "/" in k else k
+            agg.setdefault(thread, {"total_ns": 0, "count": 0})
+            agg[thread]["total_ns"] += int(v.get("total_ns", 0) or 0)
+            agg[thread]["count"] += int(v.get("count", 0) or 0)
+        thread_summary = agg
+
+    metrics = {
+        "program_total_ns": int(program_total_ns),
+        "thread_time_ns": {
+            t: {
+                "total_ns": int(info.get("total_ns", 0) or 0),
+                "count": int(info.get("count", 0) or 0),
+                "avg_ns": int(info.get("total_ns", 0) or 0) // max(1, int(info.get("count", 0) or 0)),
+            }
+            for t, info in thread_summary.items()
+            if isinstance(info, dict)
+        },
+    }
+    output_dir.mkdir(parents=True, exist_ok=True)
+    out_path = output_dir / filename
+    out_path.write_text(json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8")
+    return out_path
+
+
+def run_time_analysis(
+    source_file: Path,
+    meta_json: Path,
+    base_dir: Path,
+    priorities: Optional[Mapping[str, int]] = None,
+    *,
+    cpc_mode: bool = False,
+) -> InstrumentResult:
     """对项目目录执行时间分析插桩+编译+运行。"""
     if not source_file.exists():
         raise FileNotFoundError(f"源文件不存在: {source_file}")
@@ -627,8 +749,10 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
     base_dir = base_dir.resolve()
     src_root = source_file.resolve().parent
     base_name = _infer_base_name_from_meta(meta_json, base_dir) or source_file.stem
-    output_root = base_dir / "中间结果" / base_name / "时间分析"
-    log_path = base_dir / "中间结果" / base_name / "生成dag图" / "debug" / "time_analysis.log"
+    ta_dir_name = "时间分析_cpc" if cpc_mode else "时间分析"
+    output_root = base_dir / "中间结果" / base_name / ta_dir_name
+    log_file_name = "time_analysis_cpc.log" if cpc_mode else "time_analysis.log"
+    log_path = base_dir / "中间结果" / base_name / "生成dag图" / "debug" / log_file_name
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     log: List[str] = []
@@ -639,6 +763,9 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
     dest_project: Optional[Path] = None
     app_path: Optional[Path] = None
     result_json: Optional[Path] = None
+    prio_result_json: Optional[Path] = None
+    prio_weighted_dot: Optional[Path] = None
+    metrics_json: Optional[Path] = None
     instrumented_files: List[Path] = []
 
     try:
@@ -699,6 +826,16 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
         # 将统计结果回写到原始 meta_json
         try:
             result_map = json.loads(result_json.read_text(encoding="utf-8"))
+            if priorities:
+                prio_map: Dict[str, Dict] = {}
+                for k, v in result_map.items():
+                    if isinstance(v, dict):
+                        v = dict(v)
+                        v["priority"] = int(priorities.get(k, 0) or 0)
+                        prio_map[k] = v
+                prio_result_json = result_json.parent / "time_result_prio.json"
+                prio_result_json.write_text(json.dumps(prio_map, ensure_ascii=False, indent=2), encoding="utf-8")
+                log.append(f"[prio] 写入 {prio_result_json}")
             summary = _inject_metrics(meta_json, result_map, log, warnings, set(instrumented_keys_all))
             # 写线程汇总
             if summary:
@@ -706,6 +843,36 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
                 summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
                 log.append(f"[summary] 线程耗时汇总 -> {summary_path}")
             log.append(f"[update] 已回写统计到 {meta_json}")
+            # 指标文件：节点 total_ns 求和 + 线程汇总
+            try:
+                metrics_json = _write_metrics(
+                    result_map,
+                    meta_json.parent / "thread_time_summary.json",
+                    result_json.parent,
+                    filename="metrics_prio.json" if priorities else "metrics.json",
+                )
+                log.append(f"[metrics] -> {metrics_json}")
+            except Exception as me:
+                warnings.append(f"[warn] 写指标文件失败: {me}")
+            # 生成带权 DAG（节点标签附 total_ns），存放在 time_result 同目录
+            try:
+                weights = {k: int(v.get("total_ns", 0) or 0) for k, v in result_map.items() if isinstance(v, dict)}
+                dag_path = base_dir / "中间结果" / base_name / "生成dag图" / "dag.dot"
+                if dag_path.exists():
+                    nodes, edges = _parse_dot_edges_simple(dag_path)
+                    weighted_text = _render_weighted_dot(nodes, edges, weights)
+                    weighted_path = result_json.parent / "dag_weighted.dot"
+                    weighted_path.write_text(weighted_text, encoding="utf-8")
+                    log.append(f"[weighted_dag] {dag_path} + time_result -> {weighted_path}")
+                    if priorities:
+                        weighted_prio_text = _render_weighted_dot(nodes, edges, weights, priorities=priorities)
+                        prio_weighted_dot = result_json.parent / "dag_weighted_prio.dot"
+                        prio_weighted_dot.write_text(weighted_prio_text, encoding="utf-8")
+                        log.append(f"[weighted_dag_prio] -> {prio_weighted_dot}")
+                else:
+                    warnings.append(f"[warn] 未找到原始 dag.dot（{dag_path}），跳过生成带权 DAG")
+            except Exception as gen_err:
+                warnings.append(f"[warn] 生成带权 DAG 失败: {gen_err}")
         except Exception as e:  # pragma: no cover - 保底
             warnings.append(f"[warn] 回写统计失败: {e}")
 
@@ -713,6 +880,9 @@ def run_time_analysis(source_file: Path, meta_json: Path, base_dir: Path) -> Ins
             instrumented_dir=output_root,
             app_path=app_path,
             result_json=result_json,
+            prio_result_json=prio_result_json,
+            prio_weighted_dot=prio_weighted_dot,
+            metrics_json=metrics_json,
             log_path=log_path,
             instrumented_files=instrumented_files,
             warnings=warnings,

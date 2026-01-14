@@ -271,6 +271,266 @@ def write_longest_path_json(
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+# ===================== CPC 调度（节点级优先级分配） =====================
+
+@dataclass(frozen=True)
+class CpcResult:
+    priorities: Dict[str, int]
+    providers: List[List[str]]
+    longest_path: List[str]
+    node_weight_ns: Dict[str, int]
+    m: int
+
+
+def compute_cpc_priorities(
+    nodes: Iterable[str],
+    edges: Sequence[Tuple[str, str]],
+    node_weight_ns: Mapping[str, int],
+    longest_path: Sequence[str],
+    *,
+    m: int = 2,
+) -> CpcResult:
+    """按 CPC 框架分配节点优先级（简化：关键路径合并为 provider 段）。
+
+    - 输入：节点集合、边、节点权重（缺省置 0）、最长路径节点序列。
+    - 处理：
+        1) 将最长路径切段：若相邻关键节点的唯一前驱就是前一节点，则归入同一 provider；
+           否则开启新段。
+        2) 先按 provider 段顺序分配最高优先级（段内从前到后递减）。
+        3) 剩余节点：在未分配子图中反复提取“局部最长链”并分配递减优先级
+           （若存在环则抛出异常）。
+    - 返回：每个节点的优先级、provider 划分、权重、m。
+    """
+    nodes_set = set(nodes)
+    weights: Dict[str, int] = {n: int(node_weight_ns.get(n, 0) or 0) for n in nodes_set}
+
+    order, cycle = topo_sort_or_cycle(nodes_set, edges)
+    if cycle:
+        detail = " -> ".join(cycle[:12] + (["..."] if len(cycle) > 12 else []))
+        raise RuntimeError(f"CPC 失败：图中存在环，无法在含环图上分配优先级。\n环示例: {detail}")
+    assert order is not None
+
+    pred: Dict[str, List[str]] = {n: [] for n in nodes_set}
+    succ: Dict[str, List[str]] = {n: [] for n in nodes_set}
+    for u, v in edges:
+        if u in nodes_set and v in nodes_set:
+            succ[u].append(v)
+            pred[v].append(u)
+
+    # 1) provider 划分
+    providers: List[List[str]] = []
+    current: List[str] = []
+    for idx, n in enumerate(longest_path):
+        if n not in nodes_set:
+            continue
+        if not current:
+            current = [n]
+            continue
+        prev = longest_path[idx - 1]
+        if prev in nodes_set and pred.get(n, []) == [prev]:
+            current.append(n)
+        else:
+            providers.append(current)
+            current = [n]
+    if current:
+        providers.append(current)
+
+    priorities: Dict[str, int] = {}
+    next_prio = len(nodes_set) * 2  # 留足空间
+
+    # 2) provider 段优先级：沿路径递减
+    for segment in providers:
+        for n in segment:
+            if n not in nodes_set:
+                continue
+            priorities[n] = next_prio
+            next_prio -= 1
+
+    # 3) 余下节点：在未分配子图上反复取局部最长链
+    unassigned: Set[str] = {n for n in nodes_set if n not in priorities}
+
+    def longest_chain_in_subgraph(candidates: Set[str]) -> List[str]:
+        """在 candidates 子图中找到一条“终点最长”的链（基于权重累加）。"""
+        if not candidates:
+            return []
+        # 子图拓扑顺序
+        sub_edges = [(u, v) for u, v in edges if u in candidates and v in candidates]
+        sub_order, sub_cycle = topo_sort_or_cycle(candidates, sub_edges)
+        if sub_cycle:
+            detail = " -> ".join(sub_cycle[:12] + (["..."] if len(sub_cycle) > 12 else []))
+            raise RuntimeError(f"CPC 子图含环，无法继续分配优先级。\n环示例: {detail}")
+        assert sub_order is not None
+
+        sub_pred: Dict[str, List[str]] = {n: [] for n in candidates}
+        for u, v in sub_edges:
+            sub_pred[v].append(u)
+
+        neg_inf = -(1 << 60)
+        dist: Dict[str, int] = {n: neg_inf for n in candidates}
+        prev: Dict[str, Optional[str]] = {n: None for n in candidates}
+        sinks = {n for n in candidates if all(s not in candidates for s in succ.get(n, []))}
+
+        for n in sub_order:
+            base = weights.get(n, 0)
+            best = base
+            best_u = None
+            for u in sub_pred.get(n, []):
+                cand = dist.get(u, neg_inf) + base
+                if cand > best:
+                    best = cand
+                    best_u = u
+            dist[n] = best
+            if best_u is not None:
+                prev[n] = best_u
+
+        # 选择 dist 最大且是“子图内终点”的节点
+        end = max(sinks if sinks else candidates, key=lambda n: dist.get(n, neg_inf))
+        chain: List[str] = []
+        seen: Set[str] = set()
+        cur: Optional[str] = end
+        while cur is not None and cur not in seen:
+            seen.add(cur)
+            chain.append(cur)
+            cur = prev.get(cur)
+        chain.reverse()
+        return chain
+
+    while unassigned:
+        chain = longest_chain_in_subgraph(unassigned)
+        if not chain:
+            break
+        for n in chain:
+            priorities[n] = next_prio
+            next_prio -= 1
+        unassigned.difference_update(chain)
+
+    # 对极端情况（空链未覆盖）兜底
+    for n in list(unassigned):
+        priorities[n] = next_prio
+        next_prio -= 1
+
+    return CpcResult(
+        priorities=priorities,
+        providers=providers,
+        longest_path=[n for n in longest_path if n in nodes_set],
+        node_weight_ns=weights,
+        m=m,
+    )
+
+
+def apply_priorities_to_dot(
+    dot_text: str,
+    *,
+    priorities: Mapping[str, int],
+    node_weight_ns: Mapping[str, int],
+    longest_path: Sequence[str],
+) -> str:
+    """在原 DOT 上追加优先级/权重提示，高亮最长路径。
+
+    - 对所有节点追加 xlabel=prio，tooltip=total_ns。
+    - λ* 节点填充高亮，λ* 边高亮。
+    """
+    path_nodes = set(longest_path)
+    path_edges = set(zip(longest_path, longest_path[1:]))
+    lines = dot_text.splitlines(keepends=False)
+    out: List[str] = []
+    seen_node_stmt: Set[str] = set()
+
+    for line in lines:
+        edge_m = _EDGE_STMT_RE.match(line)
+        if edge_m:
+            src = edge_m.group("src")
+            dst = edge_m.group("dst")
+            attrs = edge_m.group("attrs")
+            if (src, dst) in path_edges:
+                merged = _merge_attrs(
+                    attrs,
+                    {
+                        "color": "#D32F2F",
+                        "penwidth": "3.0",
+                    },
+                )
+                out.append(f'{edge_m.group("indent")}"{src}" -> "{dst}" {merged};'.rstrip())
+            else:
+                out.append(line)
+            continue
+
+        node_m = _NODE_STMT_RE.match(line)
+        if node_m:
+            name = node_m.group("name")
+            attrs = node_m.group("attrs")
+            seen_node_stmt.add(name)
+            base_attrs = _parse_attrs(attrs)
+            base_attrs["label"] = _append_prio_to_label(name, base_attrs.get("label"), priorities.get(name, 0))
+            base_attrs["tooltip"] = f"{int(node_weight_ns.get(name, 0) or 0)} ns"
+            if name in path_nodes:
+                base_attrs.update(
+                    {
+                        "style": "filled",
+                        "fillcolor": "#FFE082",
+                        "color": "#D84315",
+                        "penwidth": "2.2",
+                    }
+                )
+            merged = "[" + ", ".join(_format_attr(k, v) for k, v in base_attrs.items()) + "]"
+            out.append(f'{node_m.group("indent")}"{name}" {merged};')
+            continue
+
+        out.append(line)
+
+    # 补充未显式声明的节点
+    missing = [n for n in priorities.keys() if n not in seen_node_stmt]
+    if missing:
+        patch: List[str] = ["", "  // === CPC priority patch (auto-generated) ==="]
+        for n in missing:
+            attrs = {
+                "label": _append_prio_to_label(n, None, priorities.get(n, 0)),
+                "tooltip": f"{int(node_weight_ns.get(n, 0) or 0)} ns",
+            }
+            if n in path_nodes:
+                attrs.update(
+                    {
+                        "style": "filled",
+                        "fillcolor": "#FFE082",
+                        "color": "#D84315",
+                        "penwidth": "2.2",
+                    }
+                )
+            merged = _merge_attrs(None, attrs)
+            patch.append(f'  "{n}" {merged};')
+
+        inserted = False
+        for i in range(len(out) - 1, -1, -1):
+            if out[i].strip() == "}":
+                out[i:i] = patch
+                inserted = True
+                break
+        if not inserted:
+            out.extend(patch)
+
+    return "\n".join(out) + ("\n" if dot_text.endswith("\n") else "")
+
+
+def write_cpc_schedule_json(
+    output_path: Path,
+    *,
+    dot_path: Path,
+    time_json_path: Path,
+    longest_json_path: Path,
+    result: CpcResult,
+) -> None:
+    payload = {
+        "dot": str(dot_path),
+        "time_result": str(time_json_path),
+        "longest_path_json": str(longest_json_path),
+        "m": result.m,
+        "providers": result.providers,
+        "priorities": result.priorities,
+        "longest_path": result.longest_path,
+    }
+    output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def highlight_dot_inplace(
     dot_text: str,
     *,
@@ -440,3 +700,12 @@ def _format_attr(key: str, val: str) -> str:
         return f'{key}="{val}"'
     # keep colors like #RRGGBB quoted
     return f'{key}="{val}"'
+
+
+def _append_prio_to_label(name: str, existing_label: Optional[str], prio: int) -> str:
+    """在已有 label 后追加 prio 行，若无 label 则用 name 起始。"""
+    if not existing_label:
+        base = name
+    else:
+        base = existing_label.strip('"')
+    return f"{base}\\nprio={prio}"

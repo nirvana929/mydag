@@ -1,0 +1,307 @@
+
+;; Function px4::AppState::~AppState (_ZN3px48AppStateD2Ev, funcdef_no=49, decl_uid=5002, cgraph_uid=50, symbol_order=49)
+
+
+;; Generating RTL for gimple basic block 2
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Merging block 4 into block 2...
+Merged blocks 2 and 4.
+Merged 2 and 4 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 4 NOTE_INSN_DELETED)
+(note 4 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 4 3 2 (set (reg/f:DI 82 [ this ])
+        (reg:DI 5 di [ this ])) "../../platforms/common/include/px4_platform_common/app.h":49:2 -1
+     (nil))
+(note 3 2 0 2 NOTE_INSN_FUNCTION_BEG)
+
+;; Function HelloExample::main (_ZN12HelloExample4mainEv, funcdef_no=94, decl_uid=5031, cgraph_uid=95, symbol_order=95) (executed once)
+
+
+;; Generating RTL for gimple basic block 2
+
+;; Generating RTL for gimple basic block 3
+
+;; Generating RTL for gimple basic block 4
+Purged non-fallthru edges from bb 9
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+Edge 5->7 redirected to 8
+Forwarding edge 6->7 to 8 failed.
+Deleted label in block 7.
+Removing jump 63.
+Merging block 9 into block 8...
+Merged blocks 8 and 9.
+Merged 8 and 9 without moving.
+
+
+try_optimize_cfg iteration 2
+
+Forwarding edge 6->7 to 8 failed.
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 5 NOTE_INSN_DELETED)
+(note 5 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(insn 2 5 3 2 (set (reg/f:DI 89 [ this ])
+        (reg:DI 5 di [ this ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":50:1 -1
+     (nil))
+(note 3 2 7 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 7 3 8 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":51:2 -1
+     (nil))
+(debug_insn 8 7 9 2 (var_location:DI this (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":51:2 -1
+     (nil))
+(debug_insn 9 8 10 2 (var_location:QI running (const_int 1 [0x1])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":51:2 -1
+     (nil))
+(debug_insn 10 9 11 2 (debug_marker:BLK) "../../platforms/common/include/px4_platform_common/app.h":57:7 -1
+     (nil))
+(debug_insn 11 10 12 2 (debug_marker) "../../platforms/common/include/px4_platform_common/app.h":57:34 -1
+     (nil))
+(insn 12 11 13 2 (set (reg/f:DI 90)
+        (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "../../platforms/common/include/px4_platform_common/app.h":57:45 -1
+     (nil))
+(insn 13 12 14 2 (set (mem/c:QI (plus:DI (reg/f:DI 90)
+                (const_int 1 [0x1])) [1 appState._isRunning+0 S1 A8])
+        (const_int 1 [0x1])) "../../platforms/common/include/px4_platform_common/app.h":57:45 -1
+     (nil))
+(debug_insn 14 13 15 2 (var_location:DI this (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":51:21 -1
+     (nil))
+(debug_insn 15 14 16 2 (var_location:QI running (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":51:21 -1
+     (nil))
+(debug_insn 16 15 17 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":53:2 -1
+     (nil))
+(debug_insn 17 16 18 2 (var_location:SI i (const_int 0 [0])) -1
+     (nil))
+(debug_insn 18 17 19 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:2 -1
+     (nil))
+(debug_insn 19 18 20 2 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(debug_insn 20 19 21 2 (var_location:DI D#1 (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:32 -1
+     (nil))
+(debug_insn 21 20 22 2 (var_location:DI this (debug_expr:DI D#1)) -1
+     (nil))
+(debug_insn 22 21 23 2 (debug_marker) "../../platforms/common/include/px4_platform_common/app.h":53:25 -1
+     (nil))
+(insn 23 22 24 2 (set (reg/f:DI 91)
+        (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:32 -1
+     (nil))
+(insn 24 23 25 2 (set (reg:CCZ 17 flags)
+        (compare:CCZ (mem/c:QI (reg/f:DI 91) [1 MEM[(bool *)&appState]+0 S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(jump_insn 25 24 69 2 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 59)
+            (pc))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (int_list:REG_BR_PROB 228203964 (nil))
+ -> 59)
+(note 69 25 4 4 [bb 4] NOTE_INSN_BASIC_BLOCK)
+(insn 4 69 48 4 (set (reg/v:SI 82 [ i ])
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":53:6 -1
+     (nil))
+(code_label 48 4 26 5 5 (nil) [1 uses])
+(note 26 48 27 5 [bb 5] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 27 26 28 5 (var_location:SI i (reg/v:SI 82 [ i ])) -1
+     (nil))
+(debug_insn 28 27 29 5 (var_location:DI D#1 (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:32 -1
+     (nil))
+(debug_insn 29 28 30 5 (var_location:DI this (debug_expr:DI D#1)) -1
+     (nil))
+(debug_insn 30 29 31 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":56:3 -1
+     (nil))
+(insn 31 30 32 5 (set (reg:SI 5 di)
+        (const_int 2 [0x2])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":56:12 -1
+     (nil))
+(call_insn 32 31 33 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("px4_sleep") [flags 0x41]  <function_decl 0x7f985c1e7a00 px4_sleep>) [0 px4_sleep S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":56:12 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("px4_sleep") [flags 0x41]  <function_decl 0x7f985c1e7a00 px4_sleep>)
+        (nil))
+    (expr_list:SI (use (reg:SI 5 di))
+        (nil)))
+(debug_insn 33 32 34 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":58:3 -1
+     (nil))
+(debug_insn 34 33 35 5 (var_location:DI __fmt (const_string:DI ("  Doing work...
+"))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":58:3 -1
+     (nil))
+(debug_insn 35 34 36 5 (debug_marker:BLK) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":105:1 -1
+     (nil))
+(debug_insn 36 35 37 5 (debug_marker) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":107:3 -1
+     (nil))
+(insn 37 36 38 5 (set (reg:DI 5 di)
+        (symbol_ref/f:DI ("*.LC0") [flags 0x2]  <var_decl 0x7f985be54360 *.LC0>)) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":107:23 -1
+     (nil))
+(call_insn 38 37 39 5 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f985c3e4c00 __builtin_puts>) [0 __builtin_puts S1 A8])
+            (const_int 0 [0]))) "/usr/include/x86_64-linux-gnu/bits/stdio2.h":107:23 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f985c3e4c00 __builtin_puts>)
+        (nil))
+    (expr_list:DI (use (reg:DI 5 di))
+        (nil)))
+(debug_insn 39 38 40 5 (var_location:DI __fmt (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":58:9 -1
+     (nil))
+(debug_insn 40 39 41 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":59:3 -1
+     (nil))
+(insn 41 40 42 5 (parallel [
+            (set (reg/v:SI 82 [ i ])
+                (plus:SI (reg/v:SI 82 [ i ])
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":59:3 -1
+     (nil))
+(debug_insn 42 41 43 5 (var_location:SI i (reg/v:SI 82 [ i ])) -1
+     (nil))
+(debug_insn 43 42 44 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:2 -1
+     (nil))
+(debug_insn 44 43 45 5 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(debug_insn 45 44 46 5 (var_location:DI D#1 (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:32 -1
+     (nil))
+(debug_insn 46 45 47 5 (var_location:DI this (debug_expr:DI D#1)) -1
+     (nil))
+(debug_insn 47 46 49 5 (debug_marker) "../../platforms/common/include/px4_platform_common/app.h":53:25 -1
+     (nil))
+(insn 49 47 50 5 (set (reg/f:DI 92)
+        (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:32 -1
+     (nil))
+(insn 50 49 51 5 (set (reg:QI 94)
+        (mem/c:QI (reg/f:DI 92) [1 MEM[(bool *)&appState]+0 S1 A8])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(insn 51 50 52 5 (parallel [
+            (set (reg:QI 93)
+                (xor:QI (reg:QI 94)
+                    (const_int 1 [0x1])))
+            (clobber (reg:CC 17 flags))
+        ]) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (expr_list:REG_EQUAL (xor:QI (mem/c:QI (reg/f:DI 92) [1 MEM[(bool *)&appState]+0 S1 A8])
+            (const_int 1 [0x1]))
+        (nil)))
+(insn 52 51 53 5 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:QI 93)
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(jump_insn 53 52 70 5 (set (pc)
+        (if_then_else (eq (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref:DI 59)
+            (pc))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 659 {*jcc}
+     (int_list:REG_BR_PROB 114101988 (nil))
+ -> 59)
+(note 70 53 54 6 [bb 6] NOTE_INSN_BASIC_BLOCK)
+(insn 54 70 55 6 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg/v:SI 82 [ i ])
+            (const_int 5 [0x5]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(insn 55 54 56 6 (set (reg:QI 96)
+        (ne:QI (reg:CCZ 17 flags)
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(insn 56 55 57 6 (set (reg:CCZ 17 flags)
+        (compare:CCZ (reg:QI 96)
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (nil))
+(jump_insn 57 56 71 6 (set (pc)
+        (if_then_else (ne (reg:CCZ 17 flags)
+                (const_int 0 [0]))
+            (label_ref 48)
+            (pc))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":55:35 -1
+     (int_list:REG_BR_PROB 946073028 (nil))
+ -> 48)
+(note 71 57 59 7 [bb 7] NOTE_INSN_BASIC_BLOCK)
+(code_label 59 71 60 8 4 (nil) [2 uses])
+(note 60 59 61 8 [bb 8] NOTE_INSN_BASIC_BLOCK)
+(debug_insn 61 60 62 8 (debug_marker) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":62:2 -1
+     (nil))
+(insn 62 61 66 8 (set (reg:SI 88 [ <retval> ])
+        (const_int 0 [0])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":62:9 -1
+     (nil))
+(insn 66 62 67 8 (set (reg/i:SI 0 ax)
+        (reg:SI 88 [ <retval> ])) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":63:1 -1
+     (nil))
+(insn 67 66 0 8 (use (reg/i:SI 0 ax)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":63:1 -1
+     (nil))
+
+;; Function _GLOBAL__sub_I_hello_example.cpp (_GLOBAL__sub_I_hello_example.cpp, funcdef_no=96, decl_uid=5777, cgraph_uid=97, symbol_order=97) (executed once)
+
+
+;; Generating RTL for gimple basic block 2
+deleting block 4
+
+
+try_optimize_cfg iteration 1
+
+Merging block 3 into block 2...
+Merged blocks 2 and 3.
+Merged 2 and 3 without moving.
+
+
+try_optimize_cfg iteration 2
+
+
+
+;;
+;; Full RTL generated for this function:
+;;
+(note 1 0 3 NOTE_INSN_DELETED)
+(note 3 1 2 2 [bb 2] NOTE_INSN_BASIC_BLOCK)
+(note 2 3 5 2 NOTE_INSN_FUNCTION_BEG)
+(debug_insn 5 2 6 2 (var_location:SI __initialize_p (const_int 1 [0x1])) -1
+     (nil))
+(debug_insn 6 5 7 2 (var_location:SI __priority (const_int 65535 [0xffff])) -1
+     (nil))
+(debug_insn 7 6 8 2 (debug_marker:BLK) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":63:1 -1
+     (nil))
+(debug_insn 8 7 9 2 (var_location:DI this (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) -1
+     (nil))
+(debug_insn 9 8 10 2 (debug_marker:BLK) "../../platforms/common/include/px4_platform_common/app.h":51:2 -1
+     (nil))
+(insn 10 9 11 2 (set (reg/f:DI 82)
+        (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "../../platforms/common/include/px4_platform_common/app.h":51:54 -1
+     (nil))
+(insn 11 10 12 2 (set (mem/c:HI (reg/f:DI 82) [0 MEM[(bool *)&appState]+0 S2 A8])
+        (const_int 0 [0])) "../../platforms/common/include/px4_platform_common/app.h":51:54 -1
+     (nil))
+(debug_insn 12 11 13 2 (var_location:DI this (clobber (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":47:29 -1
+     (nil))
+(insn 13 12 14 2 (set (reg:DI 1 dx)
+        (symbol_ref:DI ("__dso_handle") [flags 0x42]  <var_decl 0x7f985c1e6cf0 __dso_handle>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":47:15 -1
+     (nil))
+(insn 14 13 15 2 (set (reg:DI 4 si)
+        (symbol_ref:DI ("_ZN12HelloExample8appStateE") [flags 0x2]  <var_decl 0x7f985c1e6120 appState>)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":47:15 -1
+     (nil))
+(insn 15 14 16 2 (set (reg:DI 5 di)
+        (symbol_ref/i:DI ("_ZN3px48AppStateD1Ev") [flags 0x3]  <function_decl 0x7f985c1dcc00 __dt_comp >)) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":47:15 -1
+     (nil))
+(call_insn/j 16 15 17 2 (set (reg:SI 0 ax)
+        (call (mem:QI (symbol_ref:DI ("__cxa_atexit") [flags 0x41]  <function_decl 0x7f985c249c00 __cxa_atexit>) [0 __cxa_atexit S1 A8])
+            (const_int 0 [0]))) "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/src/examples/hello/hello_example.cpp":47:15 -1
+     (expr_list:REG_CALL_DECL (symbol_ref:DI ("__cxa_atexit") [flags 0x41]  <function_decl 0x7f985c249c00 __cxa_atexit>)
+        (expr_list:REG_EH_REGION (const_int 0 [0])
+            (nil)))
+    (expr_list:DI (use (reg:DI 5 di))
+        (expr_list:DI (use (reg:DI 4 si))
+            (expr_list:DI (use (reg:DI 1 dx))
+                (nil)))))
+(barrier 17 16 0)

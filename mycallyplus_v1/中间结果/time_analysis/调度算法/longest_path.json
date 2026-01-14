@@ -1,7 +1,7 @@
 {
   "dot": "/home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/生成dag图/dag.dot",
   "time_result": "/home/chove/Desktop/mydag/mycallyplus_v1/中间结果/time_analysis/时间分析/time_analysis/time_result.json",
-  "total_weight_ns": 741460,
+  "total_weight_ns": 643530,
   "path": [
     "main",
     "main/malloc1",

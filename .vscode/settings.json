@@ -1,7 +1,5 @@
 {
-  "http.proxy": "http://192.168.159.1:7897",
-  "https.proxy": "http://192.168.159.1:7897",
-  "http.proxyStrictSSL": false,
-  "agent.proxy": "http://192.168.159.1:7897",
-  "terminal.integrated.inheritEnv": true
+  "http.proxy": "http://192.168.109.1:7897",
+  "http.proxySupport": "on",
+  "http.proxyStrictSSL": false
 }
