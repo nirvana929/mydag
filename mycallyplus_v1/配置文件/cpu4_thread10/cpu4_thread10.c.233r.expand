@@ -162,7 +162,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":37:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":37:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":37:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -212,7 +212,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":37:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":37:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":37:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -302,7 +302,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":39:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":39:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":39:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -385,10 +385,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f4fb5ca22d0 *.LC1>)) "cpu4_thread10.c":43:5 -1
+        (symbol_ref/f:DI ("*.LC1") [flags 0x2]  <var_decl 0x7f8e494bc2d0 *.LC1>)) "cpu4_thread10.c":43:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":43:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -568,7 +568,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":55:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":55:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":55:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -618,7 +618,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":55:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":55:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":55:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -708,7 +708,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":57:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":57:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":57:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -791,10 +791,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f4fb5cc3000 *.LC2>)) "cpu4_thread10.c":61:5 -1
+        (symbol_ref/f:DI ("*.LC2") [flags 0x2]  <var_decl 0x7f8e494dd000 *.LC2>)) "cpu4_thread10.c":61:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":61:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -968,7 +968,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":73:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 98)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":73:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":73:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 97)
@@ -1018,7 +1018,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":73:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 106)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":73:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":73:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 105)
@@ -1108,7 +1108,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":75:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 116)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":75:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":75:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 117)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -1191,10 +1191,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f4fb5cc3cf0 *.LC3>)) "cpu4_thread10.c":79:5 -1
+        (symbol_ref/f:DI ("*.LC3") [flags 0x2]  <var_decl 0x7f8e494ddcf0 *.LC3>)) "cpu4_thread10.c":79:5 -1
      (nil))
 (call_insn 98 97 101 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":79:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -1374,7 +1374,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":90:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":90:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":90:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -1424,7 +1424,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":90:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":90:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":90:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -1514,7 +1514,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":92:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":92:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":92:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -1597,10 +1597,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7f4fb5cce990 *.LC4>)) "cpu4_thread10.c":96:5 -1
+        (symbol_ref/f:DI ("*.LC4") [flags 0x2]  <var_decl 0x7f8e494e8990 *.LC4>)) "cpu4_thread10.c":96:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":96:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -1780,7 +1780,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":108:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":108:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":108:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -1830,7 +1830,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":108:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":108:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":108:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -1920,7 +1920,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":110:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":110:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":110:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -2003,10 +2003,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7f4fb5cd7630 *.LC5>)) "cpu4_thread10.c":114:5 -1
+        (symbol_ref/f:DI ("*.LC5") [flags 0x2]  <var_decl 0x7f8e494f1630 *.LC5>)) "cpu4_thread10.c":114:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":114:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -2186,7 +2186,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":126:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":126:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":126:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -2236,7 +2236,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":126:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":126:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":126:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -2326,7 +2326,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":128:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":128:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":128:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -2409,10 +2409,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7f4fb5cc3c60 *.LC6>)) "cpu4_thread10.c":132:5 -1
+        (symbol_ref/f:DI ("*.LC6") [flags 0x2]  <var_decl 0x7f8e494ddc60 *.LC6>)) "cpu4_thread10.c":132:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":132:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -2592,7 +2592,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":144:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":144:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":144:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -2642,7 +2642,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":144:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":144:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":144:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -2732,7 +2732,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":146:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":146:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":146:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -2815,10 +2815,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7f4fb5cdeea0 *.LC7>)) "cpu4_thread10.c":150:5 -1
+        (symbol_ref/f:DI ("*.LC7") [flags 0x2]  <var_decl 0x7f8e494f8ea0 *.LC7>)) "cpu4_thread10.c":150:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":150:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -2998,7 +2998,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":162:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":162:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":162:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -3048,7 +3048,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":162:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":162:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":162:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -3138,7 +3138,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":164:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":164:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":164:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -3221,10 +3221,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC8") [flags 0x2]  <var_decl 0x7f4fb5cf0b40 *.LC8>)) "cpu4_thread10.c":168:5 -1
+        (symbol_ref/f:DI ("*.LC8") [flags 0x2]  <var_decl 0x7f8e4950ab40 *.LC8>)) "cpu4_thread10.c":168:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":168:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -3404,7 +3404,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":180:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":180:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":180:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -3454,7 +3454,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":180:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":180:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":180:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -3544,7 +3544,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":182:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":182:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":182:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -3627,10 +3627,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC9") [flags 0x2]  <var_decl 0x7f4fb5cf87e0 *.LC9>)) "cpu4_thread10.c":186:5 -1
+        (symbol_ref/f:DI ("*.LC9") [flags 0x2]  <var_decl 0x7f8e495127e0 *.LC9>)) "cpu4_thread10.c":186:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":186:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -3810,7 +3810,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":198:33 -1
      (nil))
 (insn 32 31 33 7 (set (reg:DI 99)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":198:33 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":198:33 -1
      (nil))
 (insn 33 32 34 7 (set (reg:DF 82 [ _1 ])
         (mem:DF (plus:DI (reg:DI 98)
@@ -3860,7 +3860,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":198:52 -1
      (nil))
 (insn 43 42 44 7 (set (reg:DI 107)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":198:52 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":198:52 -1
      (nil))
 (insn 44 43 45 7 (set (reg:DF 85 [ _4 ])
         (mem:DF (plus:DI (reg:DI 106)
@@ -3950,7 +3950,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":200:25 -1
      (nil))
 (insn 67 66 68 9 (set (reg:DI 117)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":200:25 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":200:25 -1
      (nil))
 (insn 68 67 69 9 (set (reg:DF 118)
         (mem/c:DF (plus:DI (reg/f:DI 77 virtual-stack-vars)
@@ -4033,10 +4033,10 @@ try_optimize_cfg iteration 2
  -> 91)
 (note 96 95 97 15 [bb 15] NOTE_INSN_BASIC_BLOCK)
 (insn 97 96 98 15 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC10") [flags 0x2]  <var_decl 0x7f4fb5d01510 *.LC10>)) "cpu4_thread10.c":204:5 -1
+        (symbol_ref/f:DI ("*.LC10") [flags 0x2]  <var_decl 0x7f8e4951b510 *.LC10>)) "cpu4_thread10.c":204:5 -1
      (nil))
 (call_insn 98 97 99 15 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f4fb5e8c100 __builtin_puts>) [0 __builtin_puts S1 A8])
+        (call (mem:QI (symbol_ref:DI ("puts") [flags 0x41]  <function_decl 0x7f8e496a6100 __builtin_puts>) [0 __builtin_puts S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":204:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -4264,7 +4264,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":213:21 -1
      (nil))
 (insn 26 25 27 5 (set (reg:DI 160)
-        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f4fb5fbd6c0 A>)) "cpu4_thread10.c":213:21 -1
+        (symbol_ref:DI ("A") [flags 0x2]  <var_decl 0x7f8e497d76c0 A>)) "cpu4_thread10.c":213:21 -1
      (nil))
 (insn 27 26 28 5 (set (mem:DF (plus:DI (reg:DI 159)
                 (reg:DI 160)) [1 A S8 A64])
@@ -4344,7 +4344,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":214:21 -1
      (nil))
 (insn 41 40 42 5 (set (reg:DI 170)
-        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f4fb5fbd750 B>)) "cpu4_thread10.c":214:21 -1
+        (symbol_ref:DI ("B") [flags 0x2]  <var_decl 0x7f8e497d7750 B>)) "cpu4_thread10.c":214:21 -1
      (nil))
 (insn 42 41 43 5 (set (mem:DF (plus:DI (reg:DI 169)
                 (reg:DI 170)) [1 B S8 A64])
@@ -4386,7 +4386,7 @@ try_optimize_cfg iteration 2
         ]) "cpu4_thread10.c":215:21 -1
      (nil))
 (insn 50 49 51 5 (set (reg:DI 178)
-        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>)) "cpu4_thread10.c":215:21 -1
+        (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>)) "cpu4_thread10.c":215:21 -1
      (nil))
 (insn 51 50 52 5 (set (reg:DF 179)
         (mem/u/c:DF (symbol_ref/u:DI ("*.LC0") [flags 0x2]) [0  S8 A64])) "cpu4_thread10.c":215:21 -1
@@ -4985,7 +4985,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":226:9 -1
      (nil))
 (call_insn 200 199 201 21 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("sched_setaffinity") [flags 0x41]  <function_decl 0x7f4fb5f48f00 sched_setaffinity>) [0 sched_setaffinity S1 A8])
+        (call (mem:QI (symbol_ref:DI ("sched_setaffinity") [flags 0x41]  <function_decl 0x7f8e49762f00 sched_setaffinity>) [0 sched_setaffinity S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":226:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5009,7 +5009,7 @@ try_optimize_cfg iteration 2
  -> 217)
 (note 204 203 205 22 [bb 22] NOTE_INSN_BASIC_BLOCK)
 (call_insn/u 205 204 206 22 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("__errno_location") [flags 0x41]  <function_decl 0x7f4fb5c34900 __errno_location>) [0 __errno_location S1 A8])
+        (call (mem:QI (symbol_ref:DI ("__errno_location") [flags 0x41]  <function_decl 0x7f8e4944e900 __errno_location>) [0 __errno_location S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":227:68 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5024,7 +5024,7 @@ try_optimize_cfg iteration 2
         (reg:SI 127 [ _46 ])) "cpu4_thread10.c":227:9 -1
      (nil))
 (call_insn 209 208 210 22 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("strerror") [flags 0x41]  <function_decl 0x7f4fb5c2bd00 strerror>) [0 strerror S1 A8])
+        (call (mem:QI (symbol_ref:DI ("strerror") [flags 0x41]  <function_decl 0x7f8e49445d00 strerror>) [0 strerror S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":227:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5034,13 +5034,13 @@ try_optimize_cfg iteration 2
         (reg:DI 0 ax)) "cpu4_thread10.c":227:9 -1
      (nil))
 (insn 211 210 212 22 (set (reg/f:DI 129 [ stderr.4_48 ])
-        (mem/f/c:DI (symbol_ref:DI ("stderr") [flags 0x40]  <var_decl 0x7f4fb5fbd090 stderr>) [8 stderr+0 S8 A64])) "cpu4_thread10.c":227:9 -1
+        (mem/f/c:DI (symbol_ref:DI ("stderr") [flags 0x40]  <var_decl 0x7f8e497d7090 stderr>) [8 stderr+0 S8 A64])) "cpu4_thread10.c":227:9 -1
      (nil))
 (insn 212 211 213 22 (set (reg:DI 1 dx)
         (reg/f:DI 128 [ _47 ])) "cpu4_thread10.c":227:9 -1
      (nil))
 (insn 213 212 214 22 (set (reg:DI 4 si)
-        (symbol_ref/f:DI ("*.LC11") [flags 0x2]  <var_decl 0x7f4fb5d0a360 *.LC11>)) "cpu4_thread10.c":227:9 -1
+        (symbol_ref/f:DI ("*.LC11") [flags 0x2]  <var_decl 0x7f8e49524360 *.LC11>)) "cpu4_thread10.c":227:9 -1
      (nil))
 (insn 214 213 215 22 (set (reg:DI 5 di)
         (reg/f:DI 129 [ stderr.4_48 ])) "cpu4_thread10.c":227:9 -1
@@ -5049,7 +5049,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":227:9 -1
      (nil))
 (call_insn 216 215 217 22 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("fprintf") [flags 0x41]  <function_decl 0x7f4fb5e88400 fprintf>) [0 __builtin_fprintf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("fprintf") [flags 0x41]  <function_decl 0x7f8e496a2400 fprintf>) [0 __builtin_fprintf S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":227:9 -1
      (nil)
     (expr_list (use (reg:QI 0 ax))
@@ -5074,7 +5074,7 @@ try_optimize_cfg iteration 2
         (reg:DI 205)) "cpu4_thread10.c":237:9 -1
      (nil))
 (call_insn 222 221 223 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":237:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5094,7 +5094,7 @@ try_optimize_cfg iteration 2
         (reg:DI 206)) "cpu4_thread10.c":238:9 -1
      (nil))
 (call_insn 226 225 227 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":238:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5115,7 +5115,7 @@ try_optimize_cfg iteration 2
         (reg:DI 207)) "cpu4_thread10.c":239:9 -1
      (nil))
 (call_insn 230 229 231 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":239:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5139,7 +5139,7 @@ try_optimize_cfg iteration 2
         (reg:DI 208)) "cpu4_thread10.c":240:9 -1
      (nil))
 (call_insn 235 234 236 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":240:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5178,7 +5178,7 @@ try_optimize_cfg iteration 2
         (reg:DI 211)) "cpu4_thread10.c":242:9 -1
      (nil))
 (call_insn 242 241 243 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":242:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5203,7 +5203,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":243:9 -1
      (nil))
 (insn 246 245 247 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker0") [flags 0x3]  <function_decl 0x7f4fb5c34a00 worker0>)) "cpu4_thread10.c":243:9 -1
+        (symbol_ref:DI ("worker0") [flags 0x3]  <function_decl 0x7f8e4944ea00 worker0>)) "cpu4_thread10.c":243:9 -1
      (nil))
 (insn 247 246 248 23 (set (reg:DI 4 si)
         (reg:DI 212)) "cpu4_thread10.c":243:9 -1
@@ -5212,7 +5212,7 @@ try_optimize_cfg iteration 2
         (reg:DI 213)) "cpu4_thread10.c":243:9 -1
      (nil))
 (call_insn 249 248 250 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":243:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5232,7 +5232,7 @@ try_optimize_cfg iteration 2
         (reg:DI 214)) "cpu4_thread10.c":244:9 -1
      (nil))
 (call_insn 252 251 253 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":244:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5249,7 +5249,7 @@ try_optimize_cfg iteration 2
         (reg:DI 215)) "cpu4_thread10.c":251:9 -1
      (nil))
 (call_insn 255 254 256 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":251:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5269,7 +5269,7 @@ try_optimize_cfg iteration 2
         (reg:DI 216)) "cpu4_thread10.c":252:9 -1
      (nil))
 (call_insn 259 258 260 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":252:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5290,7 +5290,7 @@ try_optimize_cfg iteration 2
         (reg:DI 217)) "cpu4_thread10.c":253:9 -1
      (nil))
 (call_insn 263 262 264 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":253:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5314,7 +5314,7 @@ try_optimize_cfg iteration 2
         (reg:DI 218)) "cpu4_thread10.c":254:9 -1
      (nil))
 (call_insn 268 267 269 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":254:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5353,7 +5353,7 @@ try_optimize_cfg iteration 2
         (reg:DI 221)) "cpu4_thread10.c":256:9 -1
      (nil))
 (call_insn 275 274 276 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":256:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5378,7 +5378,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":257:9 -1
      (nil))
 (insn 279 278 280 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker1") [flags 0x3]  <function_decl 0x7f4fb5c34c00 worker1>)) "cpu4_thread10.c":257:9 -1
+        (symbol_ref:DI ("worker1") [flags 0x3]  <function_decl 0x7f8e4944ec00 worker1>)) "cpu4_thread10.c":257:9 -1
      (nil))
 (insn 280 279 281 23 (set (reg:DI 4 si)
         (reg:DI 222)) "cpu4_thread10.c":257:9 -1
@@ -5387,7 +5387,7 @@ try_optimize_cfg iteration 2
         (reg:DI 223)) "cpu4_thread10.c":257:9 -1
      (nil))
 (call_insn 282 281 283 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":257:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5407,7 +5407,7 @@ try_optimize_cfg iteration 2
         (reg:DI 224)) "cpu4_thread10.c":258:9 -1
      (nil))
 (call_insn 285 284 286 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":258:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5424,7 +5424,7 @@ try_optimize_cfg iteration 2
         (reg:DI 225)) "cpu4_thread10.c":265:9 -1
      (nil))
 (call_insn 288 287 289 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":265:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5444,7 +5444,7 @@ try_optimize_cfg iteration 2
         (reg:DI 226)) "cpu4_thread10.c":266:9 -1
      (nil))
 (call_insn 292 291 293 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":266:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5465,7 +5465,7 @@ try_optimize_cfg iteration 2
         (reg:DI 227)) "cpu4_thread10.c":267:9 -1
      (nil))
 (call_insn 296 295 297 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":267:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5489,7 +5489,7 @@ try_optimize_cfg iteration 2
         (reg:DI 228)) "cpu4_thread10.c":268:9 -1
      (nil))
 (call_insn 301 300 302 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":268:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5528,7 +5528,7 @@ try_optimize_cfg iteration 2
         (reg:DI 231)) "cpu4_thread10.c":270:9 -1
      (nil))
 (call_insn 308 307 309 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":270:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5553,7 +5553,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":271:9 -1
      (nil))
 (insn 312 311 313 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker2") [flags 0x3]  <function_decl 0x7f4fb5c34e00 worker2>)) "cpu4_thread10.c":271:9 -1
+        (symbol_ref:DI ("worker2") [flags 0x3]  <function_decl 0x7f8e4944ee00 worker2>)) "cpu4_thread10.c":271:9 -1
      (nil))
 (insn 313 312 314 23 (set (reg:DI 4 si)
         (reg:DI 232)) "cpu4_thread10.c":271:9 -1
@@ -5562,7 +5562,7 @@ try_optimize_cfg iteration 2
         (reg:DI 233)) "cpu4_thread10.c":271:9 -1
      (nil))
 (call_insn 315 314 316 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":271:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5582,7 +5582,7 @@ try_optimize_cfg iteration 2
         (reg:DI 234)) "cpu4_thread10.c":272:9 -1
      (nil))
 (call_insn 318 317 319 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":272:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5599,7 +5599,7 @@ try_optimize_cfg iteration 2
         (reg:DI 235)) "cpu4_thread10.c":279:9 -1
      (nil))
 (call_insn 321 320 322 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":279:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5619,7 +5619,7 @@ try_optimize_cfg iteration 2
         (reg:DI 236)) "cpu4_thread10.c":280:9 -1
      (nil))
 (call_insn 325 324 326 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":280:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5640,7 +5640,7 @@ try_optimize_cfg iteration 2
         (reg:DI 237)) "cpu4_thread10.c":281:9 -1
      (nil))
 (call_insn 329 328 330 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":281:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5664,7 +5664,7 @@ try_optimize_cfg iteration 2
         (reg:DI 238)) "cpu4_thread10.c":282:9 -1
      (nil))
 (call_insn 334 333 335 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":282:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5703,7 +5703,7 @@ try_optimize_cfg iteration 2
         (reg:DI 241)) "cpu4_thread10.c":284:9 -1
      (nil))
 (call_insn 341 340 342 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":284:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5728,7 +5728,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":285:9 -1
      (nil))
 (insn 345 344 346 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker3") [flags 0x3]  <function_decl 0x7f4fb5c34100 worker3>)) "cpu4_thread10.c":285:9 -1
+        (symbol_ref:DI ("worker3") [flags 0x3]  <function_decl 0x7f8e4944e100 worker3>)) "cpu4_thread10.c":285:9 -1
      (nil))
 (insn 346 345 347 23 (set (reg:DI 4 si)
         (reg:DI 242)) "cpu4_thread10.c":285:9 -1
@@ -5737,7 +5737,7 @@ try_optimize_cfg iteration 2
         (reg:DI 243)) "cpu4_thread10.c":285:9 -1
      (nil))
 (call_insn 348 347 349 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":285:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5757,7 +5757,7 @@ try_optimize_cfg iteration 2
         (reg:DI 244)) "cpu4_thread10.c":286:9 -1
      (nil))
 (call_insn 351 350 352 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":286:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5774,7 +5774,7 @@ try_optimize_cfg iteration 2
         (reg:DI 245)) "cpu4_thread10.c":293:9 -1
      (nil))
 (call_insn 354 353 355 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":293:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5794,7 +5794,7 @@ try_optimize_cfg iteration 2
         (reg:DI 246)) "cpu4_thread10.c":294:9 -1
      (nil))
 (call_insn 358 357 359 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":294:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5815,7 +5815,7 @@ try_optimize_cfg iteration 2
         (reg:DI 247)) "cpu4_thread10.c":295:9 -1
      (nil))
 (call_insn 362 361 363 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":295:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5839,7 +5839,7 @@ try_optimize_cfg iteration 2
         (reg:DI 248)) "cpu4_thread10.c":296:9 -1
      (nil))
 (call_insn 367 366 368 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":296:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5878,7 +5878,7 @@ try_optimize_cfg iteration 2
         (reg:DI 251)) "cpu4_thread10.c":298:9 -1
      (nil))
 (call_insn 374 373 375 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":298:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5903,7 +5903,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":299:9 -1
      (nil))
 (insn 378 377 379 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker4") [flags 0x3]  <function_decl 0x7f4fb5c45000 worker4>)) "cpu4_thread10.c":299:9 -1
+        (symbol_ref:DI ("worker4") [flags 0x3]  <function_decl 0x7f8e4945f000 worker4>)) "cpu4_thread10.c":299:9 -1
      (nil))
 (insn 379 378 380 23 (set (reg:DI 4 si)
         (reg:DI 252)) "cpu4_thread10.c":299:9 -1
@@ -5912,7 +5912,7 @@ try_optimize_cfg iteration 2
         (reg:DI 253)) "cpu4_thread10.c":299:9 -1
      (nil))
 (call_insn 381 380 382 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":299:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5932,7 +5932,7 @@ try_optimize_cfg iteration 2
         (reg:DI 254)) "cpu4_thread10.c":300:9 -1
      (nil))
 (call_insn 384 383 385 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":300:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5949,7 +5949,7 @@ try_optimize_cfg iteration 2
         (reg:DI 255)) "cpu4_thread10.c":307:9 -1
      (nil))
 (call_insn 387 386 388 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":307:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5969,7 +5969,7 @@ try_optimize_cfg iteration 2
         (reg:DI 256)) "cpu4_thread10.c":308:9 -1
      (nil))
 (call_insn 391 390 392 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":308:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -5990,7 +5990,7 @@ try_optimize_cfg iteration 2
         (reg:DI 257)) "cpu4_thread10.c":309:9 -1
      (nil))
 (call_insn 395 394 396 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":309:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6014,7 +6014,7 @@ try_optimize_cfg iteration 2
         (reg:DI 258)) "cpu4_thread10.c":310:9 -1
      (nil))
 (call_insn 400 399 401 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":310:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6053,7 +6053,7 @@ try_optimize_cfg iteration 2
         (reg:DI 261)) "cpu4_thread10.c":312:9 -1
      (nil))
 (call_insn 407 406 408 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":312:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6078,7 +6078,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":313:9 -1
      (nil))
 (insn 411 410 412 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker5") [flags 0x3]  <function_decl 0x7f4fb5c45200 worker5>)) "cpu4_thread10.c":313:9 -1
+        (symbol_ref:DI ("worker5") [flags 0x3]  <function_decl 0x7f8e4945f200 worker5>)) "cpu4_thread10.c":313:9 -1
      (nil))
 (insn 412 411 413 23 (set (reg:DI 4 si)
         (reg:DI 262)) "cpu4_thread10.c":313:9 -1
@@ -6087,7 +6087,7 @@ try_optimize_cfg iteration 2
         (reg:DI 263)) "cpu4_thread10.c":313:9 -1
      (nil))
 (call_insn 414 413 415 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":313:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6107,7 +6107,7 @@ try_optimize_cfg iteration 2
         (reg:DI 264)) "cpu4_thread10.c":314:9 -1
      (nil))
 (call_insn 417 416 418 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":314:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6124,7 +6124,7 @@ try_optimize_cfg iteration 2
         (reg:DI 265)) "cpu4_thread10.c":321:9 -1
      (nil))
 (call_insn 420 419 421 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":321:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6144,7 +6144,7 @@ try_optimize_cfg iteration 2
         (reg:DI 266)) "cpu4_thread10.c":322:9 -1
      (nil))
 (call_insn 424 423 425 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":322:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6165,7 +6165,7 @@ try_optimize_cfg iteration 2
         (reg:DI 267)) "cpu4_thread10.c":323:9 -1
      (nil))
 (call_insn 428 427 429 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":323:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6189,7 +6189,7 @@ try_optimize_cfg iteration 2
         (reg:DI 268)) "cpu4_thread10.c":324:9 -1
      (nil))
 (call_insn 433 432 434 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":324:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6228,7 +6228,7 @@ try_optimize_cfg iteration 2
         (reg:DI 271)) "cpu4_thread10.c":326:9 -1
      (nil))
 (call_insn 440 439 441 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":326:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6253,7 +6253,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":327:9 -1
      (nil))
 (insn 444 443 445 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker6") [flags 0x3]  <function_decl 0x7f4fb5c45400 worker6>)) "cpu4_thread10.c":327:9 -1
+        (symbol_ref:DI ("worker6") [flags 0x3]  <function_decl 0x7f8e4945f400 worker6>)) "cpu4_thread10.c":327:9 -1
      (nil))
 (insn 445 444 446 23 (set (reg:DI 4 si)
         (reg:DI 272)) "cpu4_thread10.c":327:9 -1
@@ -6262,7 +6262,7 @@ try_optimize_cfg iteration 2
         (reg:DI 273)) "cpu4_thread10.c":327:9 -1
      (nil))
 (call_insn 447 446 448 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":327:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6282,7 +6282,7 @@ try_optimize_cfg iteration 2
         (reg:DI 274)) "cpu4_thread10.c":328:9 -1
      (nil))
 (call_insn 450 449 451 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":328:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6299,7 +6299,7 @@ try_optimize_cfg iteration 2
         (reg:DI 275)) "cpu4_thread10.c":335:9 -1
      (nil))
 (call_insn 453 452 454 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":335:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6319,7 +6319,7 @@ try_optimize_cfg iteration 2
         (reg:DI 276)) "cpu4_thread10.c":336:9 -1
      (nil))
 (call_insn 457 456 458 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":336:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6340,7 +6340,7 @@ try_optimize_cfg iteration 2
         (reg:DI 277)) "cpu4_thread10.c":337:9 -1
      (nil))
 (call_insn 461 460 462 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":337:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6364,7 +6364,7 @@ try_optimize_cfg iteration 2
         (reg:DI 278)) "cpu4_thread10.c":338:9 -1
      (nil))
 (call_insn 466 465 467 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":338:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6403,7 +6403,7 @@ try_optimize_cfg iteration 2
         (reg:DI 281)) "cpu4_thread10.c":340:9 -1
      (nil))
 (call_insn 473 472 474 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":340:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6428,7 +6428,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":341:9 -1
      (nil))
 (insn 477 476 478 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker7") [flags 0x3]  <function_decl 0x7f4fb5c45600 worker7>)) "cpu4_thread10.c":341:9 -1
+        (symbol_ref:DI ("worker7") [flags 0x3]  <function_decl 0x7f8e4945f600 worker7>)) "cpu4_thread10.c":341:9 -1
      (nil))
 (insn 478 477 479 23 (set (reg:DI 4 si)
         (reg:DI 282)) "cpu4_thread10.c":341:9 -1
@@ -6437,7 +6437,7 @@ try_optimize_cfg iteration 2
         (reg:DI 283)) "cpu4_thread10.c":341:9 -1
      (nil))
 (call_insn 480 479 481 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":341:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6457,7 +6457,7 @@ try_optimize_cfg iteration 2
         (reg:DI 284)) "cpu4_thread10.c":342:9 -1
      (nil))
 (call_insn 483 482 484 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":342:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6474,7 +6474,7 @@ try_optimize_cfg iteration 2
         (reg:DI 285)) "cpu4_thread10.c":349:9 -1
      (nil))
 (call_insn 486 485 487 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":349:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6494,7 +6494,7 @@ try_optimize_cfg iteration 2
         (reg:DI 286)) "cpu4_thread10.c":350:9 -1
      (nil))
 (call_insn 490 489 491 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":350:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6515,7 +6515,7 @@ try_optimize_cfg iteration 2
         (reg:DI 287)) "cpu4_thread10.c":351:9 -1
      (nil))
 (call_insn 494 493 495 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":351:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6539,7 +6539,7 @@ try_optimize_cfg iteration 2
         (reg:DI 288)) "cpu4_thread10.c":352:9 -1
      (nil))
 (call_insn 499 498 500 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":352:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6578,7 +6578,7 @@ try_optimize_cfg iteration 2
         (reg:DI 291)) "cpu4_thread10.c":354:9 -1
      (nil))
 (call_insn 506 505 507 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":354:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6603,7 +6603,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":355:9 -1
      (nil))
 (insn 510 509 511 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker8") [flags 0x3]  <function_decl 0x7f4fb5c45800 worker8>)) "cpu4_thread10.c":355:9 -1
+        (symbol_ref:DI ("worker8") [flags 0x3]  <function_decl 0x7f8e4945f800 worker8>)) "cpu4_thread10.c":355:9 -1
      (nil))
 (insn 511 510 512 23 (set (reg:DI 4 si)
         (reg:DI 292)) "cpu4_thread10.c":355:9 -1
@@ -6612,7 +6612,7 @@ try_optimize_cfg iteration 2
         (reg:DI 293)) "cpu4_thread10.c":355:9 -1
      (nil))
 (call_insn 513 512 514 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":355:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6632,7 +6632,7 @@ try_optimize_cfg iteration 2
         (reg:DI 294)) "cpu4_thread10.c":356:9 -1
      (nil))
 (call_insn 516 515 517 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":356:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6649,7 +6649,7 @@ try_optimize_cfg iteration 2
         (reg:DI 295)) "cpu4_thread10.c":363:9 -1
      (nil))
 (call_insn 519 518 520 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f4fb5f74400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_init") [flags 0x41]  <function_decl 0x7f8e4978e400 pthread_attr_init>) [0 pthread_attr_init S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":363:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6669,7 +6669,7 @@ try_optimize_cfg iteration 2
         (reg:DI 296)) "cpu4_thread10.c":364:9 -1
      (nil))
 (call_insn 523 522 524 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f4fb5f74f00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setinheritsched") [flags 0x41]  <function_decl 0x7f8e4978ef00 pthread_attr_setinheritsched>) [0 pthread_attr_setinheritsched S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":364:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6690,7 +6690,7 @@ try_optimize_cfg iteration 2
         (reg:DI 297)) "cpu4_thread10.c":365:9 -1
      (nil))
 (call_insn 527 526 528 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f4fb5f74d00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedpolicy") [flags 0x41]  <function_decl 0x7f8e4978ed00 pthread_attr_setschedpolicy>) [0 pthread_attr_setschedpolicy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":365:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6714,7 +6714,7 @@ try_optimize_cfg iteration 2
         (reg:DI 298)) "cpu4_thread10.c":366:9 -1
      (nil))
 (call_insn 532 531 533 23 (set (reg:DI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f4fb5e81800 memset>) [0 __builtin_memset S1 A8])
+        (call (mem:QI (symbol_ref:DI ("memset") [flags 0x41]  <function_decl 0x7f8e4969b800 memset>) [0 __builtin_memset S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":366:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6753,7 +6753,7 @@ try_optimize_cfg iteration 2
         (reg:DI 301)) "cpu4_thread10.c":368:9 -1
      (nil))
 (call_insn 539 538 540 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f4fb5f74b00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_setschedparam") [flags 0x41]  <function_decl 0x7f8e4978eb00 pthread_attr_setschedparam>) [0 pthread_attr_setschedparam S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":368:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6778,7 +6778,7 @@ try_optimize_cfg iteration 2
         (const_int 0 [0])) "cpu4_thread10.c":369:9 -1
      (nil))
 (insn 543 542 544 23 (set (reg:DI 1 dx)
-        (symbol_ref:DI ("worker9") [flags 0x3]  <function_decl 0x7f4fb5c45a00 worker9>)) "cpu4_thread10.c":369:9 -1
+        (symbol_ref:DI ("worker9") [flags 0x3]  <function_decl 0x7f8e4945fa00 worker9>)) "cpu4_thread10.c":369:9 -1
      (nil))
 (insn 544 543 545 23 (set (reg:DI 4 si)
         (reg:DI 302)) "cpu4_thread10.c":369:9 -1
@@ -6787,7 +6787,7 @@ try_optimize_cfg iteration 2
         (reg:DI 303)) "cpu4_thread10.c":369:9 -1
      (nil))
 (call_insn 546 545 547 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f4fb5f62b00 pthread_create>) [0 pthread_create S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_create") [flags 0x41]  <function_decl 0x7f8e4977cb00 pthread_create>) [0 pthread_create S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":369:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6807,7 +6807,7 @@ try_optimize_cfg iteration 2
         (reg:DI 304)) "cpu4_thread10.c":370:9 -1
      (nil))
 (call_insn 549 548 550 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f4fb5f74500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_attr_destroy") [flags 0x41]  <function_decl 0x7f8e4978e500 pthread_attr_destroy>) [0 pthread_attr_destroy S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":370:9 -1
      (expr_list:REG_EH_REGION (const_int 0 [0])
         (nil))
@@ -6824,7 +6824,7 @@ try_optimize_cfg iteration 2
         (reg:DI 130 [ t0.5_49 ])) "cpu4_thread10.c":373:5 -1
      (nil))
 (call_insn 553 552 554 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":373:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6841,7 +6841,7 @@ try_optimize_cfg iteration 2
         (reg:DI 131 [ t1.6_50 ])) "cpu4_thread10.c":374:5 -1
      (nil))
 (call_insn 557 556 558 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":374:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6858,7 +6858,7 @@ try_optimize_cfg iteration 2
         (reg:DI 132 [ t2.7_51 ])) "cpu4_thread10.c":375:5 -1
      (nil))
 (call_insn 561 560 562 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":375:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6875,7 +6875,7 @@ try_optimize_cfg iteration 2
         (reg:DI 133 [ t3.8_52 ])) "cpu4_thread10.c":376:5 -1
      (nil))
 (call_insn 565 564 566 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":376:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6892,7 +6892,7 @@ try_optimize_cfg iteration 2
         (reg:DI 134 [ t4.9_53 ])) "cpu4_thread10.c":377:5 -1
      (nil))
 (call_insn 569 568 570 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":377:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6909,7 +6909,7 @@ try_optimize_cfg iteration 2
         (reg:DI 135 [ t5.10_54 ])) "cpu4_thread10.c":378:5 -1
      (nil))
 (call_insn 573 572 574 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":378:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6926,7 +6926,7 @@ try_optimize_cfg iteration 2
         (reg:DI 136 [ t6.11_55 ])) "cpu4_thread10.c":379:5 -1
      (nil))
 (call_insn 577 576 578 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":379:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6943,7 +6943,7 @@ try_optimize_cfg iteration 2
         (reg:DI 137 [ t7.12_56 ])) "cpu4_thread10.c":380:5 -1
      (nil))
 (call_insn 581 580 582 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":380:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6960,7 +6960,7 @@ try_optimize_cfg iteration 2
         (reg:DI 138 [ t8.13_57 ])) "cpu4_thread10.c":381:5 -1
      (nil))
 (call_insn 585 584 586 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":381:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
@@ -6977,26 +6977,26 @@ try_optimize_cfg iteration 2
         (reg:DI 139 [ t9.14_58 ])) "cpu4_thread10.c":382:5 -1
      (nil))
 (call_insn 589 588 590 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f4fb5f62d00 pthread_join>) [0 pthread_join S1 A8])
+        (call (mem:QI (symbol_ref:DI ("pthread_join") [flags 0x41]  <function_decl 0x7f8e4977cd00 pthread_join>) [0 pthread_join S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":382:5 -1
      (nil)
     (expr_list:DI (use (reg:DI 5 di))
         (expr_list:DI (use (reg:DI 4 si))
             (nil))))
 (insn 590 589 591 23 (set (reg:DF 140 [ _59 ])
-        (mem/c:DF (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f4fb5fbd7e0 C>) [1 C+0 S8 A256])) "cpu4_thread10.c":384:5 -1
+        (mem/c:DF (symbol_ref:DI ("C") [flags 0x2]  <var_decl 0x7f8e497d77e0 C>) [1 C+0 S8 A256])) "cpu4_thread10.c":384:5 -1
      (nil))
 (insn 591 590 592 23 (set (reg:DF 20 xmm0)
         (reg:DF 140 [ _59 ])) "cpu4_thread10.c":384:5 -1
      (nil))
 (insn 592 591 593 23 (set (reg:DI 5 di)
-        (symbol_ref/f:DI ("*.LC12") [flags 0x2]  <var_decl 0x7f4fb5d0a3f0 *.LC12>)) "cpu4_thread10.c":384:5 -1
+        (symbol_ref/f:DI ("*.LC12") [flags 0x2]  <var_decl 0x7f8e495243f0 *.LC12>)) "cpu4_thread10.c":384:5 -1
      (nil))
 (insn 593 592 594 23 (set (reg:QI 0 ax)
         (const_int 1 [0x1])) "cpu4_thread10.c":384:5 -1
      (nil))
 (call_insn 594 593 595 23 (set (reg:SI 0 ax)
-        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7f4fb5e8ba00 printf>) [0 __builtin_printf S1 A8])
+        (call (mem:QI (symbol_ref:DI ("printf") [flags 0x41]  <function_decl 0x7f8e496a5a00 printf>) [0 __builtin_printf S1 A8])
             (const_int 0 [0]))) "cpu4_thread10.c":384:5 -1
      (nil)
     (expr_list (use (reg:QI 0 ax))
@@ -7027,7 +7027,7 @@ try_optimize_cfg iteration 2
      (nil)
  -> 606)
 (note 610 603 604 26 [bb 26] NOTE_INSN_BASIC_BLOCK)
-(call_insn 604 610 605 26 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f4fb5c66b00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
+(call_insn 604 610 605 26 (call (mem:QI (symbol_ref:DI ("__stack_chk_fail") [flags 0x41]  <function_decl 0x7f8e49480b00 __stack_chk_fail>) [0 __stack_chk_fail S1 A8])
         (const_int 0 [0])) "cpu4_thread10.c":386:1 -1
      (expr_list:REG_ARGS_SIZE (const_int 0 [0])
         (expr_list:REG_NORETURN (const_int 0 [0])
