@@ -1,6 +1,6 @@
 # ScratchDAG（原 mycallyplus_v1）
 
-ScratchDAG 是一套调用图生成、可视化、时间分析与调度实验工具，支持 GUI/CLI，输出 DOT/PNG/JSON，便于对比和调试。
+ScratchDAG 是一套调用图生成、可视化、时间分析与调度实验工具，支持 GUI/CLI，输出 DOT/PNG/JSON，便于对比调试。
 
 ## 核心功能
 - 调用图：解析 `.expand`/源文件，生成线程/完整 DOT/PNG，导出 circle.txt。
@@ -10,16 +10,16 @@ ScratchDAG 是一套调用图生成、可视化、时间分析与调度实验工
 - DOT 过滤：节点名去噪。
 
 ## 快速开始
-1) 安装依赖：`pip install -r requirements.txt`（Python 3.8+，需 gcc、graphviz `dot`）  
-2) 启动 GUI：`PYTHONPATH=. python3 -m mycallyplus_v1`  
-3) CLI 示例：  
+1. 安装依赖：`pip install -r requirements.txt`（Python 3.8+，需 gcc、graphviz `dot`）  
+2. 启动 GUI：`PYTHONPATH=. python3 -m mycallyplus_v1`  
+3. CLI 示例：  
    - 线程 DAG：`PYTHONPATH=. python3 -m mycallyplus_v1.generation.legacy --threads-only --output-base mycallyplus_v1 path/to/file.expand`  
    - 时间分析：`PYTHONPATH=. python3 -m mycallyplus_v1.time_analysis --source src.c --meta mycalls_meta_internal.json`
 
 ## GUI 流程速览
 - 选择源/expand/dot/配置；生成 DAG/条件节点/源码调用图。
 - 互斥锁/信号量视图（需 circle.txt）。
-- 时间分析：选源 + meta → 拷贝、插桩、编译、运行 → 结果存于 `中间结果/<base>/时间分析/<project>/`。
+- 时间分析：源 + meta → 拷贝、插桩、编译、运行 → 结果存于 `中间结果/<base>/时间分析/<project>/`。
 - 调度算法：
   - 最长路径：`dag.dot` + `time_result.json` → `调度算法/longest_path/`
   - CPC 分析：`dag.dot` + `time_result.json` + `longest_path.json` → `调度算法/cpc/`
