@@ -1,0 +1,435 @@
+#define _GNU_SOURCE
+#include <pthread.h>
+#include <sched.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <time.h>
+
+/* 同 testschedule3 FIFO 版结构，LPF 仅增加 FIFO 优先级。 */
+
+#define T0 15.0
+#define T1 13.0
+#define T2 11.0
+#define T3 9.0
+#define T4 7.0
+#define T_FILL2 2.0
+#define T_FILL1 1.0
+#define T_FILL08 0.8
+
+static void *thread0_fn(void *arg);
+static void *thread1_fn(void *arg);
+static void *thread2_fn(void *arg);
+static void *thread3_fn(void *arg);
+static void *thread4_fn(void *arg);
+static void *thread5_fn(void *arg);
+static void *thread6_fn(void *arg);
+static void *thread7_fn(void *arg);
+static void *thread8_fn(void *arg);
+static void *thread9_fn(void *arg);
+static void *thread10_fn(void *arg);
+static void *thread11_fn(void *arg);
+static void *thread12_fn(void *arg);
+static void *thread13_fn(void *arg);
+static void *thread14_fn(void *arg);
+static void *thread15_fn(void *arg);
+static void *thread16_fn(void *arg);
+static void *thread17_fn(void *arg);
+static void *thread18_fn(void *arg);
+static void *thread19_fn(void *arg);
+static void *thread20_fn(void *arg);
+static void *thread21_fn(void *arg);
+static void *thread22_fn(void *arg);
+static void *thread23_fn(void *arg);
+static void *thread24_fn(void *arg);
+static void *thread25_fn(void *arg);
+static void *thread26_fn(void *arg);
+static void *thread27_fn(void *arg);
+static void *thread28_fn(void *arg);
+static void *thread29_fn(void *arg);
+static void *thread30_fn(void *arg);
+static void *thread31_fn(void *arg);
+static void *thread32_fn(void *arg);
+static void *thread33_fn(void *arg);
+static void *thread34_fn(void *arg);
+static void *thread35_fn(void *arg);
+static void *thread36_fn(void *arg);
+static void *thread37_fn(void *arg);
+static void *thread38_fn(void *arg);
+static void *thread39_fn(void *arg);
+static void *thread40_fn(void *arg);
+static void *thread41_fn(void *arg);
+static void *thread42_fn(void *arg);
+static void *thread43_fn(void *arg);
+static void *thread44_fn(void *arg);
+static void *thread45_fn(void *arg);
+static void *thread46_fn(void *arg);
+static void *thread47_fn(void *arg);
+static void *thread48_fn(void *arg);
+static void *thread49_fn(void *arg);
+
+#define MAT_N 64
+#ifndef WORK_SCALE
+#define WORK_SCALE 25000
+#endif
+
+static double A[MAT_N][MAT_N];
+static double B[MAT_N][MAT_N];
+static double C[MAT_N][MAT_N];
+
+#define PRIO_T0 90
+#define PRIO_T1 88
+#define PRIO_T2 86
+#define PRIO_T3 84
+#define PRIO_T4 82
+#define PRIO_FILL2 60
+#define PRIO_FILL1 50
+#define PRIO_FILL08 45
+
+static pthread_t t0, t1, t2, t3, t4;
+static pthread_t t5, t6, t7, t8, t9;
+static pthread_t t10, t11, t12, t13, t14, t15, t16, t17, t18, t19;
+static pthread_t t20, t21, t22, t23, t24, t25, t26, t27, t28, t29;
+static pthread_t t30, t31, t32, t33, t34, t35, t36, t37, t38, t39;
+static pthread_t t40, t41, t42, t43, t44, t45, t46, t47, t48, t49;
+
+static void set_attr_fifo(pthread_attr_t *attr, int prio)
+{
+    pthread_attr_init(attr);
+    pthread_attr_setinheritsched(attr, PTHREAD_EXPLICIT_SCHED);
+    pthread_attr_setschedpolicy(attr, SCHED_FIFO);
+    struct sched_param sp;
+    memset(&sp, 0, sizeof(sp));
+    sp.sched_priority = prio;
+    pthread_attr_setschedparam(attr, &sp);
+}
+
+static void init_matrices(void)
+{
+    for (int i = 0; i < MAT_N; ++i) {
+        for (int j = 0; j < MAT_N; ++j) {
+            A[i][j] = (double)(i + j + 1);
+            B[i][j] = (double)(i * 2 + j + 3);
+            C[i][j] = 0.0;
+        }
+    }
+}
+
+static void busy_wait_seconds(double seconds)
+{
+    int repeat = (int)(seconds * WORK_SCALE * 0.1);
+    if (repeat < 1) repeat = 1;
+    for (int r = 0; r < repeat; ++r) {
+        for (int i = 0; i < MAT_N; ++i) {
+            for (int j = 0; j < MAT_N; ++j) {
+                double acc = 0.0;
+                for (int k = 0; k < MAT_N; ++k) {
+                    acc += A[i][k] * B[k][j];
+                }
+                C[i][j] = acc;
+            }
+        }
+    }
+}
+
+static double elapsed_seconds(const struct timespec *start, const struct timespec *end)
+{
+    long long ns = (end->tv_sec - start->tv_sec) * 1000000000LL +
+                   (end->tv_nsec - start->tv_nsec);
+    return (double)ns / 1e9;
+}
+
+static struct timespec g_prog_start;
+
+static double since_prog_start(void)
+{
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return elapsed_seconds(&g_prog_start, &now);
+}
+
+#define START_PRINT(name) printf("%s start (CPU %d) at %.3fs\n", name, sched_getcpu(), since_prog_start())
+#define DONE_PRINT(name, target, ts_start, ts_end) \
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", \
+           name, sched_getcpu(), (target) * 0.1, elapsed_seconds(&(ts_start), &(ts_end)))
+
+/* 关键链 */
+static void *thread4_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    START_PRINT("thread4");
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(T4);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    DONE_PRINT("thread4", T4, ts_start, ts_end);
+    return NULL;
+}
+
+static void *thread3_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    pthread_attr_t a4;
+    (void)arg;
+    START_PRINT("thread3");
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(T3);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    DONE_PRINT("thread3", T3, ts_start, ts_end);
+
+    set_attr_fifo(&a4, PRIO_T4);
+    pthread_create(&t4, &a4, thread4_fn, NULL);
+    pthread_attr_destroy(&a4);
+    return NULL;
+}
+
+static void *thread2_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    pthread_attr_t a3;
+    (void)arg;
+    START_PRINT("thread2");
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(T2);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    DONE_PRINT("thread2", T2, ts_start, ts_end);
+
+    set_attr_fifo(&a3, PRIO_T3);
+    pthread_create(&t3, &a3, thread3_fn, NULL);
+    pthread_attr_destroy(&a3);
+    return NULL;
+}
+
+static void *thread1_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    pthread_attr_t a2;
+    (void)arg;
+    START_PRINT("thread1");
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(T1);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    DONE_PRINT("thread1", T1, ts_start, ts_end);
+
+    set_attr_fifo(&a2, PRIO_T2);
+    pthread_create(&t2, &a2, thread2_fn, NULL);
+    pthread_attr_destroy(&a2);
+    return NULL;
+}
+
+static void *thread0_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    pthread_attr_t a1;
+    (void)arg;
+    START_PRINT("thread0");
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(T0);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    DONE_PRINT("thread0", T0, ts_start, ts_end);
+
+    set_attr_fifo(&a1, PRIO_T1);
+    pthread_create(&t1, &a1, thread1_fn, NULL);
+    pthread_attr_destroy(&a1);
+    return NULL;
+}
+
+/* 填充任务 */
+static void run_fill_task(const char *name, double t)
+{
+    struct timespec ts_start, ts_end;
+    START_PRINT(name);
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(t);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    DONE_PRINT(name, t, ts_start, ts_end);
+}
+
+#define DEFINE_FILL_FN(fn_name, dur, label)            \
+    static void *fn_name(void *arg) {                  \
+        (void)arg;                                    \
+        run_fill_task(label, dur);                    \
+        return NULL;                                  \
+    }
+
+DEFINE_FILL_FN(thread5_fn,  T_FILL2, "thread5")
+DEFINE_FILL_FN(thread6_fn,  T_FILL2, "thread6")
+DEFINE_FILL_FN(thread7_fn,  T_FILL2, "thread7")
+DEFINE_FILL_FN(thread8_fn,  T_FILL2, "thread8")
+DEFINE_FILL_FN(thread9_fn,  T_FILL2, "thread9")
+DEFINE_FILL_FN(thread10_fn, T_FILL1, "thread10")
+DEFINE_FILL_FN(thread11_fn, T_FILL1, "thread11")
+DEFINE_FILL_FN(thread12_fn, T_FILL1, "thread12")
+DEFINE_FILL_FN(thread13_fn, T_FILL1, "thread13")
+DEFINE_FILL_FN(thread14_fn, T_FILL1, "thread14")
+DEFINE_FILL_FN(thread15_fn, T_FILL1, "thread15")
+DEFINE_FILL_FN(thread16_fn, T_FILL1, "thread16")
+DEFINE_FILL_FN(thread17_fn, T_FILL1, "thread17")
+DEFINE_FILL_FN(thread18_fn, T_FILL1, "thread18")
+DEFINE_FILL_FN(thread19_fn, T_FILL1, "thread19")
+DEFINE_FILL_FN(thread20_fn, T_FILL1, "thread20")
+DEFINE_FILL_FN(thread21_fn, T_FILL1, "thread21")
+DEFINE_FILL_FN(thread22_fn, T_FILL1, "thread22")
+DEFINE_FILL_FN(thread23_fn, T_FILL1, "thread23")
+DEFINE_FILL_FN(thread24_fn, T_FILL1, "thread24")
+DEFINE_FILL_FN(thread25_fn, T_FILL1, "thread25")
+DEFINE_FILL_FN(thread26_fn, T_FILL1, "thread26")
+DEFINE_FILL_FN(thread27_fn, T_FILL1, "thread27")
+DEFINE_FILL_FN(thread28_fn, T_FILL1, "thread28")
+DEFINE_FILL_FN(thread29_fn, T_FILL1, "thread29")
+DEFINE_FILL_FN(thread30_fn, T_FILL08, "thread30")
+DEFINE_FILL_FN(thread31_fn, T_FILL08, "thread31")
+DEFINE_FILL_FN(thread32_fn, T_FILL08, "thread32")
+DEFINE_FILL_FN(thread33_fn, T_FILL08, "thread33")
+DEFINE_FILL_FN(thread34_fn, T_FILL08, "thread34")
+DEFINE_FILL_FN(thread35_fn, T_FILL08, "thread35")
+DEFINE_FILL_FN(thread36_fn, T_FILL08, "thread36")
+DEFINE_FILL_FN(thread37_fn, T_FILL08, "thread37")
+DEFINE_FILL_FN(thread38_fn, T_FILL08, "thread38")
+DEFINE_FILL_FN(thread39_fn, T_FILL08, "thread39")
+DEFINE_FILL_FN(thread40_fn, T_FILL08, "thread40")
+DEFINE_FILL_FN(thread41_fn, T_FILL08, "thread41")
+DEFINE_FILL_FN(thread42_fn, T_FILL08, "thread42")
+DEFINE_FILL_FN(thread43_fn, T_FILL08, "thread43")
+DEFINE_FILL_FN(thread44_fn, T_FILL08, "thread44")
+DEFINE_FILL_FN(thread45_fn, T_FILL08, "thread45")
+DEFINE_FILL_FN(thread46_fn, T_FILL08, "thread46")
+DEFINE_FILL_FN(thread47_fn, T_FILL08, "thread47")
+DEFINE_FILL_FN(thread48_fn, T_FILL08, "thread48")
+DEFINE_FILL_FN(thread49_fn, T_FILL08, "thread49")
+
+int main(void)
+{
+    struct timespec ts_prog_start, ts_prog_end;
+    cpu_set_t set;
+    CPU_ZERO(&set);
+    CPU_SET(0, &set);
+    CPU_SET(1, &set);
+    CPU_SET(2, &set);
+    CPU_SET(3, &set);
+    if (sched_setaffinity(0, sizeof(set), &set) != 0) {
+        fprintf(stderr, "sched_setaffinity failed: %s\n", strerror(errno));
+    }
+
+    init_matrices();
+    clock_gettime(CLOCK_MONOTONIC, &g_prog_start);
+    clock_gettime(CLOCK_MONOTONIC, &ts_prog_start);
+
+    pthread_attr_t a0, a_fill2, a_fill1, a_fill08;
+    set_attr_fifo(&a0, PRIO_T0);
+    set_attr_fifo(&a_fill2, PRIO_FILL2);
+    set_attr_fifo(&a_fill1, PRIO_FILL1);
+    set_attr_fifo(&a_fill08, PRIO_FILL08);
+
+    pthread_create(&t0, &a0, thread0_fn, NULL);
+
+    pthread_create(&t5, &a_fill2, thread5_fn, NULL);
+    pthread_create(&t6, &a_fill2, thread6_fn, NULL);
+    pthread_create(&t7, &a_fill2, thread7_fn, NULL);
+    pthread_create(&t8, &a_fill2, thread8_fn, NULL);
+    pthread_create(&t9, &a_fill2, thread9_fn, NULL);
+
+    pthread_create(&t10, &a_fill1, thread10_fn, NULL);
+    pthread_create(&t11, &a_fill1, thread11_fn, NULL);
+    pthread_create(&t12, &a_fill1, thread12_fn, NULL);
+    pthread_create(&t13, &a_fill1, thread13_fn, NULL);
+    pthread_create(&t14, &a_fill1, thread14_fn, NULL);
+    pthread_create(&t15, &a_fill1, thread15_fn, NULL);
+    pthread_create(&t16, &a_fill1, thread16_fn, NULL);
+    pthread_create(&t17, &a_fill1, thread17_fn, NULL);
+    pthread_create(&t18, &a_fill1, thread18_fn, NULL);
+    pthread_create(&t19, &a_fill1, thread19_fn, NULL);
+    pthread_create(&t20, &a_fill1, thread20_fn, NULL);
+    pthread_create(&t21, &a_fill1, thread21_fn, NULL);
+    pthread_create(&t22, &a_fill1, thread22_fn, NULL);
+    pthread_create(&t23, &a_fill1, thread23_fn, NULL);
+    pthread_create(&t24, &a_fill1, thread24_fn, NULL);
+    pthread_create(&t25, &a_fill1, thread25_fn, NULL);
+    pthread_create(&t26, &a_fill1, thread26_fn, NULL);
+    pthread_create(&t27, &a_fill1, thread27_fn, NULL);
+    pthread_create(&t28, &a_fill1, thread28_fn, NULL);
+    pthread_create(&t29, &a_fill1, thread29_fn, NULL);
+
+    pthread_create(&t30, &a_fill08, thread30_fn, NULL);
+    pthread_create(&t31, &a_fill08, thread31_fn, NULL);
+    pthread_create(&t32, &a_fill08, thread32_fn, NULL);
+    pthread_create(&t33, &a_fill08, thread33_fn, NULL);
+    pthread_create(&t34, &a_fill08, thread34_fn, NULL);
+    pthread_create(&t35, &a_fill08, thread35_fn, NULL);
+    pthread_create(&t36, &a_fill08, thread36_fn, NULL);
+    pthread_create(&t37, &a_fill08, thread37_fn, NULL);
+    pthread_create(&t38, &a_fill08, thread38_fn, NULL);
+    pthread_create(&t39, &a_fill08, thread39_fn, NULL);
+    pthread_create(&t40, &a_fill08, thread40_fn, NULL);
+    pthread_create(&t41, &a_fill08, thread41_fn, NULL);
+    pthread_create(&t42, &a_fill08, thread42_fn, NULL);
+    pthread_create(&t43, &a_fill08, thread43_fn, NULL);
+    pthread_create(&t44, &a_fill08, thread44_fn, NULL);
+    pthread_create(&t45, &a_fill08, thread45_fn, NULL);
+    pthread_create(&t46, &a_fill08, thread46_fn, NULL);
+    pthread_create(&t47, &a_fill08, thread47_fn, NULL);
+    pthread_create(&t48, &a_fill08, thread48_fn, NULL);
+    pthread_create(&t49, &a_fill08, thread49_fn, NULL);
+
+    pthread_attr_destroy(&a0);
+    pthread_attr_destroy(&a_fill2);
+    pthread_attr_destroy(&a_fill1);
+    pthread_attr_destroy(&a_fill08);
+
+    pthread_join(t0, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    pthread_join(t3, NULL);
+    pthread_join(t4, NULL);
+    pthread_join(t5, NULL);
+    pthread_join(t6, NULL);
+    pthread_join(t7, NULL);
+    pthread_join(t8, NULL);
+    pthread_join(t9, NULL);
+    pthread_join(t10, NULL);
+    pthread_join(t11, NULL);
+    pthread_join(t12, NULL);
+    pthread_join(t13, NULL);
+    pthread_join(t14, NULL);
+    pthread_join(t15, NULL);
+    pthread_join(t16, NULL);
+    pthread_join(t17, NULL);
+    pthread_join(t18, NULL);
+    pthread_join(t19, NULL);
+    pthread_join(t20, NULL);
+    pthread_join(t21, NULL);
+    pthread_join(t22, NULL);
+    pthread_join(t23, NULL);
+    pthread_join(t24, NULL);
+    pthread_join(t25, NULL);
+    pthread_join(t26, NULL);
+    pthread_join(t27, NULL);
+    pthread_join(t28, NULL);
+    pthread_join(t29, NULL);
+    pthread_join(t30, NULL);
+    pthread_join(t31, NULL);
+    pthread_join(t32, NULL);
+    pthread_join(t33, NULL);
+    pthread_join(t34, NULL);
+    pthread_join(t35, NULL);
+    pthread_join(t36, NULL);
+    pthread_join(t37, NULL);
+    pthread_join(t38, NULL);
+    pthread_join(t39, NULL);
+    pthread_join(t40, NULL);
+    pthread_join(t41, NULL);
+    pthread_join(t42, NULL);
+    pthread_join(t43, NULL);
+    pthread_join(t44, NULL);
+    pthread_join(t45, NULL);
+    pthread_join(t46, NULL);
+    pthread_join(t47, NULL);
+    pthread_join(t48, NULL);
+    pthread_join(t49, NULL);
+
+    clock_gettime(CLOCK_MONOTONIC, &ts_prog_end);
+    printf("Program total time (LPF): %.3fs\n", elapsed_seconds(&ts_prog_start, &ts_prog_end));
+    puts("all threads done (LPF)");
+    return 0;
+}

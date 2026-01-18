@@ -1,0 +1,52 @@
+=== RUN at 2026-01-16T05:12:24-08:00 (WORK_SCALE=default) ===
+=== FIFO run ===
+c0 start (CPU 1) at 0.000s
+f2 start (CPU 0) at 0.000s
+f1 start (CPU 3) at 0.000s
+f4 start (CPU 2) at 0.000s
+f3 start (CPU 2) at 0.006s
+f5 start (CPU 3) at 0.010s
+f6 start (CPU 3) at 0.014s
+f2 done (CPU 0, target 0.080s, real 1.107s)
+f6 done (CPU 2, target 0.050s, real 1.447s)
+f4 done (CPU 3, target 0.060s, real 1.570s)
+f5 done (CPU 1, target 0.060s, real 1.688s)
+f3 done (CPU 0, target 0.080s, real 1.873s)
+f1 done (CPU 2, target 0.100s, real 2.127s)
+c0 done (CPU 3, target 0.800s, real 10.032s)
+c1 start (CPU 0) at 10.033s
+c1 done (CPU 2, target 0.600s, real 7.160s)
+c2 start (CPU 0) at 17.192s
+c2 done (CPU 2, target 0.500s, real 5.934s)
+c3 start (CPU 0) at 23.127s
+c3 done (CPU 2, target 0.400s, real 4.783s)
+c4 start (CPU 0) at 27.910s
+c4 done (CPU 2, target 0.300s, real 3.631s)
+Program total time: 31.541s
+all threads done
+
+=== LPF run ===
+c0 start (CPU 2) at 0.000s
+f1 start (CPU 1) at 0.000s
+f2 start (CPU 0) at 0.000s
+f3 start (CPU 3) at 0.004s
+f3 done (CPU 3, target 0.080s, real 1.012s)
+f4 start (CPU 3) at 1.016s
+f2 done (CPU 0, target 0.080s, real 1.019s)
+f5 start (CPU 0) at 1.048s
+f1 done (CPU 1, target 0.100s, real 1.317s)
+f6 start (CPU 1) at 1.317s
+f4 done (CPU 3, target 0.060s, real 0.805s)
+f5 done (CPU 0, target 0.060s, real 0.776s)
+f6 done (CPU 1, target 0.050s, real 0.629s)
+c0 done (CPU 2, target 0.800s, real 10.103s)
+c1 start (CPU 3) at 10.103s
+c1 done (CPU 3, target 0.600s, real 7.807s)
+c2 start (CPU 2) at 17.910s
+c2 done (CPU 2, target 0.500s, real 6.174s)
+c3 start (CPU 3) at 24.085s
+c3 done (CPU 3, target 0.400s, real 4.968s)
+c4 start (CPU 2) at 29.053s
+c4 done (CPU 2, target 0.300s, real 3.749s)
+Program total time (LPF): 32.802s
+all threads done (LPF)

@@ -1,0 +1,49 @@
+=== RUN at 2026-01-16T03:45:25-08:00 (WORK_SCALE=default) ===
+=== FIFO run ===
+thread0 start (CPU 0) at 0.000s
+thread1 start (CPU 3) at 0.000s
+thread9 start (CPU 1) at 0.000s
+thread0 done (CPU 0, target 0.050s, real 0.649s)
+thread2 start (CPU 2) at 0.649s
+thread4 start (CPU 0) at 0.649s
+thread3 start (CPU 2) at 0.669s
+thread1 done (CPU 3, target 0.080s, real 1.338s)
+thread5 start (CPU 0) at 1.349s
+thread7 start (CPU 2) at 1.349s
+thread6 start (CPU 1) at 1.349s
+thread2 done (CPU 3, target 0.100s, real 1.777s)
+thread3 done (CPU 3, target 0.120s, real 2.236s)
+thread4 done (CPU 0, target 0.150s, real 3.330s)
+thread7 done (CPU 2, target 0.250s, real 3.714s)
+thread5 done (CPU 1, target 0.180s, real 3.768s)
+thread6 done (CPU 3, target 0.200s, real 4.000s)
+thread8 start (CPU 2) at 5.361s
+thread9 done (CPU 0, target 0.350s, real 5.978s)
+thread8 done (CPU 2, target 0.300s, real 3.620s)
+Program total time: 8.982s
+all threads done
+
+=== LPF run ===
+[main-before-create] process policy=0 (0=CFS,1=FIFO,2=RR,6=DEADLINE?) prio=0
+thread0 start (CPU 3) at 0.000s | policy=1 prio=80
+thread1 start (CPU 1) at 0.000s | policy=1 prio=90
+thread9 start (CPU 2) at 0.000s | policy=1 prio=85
+thread0 done (CPU 3, target 0.050s, real 0.639s)
+thread3 start (CPU 0) at 0.639s | policy=1 prio=76
+thread4 start (CPU 0) at 0.639s | policy=1 prio=78
+thread1 done (CPU 1, target 0.080s, real 1.019s)
+thread5 start (CPU 3) at 1.019s | policy=1 prio=82
+thread6 start (CPU 0) at 1.019s | policy=1 prio=84
+thread7 start (CPU 3) at 1.019s | policy=1 prio=88
+thread5 done (CPU 1, target 0.180s, real 2.394s)
+thread6 done (CPU 0, target 0.200s, real 2.721s)
+thread2 start (CPU 0) at 3.740s | policy=1 prio=74
+thread7 done (CPU 3, target 0.250s, real 3.380s)
+thread9 done (CPU 2, target 0.350s, real 4.770s)
+thread3 done (CPU 3, target 0.120s, real 4.313s)
+thread4 done (CPU 0, target 0.150s, real 4.467s)
+thread2 done (CPU 1, target 0.100s, real 2.005s)
+thread8 start (CPU 3) at 5.745s | policy=1 prio=86
+thread8 done (CPU 3, target 0.300s, real 3.720s)
+Program total time (LPF): 9.465s
+all threads done (LPF)

@@ -1,0 +1,88 @@
+=== FIFO run ===
+thread0 start (CPU 1) at 0.000s
+thread1 start (CPU 3) at 0.000s
+thread10 start (CPU 0) at 0.000s
+thread15 start (CPU 2) at 0.000s
+thread4 start (CPU 3) at 0.000s
+thread9 start (CPU 0) at 0.015s
+thread7 start (CPU 0) at 0.018s
+thread11 start (CPU 2) at 0.018s
+thread16 start (CPU 3) at 0.038s
+thread15 done (CPU 3, target 0.050s, real 1.641s)
+thread16 done (CPU 2, target 0.050s, real 1.632s)
+thread11 done (CPU 2, target 0.080s, real 2.249s)
+thread16 start (CPU 2) at 2.267s
+thread10 done (CPU 0, target 0.100s, real 2.728s)
+thread15 start (CPU 0) at 2.734s
+thread16 done (CPU 3, target 0.050s, real 0.989s)
+thread7 done (CPU 1, target 0.120s, real 3.293s)
+thread4 done (CPU 2, target 0.150s, real 3.702s)
+thread7 start (CPU 2) at 3.716s
+thread11 start (CPU 3) at 3.726s
+thread15 done (CPU 0, target 0.050s, real 1.326s)
+thread9 done (CPU 0, target 0.200s, real 4.564s)
+thread14 start (CPU 0) at 4.579s
+thread14 done (CPU 0, target 0.060s, real 0.847s)
+thread11 done (CPU 3, target 0.080s, real 1.871s)
+thread16 start (CPU 3) at 5.597s
+thread7 done (CPU 2, target 0.120s, real 2.080s)
+thread16 done (CPU 3, target 0.050s, real 0.650s)
+thread1 done (CPU 0, target 0.500s, real 8.695s)
+thread3 start (CPU 3) at 8.696s
+thread6 start (CPU 2) at 8.696s
+thread6 done (CPU 2, target 0.300s, real 3.891s)
+thread13 start (CPU 0) at 12.587s
+thread13 done (CPU 0, target 0.080s, real 1.037s)
+thread3 done (CPU 3, target 0.400s, real 5.180s)
+thread9 start (CPU 2) at 13.876s
+thread10 start (CPU 0) at 13.876s
+thread0 done (CPU 1, target 1.000s, real 14.995s)
+thread2 start (CPU 3) at 14.996s
+Program total time: 14.996s
+all threads done
+
+=== LPF run ===
+thread0 start (CPU 3) at 0.000s
+thread1 start (CPU 1) at 0.000s
+thread4 start (CPU 2) at 0.000s
+thread10 start (CPU 0) at 0.000s
+thread10 done (CPU 0, target 0.100s, real 1.340s)
+thread15 start (CPU 0) at 1.340s
+thread9 start (CPU 2) at 1.778s
+thread15 done (CPU 0, target 0.050s, real 0.692s)
+thread11 start (CPU 0) at 2.033s
+thread11 done (CPU 0, target 0.080s, real 1.116s)
+thread16 start (CPU 0) at 3.148s
+thread16 done (CPU 0, target 0.050s, real 0.706s)
+thread15 start (CPU 0) at 3.855s
+thread15 done (CPU 0, target 0.050s, real 0.642s)
+thread9 done (CPU 2, target 0.200s, real 2.786s)
+thread14 start (CPU 0) at 4.565s
+thread4 done (CPU 2, target 0.150s, real 4.857s)
+thread7 start (CPU 2) at 4.857s
+thread14 done (CPU 0, target 0.060s, real 0.834s)
+thread11 start (CPU 0) at 5.399s
+thread7 done (CPU 2, target 0.120s, real 1.628s)
+thread16 start (CPU 2) at 6.485s
+thread11 done (CPU 0, target 0.080s, real 1.108s)
+thread16 start (CPU 0) at 6.507s
+thread1 done (CPU 1, target 0.500s, real 6.943s)
+thread3 start (CPU 0) at 6.943s
+thread6 start (CPU 2) at 6.943s
+thread16 done (CPU 1, target 0.050s, real 0.696s)
+thread7 start (CPU 1) at 7.181s
+thread7 done (CPU 1, target 0.120s, real 1.659s)
+thread16 done (CPU 1, target 0.050s, real 2.612s)
+thread6 done (CPU 2, target 0.300s, real 4.090s)
+thread13 start (CPU 1) at 11.033s
+thread13 done (CPU 1, target 0.080s, real 1.016s)
+thread3 done (CPU 0, target 0.400s, real 5.417s)
+thread9 start (CPU 1) at 12.361s
+thread10 start (CPU 2) at 12.361s
+thread0 done (CPU 3, target 1.000s, real 13.588s)
+thread2 start (CPU 0) at 13.589s
+thread4 start (CPU 2) at 13.589s
+thread10 done (CPU 3, target 0.100s, real 1.271s)
+thread15 start (CPU 3) at 13.632s
+Program total time (LPF): 13.733s
+all threads done (LPF)
