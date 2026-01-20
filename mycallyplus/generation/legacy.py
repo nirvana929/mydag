@@ -755,7 +755,7 @@ def full_call_graph(functions, **kwargs):
     myjoin = re.compile(r"pthread_join")
     switch_re = re.compile(r"switch+(\d+)")
     tail = ""
-
+    inst_count=dict()
     #
     # Simply walk all nodes and print the callers
     #
@@ -772,7 +772,7 @@ def full_call_graph(functions, **kwargs):
         preswtich = ""
         prenum = 1
         meta_map = functions[func].get("mycalls_meta", {})
-
+        inst_count[func]=0
         printed_functions = 1
         pre = func
         if exclude is None or \
@@ -780,6 +780,7 @@ def full_call_graph(functions, **kwargs):
 
             for caller in functions[func]["mycalls"]:
                 # extern_only 模式下，基于 mycalls_meta 筛掉 extern!=1 的调用
+                #如果这个函数被调用两次，那么就将采用复制机制，调用复制函数，生成一个dag，并且指向复制dag 
                 if extern_only:
                     meta = meta_map.get(caller, {})
                     if not isinstance(meta, dict) or meta.get("extern") != 0:
@@ -1591,7 +1592,8 @@ def main():
         thread_edges_preview = collect_thread_edges(copy.deepcopy(functions))
     except Exception:
         thread_edges_preview = []
-
+    #在这里设计实例处理函数
+    instfunctions(functions)
     _dump_debug_snapshot(
         config,
         "post_parse",
