@@ -808,7 +808,7 @@ class MycallyplusGUIv3:
             # 调用legacy生成dag图到配置文件目录
             cmd = [
                 sys.executable,
-                "-m", "mycallyplus.generation.legacy",
+                "-m", "mycallyplus_v1.generation.legacy",
                 str(self.state.expand_file),
                 "--threads-only",
                 "--output-base", str(self.base_dir)
@@ -896,7 +896,7 @@ class MycallyplusGUIv3:
 
             cmd = [
                 sys.executable,
-                "-m", "mycallyplus.generation.legacy",
+                "-m", "mycallyplus_v1.generation.legacy",
                 "--extern-only",
                 "--source-file", str(self.state.source_file),
                 "--output-base", str(self.base_dir),
@@ -1002,7 +1002,7 @@ class MycallyplusGUIv3:
             print("⚙️  调用mycallyplus生成条件节点视图（--conditions-only）...")
             cmd = [
                 sys.executable,
-                "-m", "mycallyplus.generation.legacy",
+                "-m", "mycallyplus_v1.generation.legacy",
                 "--conditions-only",
                 "--output-base", str(self.base_dir),
                 str(self.state.expand_file),
@@ -1028,7 +1028,7 @@ class MycallyplusGUIv3:
             txt_output_path = config_dir / "circle.txt"
             cmd_txt = [
                 sys.executable,
-                "-m", "mycallyplus.generation.legacy",
+                "-m", "mycallyplus_v1.generation.legacy",
                 str(self.state.expand_file),
                 "--export-txt", str(txt_output_path),
                 "--output-base", str(self.base_dir)

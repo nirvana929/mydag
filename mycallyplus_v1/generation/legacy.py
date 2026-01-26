@@ -38,6 +38,7 @@ import copy
 import fileinput
 import json
 import os
+from collections import defaultdict
 from pathlib import Path
 import re
 import sys
@@ -83,8 +84,8 @@ unit_test_full_dump_output = [
     '"main" -> "A";',
     '}'
 ]
-
-
+#全局变量，用来存储尾节点绑定信息
+tail_map = {}
 def _serialize_functions_for_dump(functions: dict) -> dict:
     """将 functions 结构转换为可 JSON 序列化的形式。"""
     out = {}
@@ -153,6 +154,75 @@ unit_test_maxdepth5_callee_output = [
     '"A" -> "A" -> "B" -> "C" -> "D";', '"main" -> "A" -> "B" -> "C" -> "D";',
     '"B" -> "G" -> "B" -> "C" -> "D";', '"B" -> "H" -> "I" -> "J" -> "D";'
 ]
+
+
+def instfunctions(functions: dict):
+    """对调用次数大于 1 的函数生成实例并更新调用方引用。
+
+    规则：
+    - 原始函数名保留第一次调用。
+    - 额外调用按全局计数追加 `@instanceN`。
+    - 只处理 functions 中的自定义函数；库函数等不在 functions 的不处理。
+    - 不展开递归/循环，遇到自调用不特殊处理。
+    """
+    if not functions:
+        return
+
+    call_count = defaultdict(int)
+    for finfo in functions.values():
+        for target in finfo.get("mycalls", []):
+            if target in functions:
+                call_count[target] += 1
+
+    clones = {}
+    for fn, cnt in call_count.items():
+        if cnt > 1:
+            clones[fn] = [f"{fn}@instance{i}" for i in range(1, cnt)]
+
+    if not clones:
+        return
+
+    for fn, inst_names in clones.items():
+        if fn not in functions:
+            continue
+        for inst_name in inst_names:
+            functions[inst_name] = copy.deepcopy(functions[fn])
+
+    seen = defaultdict(int)
+
+    for fn, finfo in functions.items():
+        mycalls = finfo.get("mycalls", [])
+        meta_map = finfo.get("mycalls_meta", {}) or {}
+        call_src_full_map = finfo.get("call_src_full", {}) or {}
+
+        new_calls = []
+        new_meta = {}
+        new_call_src_full = {}
+
+        for call in mycalls:
+            target = call
+            if call in clones:
+                seen[call] += 1
+                idx = seen[call]
+                if idx > 1:
+                    inst_list = clones[call]
+                    inst_idx = min(idx - 2, len(inst_list) - 1)
+                    target = inst_list[inst_idx]
+            new_calls.append(target)
+
+            if call in meta_map:
+                new_meta[target] = meta_map[call]
+            elif target in meta_map:
+                new_meta[target] = meta_map[target]
+
+            if call in call_src_full_map:
+                new_call_src_full[target] = call_src_full_map[call]
+            elif target in call_src_full_map:
+                new_call_src_full[target] = call_src_full_map[target]
+
+        finfo["mycalls"] = new_calls
+        finfo["mycalls_meta"] = new_meta
+        finfo["call_src_full"] = new_call_src_full
 
 
 #
@@ -772,7 +842,6 @@ def full_call_graph(functions, **kwargs):
         preswtich = ""
         prenum = 1
         meta_map = functions[func].get("mycalls_meta", {})
-
         printed_functions = 1
         pre = func
         if exclude is None or \
@@ -791,16 +860,16 @@ def full_call_graph(functions, **kwargs):
                 if (not no_externs or caller in functions) and \
                         (exclude is None or
                          re.match(exclude, caller) is None):
-                    join_search = re.search(myjoin, caller)#处理pthread——join节点
-                    if join_search is not None:
-                        for tail, join in resolve_join_edges(functions, func, caller):
-                            print_buf(std_buf, '"{}" -> "{}";'.format(tail, join))
-
+                    # join_search = re.search(myjoin, caller)#处理pthread——join节点
+                    # if join_search is not None:
+                    #     for tail, join in resolve_join_edges(functions, func, caller):
+                    #         print_buf(std_buf, '"{}" -> "{}";'.format(tail, join))
                     if 'pthread_create' in caller:
                         # create 特殊补边：create -> 线程名节点，同时 create -> 调用方下一个节点
                         next_thread_node = callers[idx + 1] if idx + 1 < len(callers) else None
                         caller_next = callers[idx + 2] if idx + 2 < len(callers) else None
-                        print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
+                        if pre!=caller:
+                          print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
                         if next_thread_node:
                             print_buf(std_buf, '"{}" -> "{}";'.format(caller, next_thread_node))
                         if caller_next:
@@ -856,12 +925,15 @@ def full_call_graph(functions, **kwargs):
                                   print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
                     else:
                         # threads_only模式：只处理普通调用，不处理条件节点
-                        print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
+                        if pre != caller:
+                          print_buf(std_buf, '"{}" -> "{}";'.format(pre, caller))
                     printed_functions += 1
                     pre = caller
                 idx += 1
             if printed_functions == 0:
                 print_buf(std_buf, '"{}"'.format(func))
+    #在这里完成补边
+    append_join_edges(functions, std_buf)
     print_buf(std_buf, "}")
 
 
@@ -944,7 +1016,57 @@ def mark_extern_by_selected(functions, selected_file=None, workspace_root=None):
                 # 仅按文件名匹配：匹配 = 内部调用(0)，不匹配 = 外部调用(1)
                 meta["extern"] = 0 if cur_name == sel_name else 1
 
+join_binding_map = {
+    "handle_to_thread": {},
+    "thread_to_tail": {},
+    "handle_to_joins": {},
+    "tail_to_joins": {},
+}
 
+
+def build_join_binding_map(functions: dict) -> None:
+    """构建四层映射：句柄->线程函数、线程函数->尾节点、句柄->join、尾节点->join。"""
+    global join_binding_map
+    join_binding_map = {
+        "handle_to_thread": {},
+        "thread_to_tail": {},
+        "handle_to_joins": {},
+        "tail_to_joins": {},
+    }
+    for fn_name, finfo in functions.items():
+        myinfo = finfo.get("myinfo", {}) or {}
+        tail_node = myinfo.get("tail")
+        if isinstance(tail_node, str):
+            join_binding_map["thread_to_tail"][fn_name] = tail_node
+        # 句柄 -> 线程函数（句柄来自 create 记录）
+        for key, val in myinfo.items():
+            if key in ("tail", "__create_queue__"):
+                continue
+            if isinstance(key, str) and isinstance(val, str):
+                join_binding_map["handle_to_thread"][key] = val
+        # 句柄 -> join 节点（来自 join 记录）
+        for join_node, join_var in myinfo.items():
+            if join_node in ("tail", "__create_queue__"):
+                continue
+            if not isinstance(join_var, str):
+                continue
+            join_binding_map["handle_to_joins"].setdefault(join_var, []).append(join_node)
+    # 尾节点 -> join 节点：句柄 -> 线程函数 -> 尾节点，再对应该句柄的 join 列表
+    for handle, thread_fn in join_binding_map["handle_to_thread"].items():
+        tail = join_binding_map["thread_to_tail"].get(thread_fn)
+        if not tail:
+            continue
+        joins = join_binding_map["handle_to_joins"].get(handle, [])
+        if joins:
+            join_binding_map["tail_to_joins"].setdefault(tail, []).extend(joins)
+
+
+def append_join_edges(functions: dict, std_buf: list):
+    """根据全局映射追加 join 补边：尾节点 -> join 节点。"""
+    global join_binding_map
+    for tail, joins in join_binding_map.get("tail_to_joins", {}).items():
+        for j in joins:
+            print_buf(std_buf, f'"{tail}" -> "{j}";')
 def preparse_pthread_join_bindings(rtl_files, *, max_backtrack_lines: int = 300):
     """预读 RTL 文件，按出现顺序提取 pthread_join 的线程变量名列表。
 
@@ -1585,7 +1707,10 @@ def main():
         thread_edges_preview = collect_thread_edges(copy.deepcopy(functions))
     except Exception:
         thread_edges_preview = []
-
+    #在这里进行实例化处理
+    instfunctions(functions)
+    #在这里进行总表统计
+    build_join_binding_map(functions)
     _dump_debug_snapshot(
         config,
         "post_parse",

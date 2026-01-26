@@ -5,18 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: mycallyplus/generation/legacy.py",
+      "name": "Python: mycallyplus_v1/generation/legacy.py",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/mycallyplus/generation/legacy.py",
+      "program": "${workspaceFolder}/mycallyplus_v1/generation/legacy.py",
       "console": "integratedTerminal",
       "justMyCode": false,
       "args": [
         "--source-file",
-        "${workspaceFolder}/mycallyplus/源文件/schedule_demo/schedule_demo.c",
+        "${workspaceFolder}/mycallyplus_v1/源文件/cpu4_thread10_fifo.c",
         "--output-base",
-        "${workspaceFolder}/mycallyplus/中间结果/schedule_demo/生成dag图",
-        "${workspaceFolder}/mycallyplus/配置文件/schedule_demo/schedule_demo.c.233r.expand"
+        "${workspaceFolder}/mycallyplus_v1/中间结果/cpu4_thread10_fifo/生成dag图",
+        "${workspaceFolder}/mycallyplus_v1/配置文件/cpu4_thread10_fifo/cpu4_thread10_fifo.c.233r.expand"
       ],
       "cwd": "${workspaceFolder}"
     }
