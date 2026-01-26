@@ -1,0 +1,76 @@
+=== RUN at 2026-01-26T00:49:46-08:00 (WORK_SCALE=100) ===
+=== FIFO run ===
+f0 start (CPU 1) at 0.000s
+f2 start (CPU 0) at 0.000s
+f3 start (CPU 3) at 0.000s
+c0 start (CPU 2) at 0.000s
+f11 start (CPU 2) at 0.004s
+f5 start (CPU 2) at 0.008s
+f8 start (CPU 0) at 0.008s
+f6 start (CPU 3) at 0.008s
+f10 start (CPU 0) at 0.012s
+f7 start (CPU 3) at 0.012s
+f1 start (CPU 1) at 0.000s
+f9 start (CPU 3) at 0.016s
+f4 start (CPU 2) at 0.020s
+f0 done (CPU 1, target 0.500s, real 0.028s)
+f1 done (CPU 1, target 0.500s, real 0.033s)
+f11 done (CPU 2, target 0.300s, real 0.051s)
+f8 done (CPU 1, target 0.500s, real 0.054s)
+f10 done (CPU 0, target 0.500s, real 0.057s)
+f2 done (CPU 0, target 0.500s, real 0.071s)
+f3 done (CPU 3, target 0.500s, real 0.081s)
+f9 done (CPU 1, target 0.500s, real 0.065s)
+f5 done (CPU 2, target 0.500s, real 0.079s)
+f6 done (CPU 3, target 0.500s, real 0.082s)
+f7 done (CPU 3, target 0.500s, real 0.078s)
+f4 done (CPU 3, target 0.500s, real 0.074s)
+c0 done (CPU 2, target 2.500s, real 0.186s)
+c1 start (CPU 0) at 0.187s
+c1 done (CPU 0, target 2.200s, real 0.107s)
+c2 start (CPU 2) at 0.293s
+c2 done (CPU 2, target 2.000s, real 0.092s)
+c3 start (CPU 1) at 0.385s
+c3 done (CPU 1, target 1.800s, real 0.084s)
+c4 start (CPU 2) at 0.469s
+c4 done (CPU 2, target 1.600s, real 0.103s)
+Program total time: 0.572s
+all threads done
+
+=== LPF run ===
+f0 start (CPU 0) at 0.000s
+f2 start (CPU 3) at 0.000s
+f1 start (CPU 2) at 0.000s
+f10 start (CPU 3) at 0.002s
+f11 start (CPU 2) at 0.002s
+c0 start (CPU 3) at 0.002s
+f11 done (CPU 2, target 0.300s, real 0.016s)
+f10 done (CPU 1, target 0.500s, real 0.025s)
+f0 done (CPU 0, target 0.500s, real 0.028s)
+f3 start (CPU 0) at 0.028s
+f1 done (CPU 2, target 0.500s, real 0.042s)
+f4 start (CPU 2) at 0.043s
+f2 done (CPU 1, target 0.500s, real 0.052s)
+f5 start (CPU 1) at 0.053s
+f3 done (CPU 0, target 0.500s, real 0.027s)
+f6 start (CPU 0) at 0.055s
+f4 done (CPU 2, target 0.500s, real 0.025s)
+f7 start (CPU 2) at 0.068s
+f5 done (CPU 1, target 0.500s, real 0.026s)
+f8 start (CPU 1) at 0.078s
+f6 done (CPU 0, target 0.500s, real 0.026s)
+f9 start (CPU 0) at 0.080s
+f7 done (CPU 2, target 0.500s, real 0.032s)
+f9 done (CPU 0, target 0.500s, real 0.029s)
+f8 done (CPU 1, target 0.500s, real 0.031s)
+c0 done (CPU 3, target 2.500s, real 0.132s)
+c1 start (CPU 2) at 0.135s
+c1 done (CPU 2, target 2.200s, real 0.102s)
+c2 start (CPU 3) at 0.237s
+c2 done (CPU 3, target 2.000s, real 0.107s)
+c3 start (CPU 2) at 0.345s
+c3 done (CPU 2, target 1.800s, real 0.090s)
+c4 start (CPU 3) at 0.435s
+c4 done (CPU 3, target 1.600s, real 0.073s)
+Program total time: 0.508s
+all threads done

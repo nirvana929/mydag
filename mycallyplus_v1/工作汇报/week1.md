@@ -20,7 +20,7 @@
 ### 问题 2：join 拼接缺失（跨线程 create/join）
 - 原始实现：每个线程局部维护 create/join 表，假定 create/join 同线程内完成，未覆盖“主线程 join 子线程”这类跨线程场景，导致 join 无法拼接。
 - 改进思路：构建全局“线程拼接总表”，分层记录并补边：
-  1) 句柄 → 线程函数（来自 `pthread_create` 解析）。
+  1) 句柄 → 线程函数（来自 `pthread_create` 解析）。 
   2) 线程函数 → 尾节点（`functions[thread]["myinfo"]["tail"]`）。
   3) 句柄 → join 节点（解析 `pthread_join` 记录）。
   4) 推导尾节点 → join 节点，在 DOT 输出后追加补边。

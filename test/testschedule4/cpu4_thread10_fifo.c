@@ -95,20 +95,21 @@ static double since_prog_start(void)
     return elapsed_seconds(&g_prog_start, &now);
 }
 
-#define START_PRINT(name) printf("%s start (CPU %d) at %.3fs\n", name, sched_getcpu(), since_prog_start())
-#define DONE_PRINT(name, target, ts_start, ts_end) \
-    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", \
-           name, sched_getcpu(), (target) * 0.1, elapsed_seconds(&(ts_start), &(ts_end)))
-
 static void *c4_fn(void *arg)
 {
     struct timespec ts_start, ts_end;
     (void)arg;
-    START_PRINT("c4");
+    printf("%s start (CPU %d) at %.3fs\n", "c4", sched_getcpu(), since_prog_start());
     clock_gettime(CLOCK_MONOTONIC, &ts_start);
     busy_wait_seconds(C4);
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
-    DONE_PRINT("c4", C4, ts_start, ts_end);
+    printf(
+        "%s done (CPU %d, target %.3fs, real %.3fs)\n",
+        "c4",
+        sched_getcpu(),
+        C4 * 0.1,
+        elapsed_seconds(&ts_start, &ts_end)
+    );
     return NULL;
 }
 
@@ -116,11 +117,17 @@ static void *c3_fn(void *arg)
 {
     struct timespec ts_start, ts_end;
     (void)arg;
-    START_PRINT("c3");
+    printf("%s start (CPU %d) at %.3fs\n", "c3", sched_getcpu(), since_prog_start());
     clock_gettime(CLOCK_MONOTONIC, &ts_start);
     busy_wait_seconds(C3);
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
-    DONE_PRINT("c3", C3, ts_start, ts_end);
+    printf(
+        "%s done (CPU %d, target %.3fs, real %.3fs)\n",
+        "c3",
+        sched_getcpu(),
+        C3 * 0.1,
+        elapsed_seconds(&ts_start, &ts_end)
+    );
     pthread_create(&tc4, NULL, c4_fn, NULL);
     return NULL;
 }
@@ -129,11 +136,17 @@ static void *c2_fn(void *arg)
 {
     struct timespec ts_start, ts_end;
     (void)arg;
-    START_PRINT("c2");
+    printf("%s start (CPU %d) at %.3fs\n", "c2", sched_getcpu(), since_prog_start());
     clock_gettime(CLOCK_MONOTONIC, &ts_start);
     busy_wait_seconds(C2);
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
-    DONE_PRINT("c2", C2, ts_start, ts_end);
+    printf(
+        "%s done (CPU %d, target %.3fs, real %.3fs)\n",
+        "c2",
+        sched_getcpu(),
+        C2 * 0.1,
+        elapsed_seconds(&ts_start, &ts_end)
+    );
     pthread_create(&tc3, NULL, c3_fn, NULL);
     return NULL;
 }
@@ -142,11 +155,17 @@ static void *c1_fn(void *arg)
 {
     struct timespec ts_start, ts_end;
     (void)arg;
-    START_PRINT("c1");
+    printf("%s start (CPU %d) at %.3fs\n", "c1", sched_getcpu(), since_prog_start());
     clock_gettime(CLOCK_MONOTONIC, &ts_start);
     busy_wait_seconds(C1);
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
-    DONE_PRINT("c1", C1, ts_start, ts_end);
+    printf(
+        "%s done (CPU %d, target %.3fs, real %.3fs)\n",
+        "c1",
+        sched_getcpu(),
+        C1 * 0.1,
+        elapsed_seconds(&ts_start, &ts_end)
+    );
     pthread_create(&tc2, NULL, c2_fn, NULL);
     return NULL;
 }
@@ -155,39 +174,164 @@ static void *c0_fn(void *arg)
 {
     struct timespec ts_start, ts_end;
     (void)arg;
-    START_PRINT("c0");
+    printf("%s start (CPU %d) at %.3fs\n", "c0", sched_getcpu(), since_prog_start());
     clock_gettime(CLOCK_MONOTONIC, &ts_start);
     busy_wait_seconds(C0);
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
-    DONE_PRINT("c0", C0, ts_start, ts_end);
+    printf(
+        "%s done (CPU %d, target %.3fs, real %.3fs)\n",
+        "c0",
+        sched_getcpu(),
+        C0 * 0.1,
+        elapsed_seconds(&ts_start, &ts_end)
+    );
     pthread_create(&tc1, NULL, c1_fn, NULL);
     return NULL;
 }
 
-#define DEFINE_FILL_FN(fn_name, dur, label)            \
-    static void *fn_name(void *arg) {                  \
-        struct timespec ts_start, ts_end;              \
-        (void)arg;                                    \
-        START_PRINT(label);                            \
-        clock_gettime(CLOCK_MONOTONIC, &ts_start);     \
-        busy_wait_seconds(dur);                        \
-        clock_gettime(CLOCK_MONOTONIC, &ts_end);       \
-        DONE_PRINT(label, dur, ts_start, ts_end);      \
-        return NULL;                                  \
-    }
+static void *f0_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f0", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f0", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
 
-DEFINE_FILL_FN(f0_fn, F_LONG, "f0")
-DEFINE_FILL_FN(f1_fn, F_LONG, "f1")
-DEFINE_FILL_FN(f2_fn, F_LONG, "f2")
-DEFINE_FILL_FN(f3_fn, F_LONG, "f3")
-DEFINE_FILL_FN(f4_fn, F_LONG, "f4")
-DEFINE_FILL_FN(f5_fn, F_LONG, "f5")
-DEFINE_FILL_FN(f6_fn, F_LONG, "f6")
-DEFINE_FILL_FN(f7_fn, F_LONG, "f7")
-DEFINE_FILL_FN(f8_fn, F_LONG, "f8")
-DEFINE_FILL_FN(f9_fn, F_LONG, "f9")
-DEFINE_FILL_FN(f10_fn, F_LONG, "f10")
-DEFINE_FILL_FN(f11_fn, F_SHORT, "f11")
+static void *f1_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f1", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f1", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f2_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f2", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f2", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f3_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f3", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f3", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f4_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f4", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f4", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f5_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f5", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f5", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f6_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f6", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f6", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f7_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f7", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f7", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f8_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f8", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f8", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f9_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f9", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f9", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f10_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f10", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_LONG);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f10", sched_getcpu(), F_LONG * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
+
+static void *f11_fn(void *arg)
+{
+    struct timespec ts_start, ts_end;
+    (void)arg;
+    printf("%s start (CPU %d) at %.3fs\n", "f11", sched_getcpu(), since_prog_start());
+    clock_gettime(CLOCK_MONOTONIC, &ts_start);
+    busy_wait_seconds(F_SHORT);
+    clock_gettime(CLOCK_MONOTONIC, &ts_end);
+    printf("%s done (CPU %d, target %.3fs, real %.3fs)\n", "f11", sched_getcpu(), F_SHORT * 0.1, elapsed_seconds(&ts_start, &ts_end));
+    return NULL;
+}
 
 int main(void)
 {

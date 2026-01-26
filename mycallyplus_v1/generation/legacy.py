@@ -50,9 +50,13 @@ from typing import Optional, Tuple
 # 兼容直接运行：尝试相对导入失败时调整 sys.path 后再导入
 try:
     from .thread_map import resolve_join_edges, collect_thread_edges
+    from ..core.func_ranges import extract_func_ranges
+    from ..level1.segment_dag import build_stage1_segments_and_dag
 except ImportError:
     sys.path.append(str(Path(__file__).resolve().parent.parent))
     from generation.thread_map import resolve_join_edges, collect_thread_edges
+    from core.func_ranges import extract_func_ranges
+    from level1.segment_dag import build_stage1_segments_and_dag
 
 #
 # Unit tests for the dump_path() function.
@@ -1247,6 +1251,11 @@ def main():
     parser.add_argument("--extern-only",
                         help="生成源码调用图时仅输出 extern==1 的节点/边",
                         action="store_true")
+    parser.add_argument(
+        "--level1-stage1",
+        help="Generate Level-1(stage1) segments and segment-DAG (create/join only) under 中间结果/<base>/生成dag图/",
+        action="store_true",
+    )
 
     parser.add_argument("RTLFILE", help="GCCs RTL .expand file", nargs="+")
 
@@ -1791,6 +1800,68 @@ def main():
             json.dump(internal_meta, f, ensure_ascii=False, indent=2)
         if not config.no_warnings:
             print_dbg(f"[INFO] debug artifacts exported to {debug_dir}")
+
+        # 额外导出函数范围（用于 Level-1 切割）：优先用 first_stmt_line / last_stmt_line
+        try:
+            source_file = getattr(config, "source_file", None)
+            if source_file:
+                src_path = Path(str(source_file))
+                if src_path.exists() and src_path.suffix.lower() == ".c":
+                    ranges = extract_func_ranges(src_path, functions.keys())
+                    ranges_path = out_dir / "functions_ranges.json"
+                    payload = {
+                        "source": str(src_path),
+                        "functions": [
+                            {
+                                "name": r.name,
+                                "base_name": r.base_name,
+                                "start_line": r.start_line,
+                                "body_start_line": r.body_start_line,
+                                "first_stmt_line": r.first_stmt_line,
+                                "end_line": r.end_line,
+                                "last_stmt_line": r.last_stmt_line,
+                                "last_return_line": r.last_return_line,
+                                "level1_start_line": r.first_stmt_line if r.first_stmt_line is not None else r.body_start_line,
+                                "level1_end_line": r.last_stmt_line if r.last_stmt_line is not None else r.end_line,
+                            }
+                            for r in ranges
+                        ],
+                        "missing": sorted([n for n in functions.keys() if n not in {r.name for r in ranges}]),
+                    }
+                    with ranges_path.open("w", encoding="utf-8") as f:
+                        json.dump(payload, f, ensure_ascii=False, indent=2)
+                    if not config.no_warnings:
+                        print_dbg(f"[INFO] functions_ranges exported to {ranges_path}")
+        except Exception as e:
+            if not config.no_warnings:
+                print_err(f"WARNING: failed to export functions_ranges: {e}")
+
+        # Level-1(stage1): segments + segment DAG (create/join only)
+        try:
+            if getattr(config, "level1_stage1", False):
+                segments_json, dag_json = build_stage1_segments_and_dag(base_dir=base_dir, base_name=base_name)
+                level1_dir = base_dir / "中间结果" / base_name / "level1" / "stage1"
+                level1_dir.mkdir(parents=True, exist_ok=True)
+                seg_path = level1_dir / "segments_stage1.json"
+                dag_path = level1_dir / "dag_stage1_seg.json"
+                dot_path = level1_dir / "dag_stage1_seg.dot"
+                seg_path.write_text(json.dumps(segments_json, ensure_ascii=False, indent=2), encoding="utf-8")
+                dag_path.write_text(json.dumps(dag_json, ensure_ascii=False, indent=2), encoding="utf-8")
+                # Render dot inline (no graphviz dependency here)
+                try:
+                    from ..level1.segment_dag import _render_seg_dag_dot  # type: ignore
+                except Exception:
+                    try:
+                        from level1.segment_dag import _render_seg_dag_dot  # type: ignore
+                    except Exception:
+                        _render_seg_dag_dot = None  # type: ignore
+                if _render_seg_dag_dot is not None:
+                    dot_path.write_text(_render_seg_dag_dot(dag_json), encoding="utf-8")  # type: ignore[misc]
+                if not config.no_warnings:
+                    print_dbg(f"[INFO] level1 stage1 exported: {seg_path}, {dag_path}, {dot_path}")
+        except Exception as e:
+            if not config.no_warnings:
+                print_err(f"WARNING: failed to export level1 stage1: {e}")
     except Exception as e:
         if not config.no_warnings:
             print_err(f"WARNING: failed to export functions_full: {e}")
