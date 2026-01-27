@@ -286,7 +286,7 @@ def main() -> int:
     # Emit helper runner script under level1/experiments/
     _write_experiment_runner(
         exp_dir=out_root,
-        project_name=project_name,
+        project_name=src_root.name,
         work_scale_default=25000,
     )
 

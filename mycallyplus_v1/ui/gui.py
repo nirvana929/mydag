@@ -1628,13 +1628,37 @@ class MycallyplusGUIv3:
                 except Exception:
                     pass
 
+            # 6) run experiment script (if present) to get baseline/prio runtimes
+            run_script = None
+            if compare_path:
+                candidate = compare_path.parent / "run_experiments.sh"
+                if candidate.exists():
+                    run_script = candidate
+            run_result_path = None
+            if run_script:
+                try:
+                    run_res = subprocess.run(
+                        ["bash", str(run_script)],
+                        cwd=str(run_script.parent),
+                        capture_output=True,
+                        text=True,
+                        check=True,
+                    )
+                    for ln in run_res.stdout.splitlines():
+                        if "Results saved to" in ln:
+                            run_result_path = Path(ln.split("Results saved to", 1)[1].strip())
+                            break
+                except Exception as e:
+                    self._show_message("错误", f"运行对照脚本失败:\n{e}", is_error=True)
+
             self._show_message(
                 "成功",
                 "段级时间分析（Level-1）已完成：\n"
                 f"- 段级 DAG: {seg_png}\n"
                 f"- 段级测时: {self.base_dir/'中间结果'/base_name/'level1'/'timing'/base_name/'time_result_seg.json'}\n"
                 f"- LPF schedule: {self.base_dir/'中间结果'/base_name/'level1'/'schedule'/'lpf_segment'/'schedule_seg.json'}\n"
-                f"- 对比结果: {compare_path if compare_path else '(unknown)'}",
+                f"- 对比结果: {compare_path if compare_path else '(unknown)'}\n"
+                f"- 运行时间结果: {run_result_path if run_result_path else '未生成或脚本缺失'}",
             )
         except subprocess.CalledProcessError as e:
             self._show_message("错误", f"命令执行失败:\n{e}", is_error=True)
