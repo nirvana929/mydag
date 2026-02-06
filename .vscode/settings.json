@@ -1,5 +1,6 @@
 {
   "http.proxy": "http://192.168.109.1:7897",
   "http.proxySupport": "on",
-  "http.proxyStrictSSL": false
+  "http.proxyStrictSSL": false,
+  "cmake.sourceDirectory": "/home/chove/Desktop/mydag/其他文件/PX4-Autopilot/ROMFS"
 }
